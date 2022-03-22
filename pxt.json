@@ -4,7 +4,8 @@
     "dependencies": {
         "device": "*",
         "arcade-text": "github:microsoft/arcade-text#v1.3.0",
-        "Color Fading": "github:jwunderl/pxt-color#v0.2.1"
+        "Color Fading": "github:jwunderl/pxt-color#v0.2.1",
+        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0"
     },
     "files": [
         "main.ts",

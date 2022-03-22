@@ -20,9 +20,9 @@ let jumpscare_animations: { [key: string]: Image[] } = {
     'ohnoes': assets.animation`OhnoesJumpscare`,
     'squid': assets.animation`squidicalJumpscare`
 }
-let jump_sprite = sprites.create(assets.image`blank160x120`, SpriteKind.Player)
+let jump_sprite = sprites.create(image.create(160, 120), SpriteKind.Player)
 let static_anim = assets.animation`StaticAnim`
-let static_sprite = sprites.create(assets.image`blank160x120`)
+let static_sprite = sprites.create(image.create(160, 120))
 let kitchen_anim = assets.animation`redThingAnim`
 let kitchen_anim_sprite = sprites.create(assets.image`redThingSprite`, SpriteKind.Player)
 
@@ -34,6 +34,7 @@ let menu_title = [
 ]
 let menu_texts = [
     textsprite.create('Play'),
+    textsprite.create('Continue'),
     textsprite.create('Hardest Night')
 ]
 let menu_selector = sprites.create(assets.image`menuSelector`, SpriteKind.Player)
@@ -43,7 +44,8 @@ let office_backgrounds = [
     assets.image`OfficeRight`,
     assets.image`OfficeMid`
 ]
-let black_background = assets.image`blackBackground`
+let black_background = image.create(160, 120)
+black_background.fill(15)
 let window_lights = [
     sprites.create(assets.image`LLight`, SpriteKind.Player),
     sprites.create(assets.image`RLight`, SpriteKind.Player)
@@ -181,6 +183,11 @@ class Fnaw {
                     break
                 }
                 case 1: {
+                    night = blockSettings.readNumber('night')
+                    mygame.set_mode('setup')
+                    break
+                }
+                case 2: {
                     night = 7
                     mygame.set_mode('setup')
                     break
@@ -193,7 +200,7 @@ class Fnaw {
         }
         this.menu_handler.down = function () {
             menu_pos += 1
-            if (menu_pos > 1) { menu_pos = 0 }
+            if (menu_pos > 2) { menu_pos = 0 }
         }
 
         this.night_display_handler = new EventHandler
@@ -337,7 +344,8 @@ class Fnaw {
                         }
                         else {
                             night = 1
-                            everything = true
+                            blockSettings.writeNumber('night', 1)
+                            blockSettings.writeNumber('everything', 1)
                             mygame.set_mode('menu')
                         }
                     }
@@ -354,6 +362,9 @@ class Fnaw {
             case 'menu': {
                 install_handler(this.menu_handler)
                 init_palette('menu')
+                if (!blockSettings.exists('everything')) {
+                    blockSettings.writeNumber('everything', 0)
+                }
                 scene.setBackgroundImage(black_background)
                 show_sprite(menu_selector)
                 menu_title[0].scale = 2
@@ -367,10 +378,17 @@ class Fnaw {
                 menu_title[2].right = 150
                 menu_winston.bottom = 110
                 menu_winston.right = 150
+                menu_texts[1].setText('Continue ' + blockSettings.readNumber('night').toString())
                 for (let i = 0; i < menu_texts.length; i++) {
                     show_sprite(menu_texts[i])
                     menu_texts[i].left = 17
                     menu_texts[i].top = 50 + i * 12
+                }
+                if (!blockSettings.exists('night')) {
+                    hide_sprite(menu_texts[1])
+                }
+                if (blockSettings.readNumber('everything') == 0) {
+                    hide_sprite(menu_texts[2])
                 }
                 the_update_handler = function () {
                     menu_selector.right = 13
@@ -416,6 +434,7 @@ class Fnaw {
                 install_handler(this.jumpscare_handler)
                 init_palette('office')
                 pause_all()
+                blockSettings.writeNumber('night', night)
                 show_sprite(jump_sprite)
                 let keys = Object.keys(ani)
                 for (let i = 0; i < keys.length; i++) {
@@ -1410,7 +1429,6 @@ let game_state = new Game
 let time = 0
 let night = 1
 let game_timer = new Timer
-let everything = false
 let selected_room = 'Show Stage'
 let viewed_room = ''
 let menu_pos = 0
@@ -1607,16 +1625,16 @@ function handle_time() {
 let the_update_handler: () => void = null
 let last_game_runtime: number = 0
 let spf: number
-let hopper
-let ohnoes
-let squidical
+//let hopper
+//let ohnoes
+//let squidical
 game.onUpdate(function () {
     spf = (game.runtime() - last_game_runtime) / 1000
-    if (ani != null) {
-        hopper = ani['hopps']
-        ohnoes = ani['ohnoes']
-        squidical = ani['squid']
-    }
+    //if (ani != null) {
+        //hopper = ani['hopps']
+        //ohnoes = ani['ohnoes']
+        //squidical = ani['squid']
+    //}
     last_game_runtime = game.runtime()
     if (!game_timer.paused) {
         let keys = Object.keys(ani)
