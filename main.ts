@@ -243,7 +243,7 @@ class Fnaw {
                         hide_sprite(power_usage_images[i])
                     }
                 }
-                power_text.setText(Math.ceil(o_power).toString() + '%')
+                power_text.setText(Math.ceil(game_state.power).toString() + '%')
                 power_text.left = 0
                 power_text.bottom = 109
                 time_text.right = 158
@@ -322,7 +322,7 @@ class Fnaw {
                 win_slide.left = 52
                 let animator = make_lerp(win_slide.top, win_slide.top + win_slide.height / 2)
 
-                let win_seq = make_seq([
+                let win_seq = new Sequence([
                     0.5, function (a: number) {
                         scene.setBackgroundImage(black_background)
                     },
@@ -333,13 +333,13 @@ class Fnaw {
                     0, function (a: number) {
                         if (night < 5) {
                             night += 1
+                            mygame.set_mode('setup')
                         }
                         else {
                             night = 1
                             everything = true
                             mygame.set_mode('menu')
                         }
-                        mygame.set_mode('setup')
                     }
                 ])
                 let keys = Object.keys(ani)
@@ -347,7 +347,7 @@ class Fnaw {
                     ani[keys[i]].reset()
                 }
                 the_update_handler = function () {
-                    win_seq(spf)
+                    win_seq.run_once(spf)
                 }
                 break
             }
@@ -383,7 +383,7 @@ class Fnaw {
                 time_disp_text.setPosition(80, 55)
                 night_disp_text.setText('Night ' + night.toString())
                 night_disp_text.setPosition(80, 65)
-                let night_seq = make_seq([
+                let night_seq = new Sequence([
                     3, function (a: number) {
                         scene.setBackgroundImage(black_background)
                         show_sprite(time_disp_text)
@@ -399,7 +399,7 @@ class Fnaw {
                     }
                 ])
                 the_update_handler = function () {
-                    night_seq(spf)
+                    night_seq.run_once(spf)
                 }
                 break
             }
@@ -407,7 +407,6 @@ class Fnaw {
                 game_state.reset()
                 game_timer.reset()
                 game_timer.start()           
-                o_power = 100
                 init_palette('')
                 selected_room = 'Show Stage'
                 mygame.set_mode('night_display')
@@ -442,7 +441,7 @@ class Fnaw {
                 scene.setBackgroundImage(black_background)
                 show_sprite(static_sprite)
                 animation.runImageAnimation(static_sprite, static_anim, 77, true)
-                let static_seq = make_seq([
+                let static_seq = new Sequence([
                     5, function (a: number) { },
                     0, function (a: number) {
                         animation.stopAnimation(animation.AnimationTypes.All, static_sprite)
@@ -450,7 +449,7 @@ class Fnaw {
                     }
                 ])
                 the_update_handler = function () {
-                    static_seq(spf)
+                    static_seq.run_once(spf)
                 }
                 break
             }
@@ -466,6 +465,7 @@ class Game {
     lights: boolean[]
     doors: boolean[]
     monitor_on: boolean
+    power: number
     cams_broken: boolean
     cams_broken_timer: Timer = new Timer
     cams_broken_limit: number
@@ -480,6 +480,7 @@ class Game {
         this.lights = [false, false]
         this.doors = [false, false]
         this.monitor_on = false
+        this.power = 100
         this.cams_broken = false
         this.doors_broken = [false, false]
         this.ani_in = ''
@@ -502,6 +503,69 @@ class Game {
         this.cams_broken_timer.reset()
         this.cams_broken_timer.start()
         this.cams_broken_limit = Math.randomRange(3.0, 5)
+    }
+}
+
+class Sequence {
+    i: number // current entry
+    t: number // current time
+    ti0: number // time when current entry starts
+    ti1: number // time when current entry ends
+    table: any[]
+    constructor (table: any[]) {
+        this.table = table
+        this.i = 0
+        this.t = 0
+        this.ti0 = 0
+        this.ti1 = this.ti0 + this.table[2 * this.i + 0]
+    }
+    run_once(dt: number) {
+        let tn = this.t + dt
+        while (tn >= this.ti1) {
+            if (2 * this.i >= this.table.length)
+                return false
+
+            // last call on this entry
+            this.table[2 * this.i + 1](1)
+
+            // start next entry
+            this.i += 1
+            this.ti0 = this.ti1
+            if (2 * this.i < this.table.length)
+                this.ti1 += this.table[2 * this.i + 0]
+        }
+        if (tn < this.ti1)
+            this.table[2 * this.i + 1]((tn - this.ti0) / (this.ti1 - this.ti0))
+        this.t = tn
+        return true
+    }
+    loop(dt: number) {
+        let tn = this.t + dt
+        while (tn >= this.ti1) {
+            if (2 * this.i >= this.table.length) {
+                this.reset()
+                return false
+            }
+
+            // last call on this entry
+            this.table[2 * this.i + 1](1)
+
+            // start next entry
+            this.i += 1
+            this.ti0 = this.ti1
+            if (2 * this.i < this.table.length)
+                this.ti1 += this.table[2 * this.i + 0]
+        }
+        if (tn < this.ti1)
+            this.table[2 * this.i + 1]((tn - this.ti0) / (this.ti1 - this.ti0))
+        this.t = tn
+        return true
+    }
+    reset() {
+        this.i = 0
+        this.t = 0
+        this.ti0 = 0
+        this.ti1 = this.ti0 + this.table[2 * this.i + 0]
     }
 }
 
@@ -551,7 +615,7 @@ class Animatronic {
     leave_timer: Timer = new Timer
     move_table: { [key: string]: { [key: string]: () => number } }
     paused: boolean
-    jump_seq: (dt: number) => boolean
+    jump_seq: Sequence
     surprise: boolean = false
     monitor_images: { [key: string]: Image }
     monitor_sprite: Sprite
@@ -583,7 +647,7 @@ class Hopper extends Animatronic {
         this.reset()
         this.enter_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
         this.leave_time = this.leave_time = (this.wait * 2 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
-        this.jump_seq = make_seq([
+        this.jump_seq = new Sequence([
             1.5, function (a: number) {
                 jumpscare_sound()
             },
@@ -740,7 +804,7 @@ class Hopper extends Animatronic {
         this.move_timer.play()
     }
     jumpscare() {
-        this.jump_seq(spf)
+        this.jump_seq.loop(spf)
     }
     display (room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen') {
@@ -770,7 +834,7 @@ class OhNoes extends Animatronic {
         this.stl = Math.randomRange(1.0, 5) //SoundTimerLimit
         this.enter_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
         this.leave_time = (this.wait * 2.5 + Math.randomRange(0.0, 20 - this.level / 2.5)) / (2.5 - this.level / 50)
-        this.jump_seq = make_seq([
+        this.jump_seq = new Sequence([
             1.5, function (a: number) {
                 jumpscare_sound()
             },
@@ -834,6 +898,7 @@ class OhNoes extends Animatronic {
         this.monitor_sprite = sprites.create(this.monitor_images['generic'])
     }
     reset() {
+        super.reset()
         this.level = ani_AI['ohnoes'][night - 1]
         this.wait = Math.map(Math.pow(this.level / 20, 0.25) * 20, 0, 20, Math.randomRange(90.0, 160), 1) + Math.randomRange(-(20 - this.level) + 5, (10 / ((this.level + 1) / 5)))
         this.move_timer.start()
@@ -944,7 +1009,7 @@ class OhNoes extends Animatronic {
         this.sound_timer.play()
     }
     jumpscare() {
-        this.jump_seq(spf)
+        this.jump_seq.loop(spf)
     }
     display (room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen') {
@@ -964,12 +1029,12 @@ class Squidical extends Animatronic {
     run: boolean = false
     run_pos: number = 0
     careful: number = 0
-    knock_seq: (dt: number) => boolean
+    knock_seq: Sequence
     constructor () {
         super('Squid Reef')
         super.reset()
         this.reset()
-        this.jump_seq = make_seq([
+        this.jump_seq = new Sequence([
             1.5, function (a: number) {
                 jumpscare_sound()
             },
@@ -978,8 +1043,23 @@ class Squidical extends Animatronic {
                 mygame.set_mode('static')
             }
         ])
-        this.knock_seq = make_seq([
-            0, function(a: number) { }
+        this.knock_seq = new Sequence([
+            0, function (a: number) {
+                music.setVolume(200)
+                music.knock.play()
+            },
+            0.5, function (a: number) { },
+            0, function (a: number) {
+                music.setVolume(200)
+                music.knock.play()
+            },
+            0.5, function (a: number) { },
+            0, function (a: number) {
+                music.setVolume(200)
+                music.knock.play()
+                game_state.power -= this.power_drain
+                this.normal_reset()
+            }
         ])
         this.monitor_images = {
             'generic': assets.image`squidical`
@@ -987,11 +1067,11 @@ class Squidical extends Animatronic {
         this.monitor_sprite = sprites.create(this.monitor_images['generic'])
     }
     normal_reset () {
+        super.reset()
         this.run = false
         this.run_pos = 0
         this.anger = 0
         this.careful = 0
-        this.room = 'Squid Reef'
         if (this.power_drain == 0) {
             this.power_drain++
         }
@@ -1005,7 +1085,6 @@ class Squidical extends Animatronic {
         this.level = ani_AI['squid'][night - 1]
     }
     update () {
-        this.knock_seq(spf)
         if (!this.run) {
             this.careful -= spf * Math.map(this.level, 0, 20, 0.07, 0.5)
             if (viewed_room == 'Squid Reef') {
@@ -1034,37 +1113,20 @@ class Squidical extends Animatronic {
             }
             //changeme
             if (this.run_pos >= 200 /*&& !GW*/) {
-                if (!game_state.doors[1] && o_power >= 0) {
+                if (!game_state.doors[1] && game_state.power >= 0) {
                     if (game_state.ani_in == '') {
                         game_state.ani_in = 'squid'
                         mygame.set_mode('jumpscare')
                     }   
                 }
                 else {
-                    this.knock_seq = make_seq([
-                        0, function (a: number) {
-                            music.setVolume(200)
-                            music.knock.play()
-                        },
-                        0.5, function (a: number) { },
-                        0, function (a: number) {
-                            music.setVolume(200)
-                            music.knock.play()
-                        },
-                        0.5, function (a: number) { },
-                        0, function (a: number) {
-                            music.setVolume(200)
-                            music.knock.play()
-                        }
-                    ])
-                    o_power -= this.power_drain
-                    this.normal_reset()
+                    this.knock_seq.loop(spf)
                 }
             }
         }
     }
     jumpscare() {
-        this.jump_seq(spf)
+        this.jump_seq.loop(spf)
     }
     display (room: string) {
         if (this.room == room && room != 'Kitchen') {
@@ -1345,7 +1407,6 @@ function play_all() {
 
 //Globals
 let game_state = new Game
-let o_power = 100
 let time = 0
 let night = 1
 let game_timer = new Timer
@@ -1510,21 +1571,21 @@ function handle_power() {
     }
     switch (game_state.get_usage()) {
         case 1:
-            o_power -= spf / 10
+            game_state.power -= spf / 10
             break
         case 2:
-            o_power -= spf / 6
+            game_state.power -= spf / 6
             break
         case 3:
-            o_power -= spf / 4
+            game_state.power -= spf / 4
             break
         case 4:
-            o_power -= spf / 3
+            game_state.power -= spf / 3
             break
         default:
             break
     }
-    power_text.setText(Math.ceil(o_power).toString() + '%')
+    power_text.setText(Math.ceil(game_state.power).toString() + '%')
     power_text.left = 0
     power_text.bottom = 109
 }
@@ -1546,8 +1607,16 @@ function handle_time() {
 let the_update_handler: () => void = null
 let last_game_runtime: number = 0
 let spf: number
+let hopper
+let ohnoes
+let squidical
 game.onUpdate(function () {
     spf = (game.runtime() - last_game_runtime) / 1000
+    if (ani != null) {
+        hopper = ani['hopps']
+        ohnoes = ani['ohnoes']
+        squidical = ani['squid']
+    }
     last_game_runtime = game.runtime()
     if (!game_timer.paused) {
         let keys = Object.keys(ani)
@@ -1559,7 +1628,7 @@ game.onUpdate(function () {
                 game_state.cams_broken = false
             }
         }
-        if (ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam')) {
+        if (ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam') && !game_timer.paused) {
             if (ani['hopps'].room == 'office') {
                 game_state.ani_in = 'hopps'
                 mygame.set_mode('jumpscare')
