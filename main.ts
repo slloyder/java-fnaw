@@ -196,10 +196,14 @@ class Fnaw {
         }
         this.menu_handler.up = function () {
             menu_pos -= 1
+            if (menu_pos == 1 && !blockSettings.exists('night')) { menu_pos -= 1 }
+            if (menu_pos == 2 && blockSettings.readNumber('everything') == 0) { menu_pos -= 1 }
             if (menu_pos < 1) { menu_pos = 0 }
         }
         this.menu_handler.down = function () {
             menu_pos += 1
+            if (menu_pos == 1 && !blockSettings.exists('night')) { menu_pos += 1 }
+            if (menu_pos == 2 && blockSettings.readNumber('everything') == 0) { menu_pos += 1 }
             if (menu_pos > 2) { menu_pos = 0 }
         }
 
@@ -629,6 +633,7 @@ class Animatronic {
     level: number = 0
     start_room: string
     room: string
+    wait: number
     move_timer: Timer = new Timer
     mode_timer: Timer = new Timer
     leave_timer: Timer = new Timer
@@ -654,7 +659,6 @@ class Animatronic {
 }
 //anis
 class Hopper extends Animatronic {
-    wait: number
     mode_limit: number = Math.randomRange(20.0, 35)
     mode: number = Math.randomRange(0.0, 3)
     enter_time: number
@@ -837,7 +841,6 @@ class Hopper extends Animatronic {
 }
 //anis
 class OhNoes extends Animatronic {
-    wait: number
     mode_limit: number = Math.randomRange(20.0, 35)
     mode: number = Math.randomRange(0.0, 3)
     enter_time: number
@@ -1182,6 +1185,13 @@ class Squidical extends Animatronic {
         else {
             hide_sprite(this.monitor_sprite)
         }
+    }
+}
+
+//anis
+class Hal extends Animatronic {
+    constructor () {
+        super('Arcade')
     }
 }
 
