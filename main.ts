@@ -492,6 +492,7 @@ class Game {
     cams_broken: boolean
     cams_broken_timer: Timer = new Timer
     cams_broken_limit: number
+    cams_broken_sound_seq: Sequence
     doors_broken: boolean[]
     ani_in: string = ''
     constructor() {
@@ -507,6 +508,23 @@ class Game {
         this.cams_broken = false
         this.doors_broken = [false, false]
         this.ani_in = ''
+        this.cams_broken_sound_seq = new Sequence([
+            0, function(a: number) {
+                music.setVolume(64)
+                music.thump.play()
+            },
+            0.2, function(a: number) { },
+            0, function (a: number) {
+                music.setVolume(64)
+                music.thump.play()
+            },
+            0.2, function (a: number) { },
+            0, function (a: number) {
+                music.setVolume(64)
+                music.thump.play()
+            },
+            0.2, function (a: number) { }
+        ])
     }
 
     get_usage() {
@@ -526,6 +544,7 @@ class Game {
         this.cams_broken_timer.reset()
         this.cams_broken_timer.start()
         this.cams_broken_limit = Math.randomRange(3.0, 5)
+        this.cams_broken_sound_seq.reset()
     }
 }
 
@@ -636,6 +655,8 @@ class Animatronic {
     wait: number
     move_timer: Timer = new Timer
     mode_timer: Timer = new Timer
+    mode_limit: number
+    mode: number
     leave_timer: Timer = new Timer
     move_table: { [key: string]: { [key: string]: () => number } }
     paused: boolean
@@ -659,8 +680,6 @@ class Animatronic {
 }
 //anis
 class Hopper extends Animatronic {
-    mode_limit: number = Math.randomRange(20.0, 35)
-    mode: number = Math.randomRange(0.0, 3)
     enter_time: number
     leave_time: number
     constructor() {
@@ -841,8 +860,6 @@ class Hopper extends Animatronic {
 }
 //anis
 class OhNoes extends Animatronic {
-    mode_limit: number = Math.randomRange(20.0, 35)
-    mode: number = Math.randomRange(0.0, 3)
     enter_time: number
     leave_time: number
     sound_timer: Timer = new Timer
@@ -1185,13 +1202,6 @@ class Squidical extends Animatronic {
         else {
             hide_sprite(this.monitor_sprite)
         }
-    }
-}
-
-//anis
-class Hal extends Animatronic {
-    constructor () {
-        super('Arcade')
     }
 }
 
@@ -1652,6 +1662,7 @@ game.onUpdate(function () {
             ani[keys[i]].update()
         }
         if (game_state.cams_broken) {
+            game_state.cams_broken_sound_seq.run_once(spf)
             if (game_state.cams_broken_timer.get_time() > game_state.cams_broken_limit) {
                 game_state.cams_broken = false
             }
