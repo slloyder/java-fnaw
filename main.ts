@@ -765,8 +765,8 @@ class Animatronic {
 //anis
 class Hopper extends Animatronic {
     constructor() {
-        //super('Show Stage')
-        super('West Hall')
+        super('Show Stage')
+        //super('West Hall')
         super.reset()
         this.reset()
         this.enter_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
