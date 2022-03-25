@@ -482,7 +482,41 @@ class Fnaw {
         }
     }
 }
-// side, light, lDoor, rDoor, monitorOn, camsDisabled, lDoor disabled, RDoor disabled
+
+class JumpscareReady {
+    timer: Timer = new Timer
+    pulse_limit: number
+    pulse_on: boolean = false
+    seq: Sequence
+    constructor() {
+        this.pulse_limit = Math.randomRange(0.5, 2)
+        this.seq = new Sequence([
+            0, function (a: number) {
+                music.setVolume(10)
+                music.buzzer.play()
+            }
+        ])
+    }
+    stop() {
+        this.timer.stop()
+    }
+    run() {
+        console.log('lollimuffins!')
+        if (this.timer.paused) {
+            this.timer.play()
+        }
+        if (this.timer.get_time() > this.pulse_limit) {
+            this.pulse_on = !this.pulse_on
+            this.pulse_limit = Math.randomRange(0.25, 1)
+            this.timer.reset()
+            this.seq.reset()
+        }
+        if (this.pulse_on) {
+            this.seq.run_once(spf)
+        }
+    }
+}
+
 class Game {
     side: number
     lights: boolean[]
@@ -497,6 +531,9 @@ class Game {
     doors_broken_timers: Timer[]
     doors_broken_limits: number[]
     ani_in: string = ''
+    jumpscare_wait_timer: Timer = new Timer
+    jumpscare_wait_limit: number
+    jumpscare_ready: JumpscareReady
     constructor() {
         this.doors_broken_timers = [new Timer, new Timer]
         this.reset()
@@ -512,6 +549,8 @@ class Game {
         this.doors_broken = [false, false]
         this.doors_broken_limits = [0, 0]
         this.ani_in = ''
+        this.jumpscare_wait_limit = Math.randomRange(5.0, 10)
+        this.jumpscare_ready = new JumpscareReady
         this.cams_broken_sound_seq = new Sequence([
             0, function(a: number) {
                 music.setVolume(64)
@@ -572,9 +611,9 @@ class Game {
                         break
                     }
                     case 'hal': {
-                        //if (ani['hal'].level >= 12) {
-                        //    this.doors_broken_timers[d_side].stop()
-                        //}
+                        if (ani['hal'].level >= 12) {
+                            this.doors_broken_timers[d_side].stop()
+                        }
                         break
                     }
                     default: {
@@ -726,8 +765,8 @@ class Animatronic {
 //anis
 class Hopper extends Animatronic {
     constructor() {
-        super('Show Stage')
-        //super('Left Door')
+        //super('Show Stage')
+        super('West Hall')
         super.reset()
         this.reset()
         this.enter_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
@@ -865,6 +904,7 @@ class Hopper extends Animatronic {
                 }
                 else {
                     this.room = 'office'
+                    game_state.ani_in = 'hopps'
                 }
                 this.leave_timer.stop()
                 this.leave_timer.start()
@@ -1063,6 +1103,7 @@ class OhNoes extends Animatronic {
                 }
                 else {
                     this.room = 'office'
+                    game_state.ani_in = 'ohnoes'
                 }
                 this.leave_timer.stop()
                 this.leave_timer.start()
@@ -1177,6 +1218,9 @@ class Squidical extends Animatronic {
             this.danger = Math.floor(this.anger)
             if (this.danger >= 4) {
                 this.run = true
+                if (viewed_room == 'Squid Reef') {
+                    game_state.disable_cams()
+                }
             }
         }
         else {
@@ -1718,17 +1762,37 @@ game.onUpdate(function () {
                 }
             }
         }
-        
-        if (ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam') && !game_timer.paused) {
-            if (ani['hopps'].room == 'office') {
-                game_state.ani_in = 'hopps'
-                mygame.set_mode('jumpscare')
+        if (game_state.monitor_on) {
+            //changeme
+            let cond = ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam') && !game_timer.paused
+            if (cond) {
+                if (game_state.ani_in == 'hopps' || game_state.ani_in == 'ohnoes' || game_state.ani_in == 'win') {
+                    game_state.jumpscare_ready.run()
+                    if (game_state.jumpscare_wait_timer.paused) {
+                        game_state.jumpscare_wait_timer.start()
+                    }
+                    console.log('time: ' + game_state.jumpscare_wait_timer.get_time().toString())
+                    console.log('limit: ' + game_state.jumpscare_wait_limit.toString())
+                    if (game_state.jumpscare_wait_timer.get_time() > game_state.jumpscare_wait_limit) {
+                        mygame.set_mode('jumpscare')
+                    }
+                }
+                else {
+                    game_state.jumpscare_ready.stop()
+                    game_state.jumpscare_wait_timer.stop()
+                }
+                if (ani['hopps'].room == 'Left Door' && game_state.doors_broken[0]) {
+                    ani['hopps'].room = 'office'
+                    game_state.ani_in = 'hopps'
+                }
+                else if (ani['ohnoes'].room == 'Right Door' && game_state.doors_broken[1]) {
+                    ani['ohnoes'].room = 'office'
+                    game_state.ani_in = 'ohnoes'
+                }
             }
-            if (ani['ohnoes'].room == 'office') {
-                game_state.ani_in = 'ohnoes'
-                mygame.set_mode('jumpscare')
-            }
-            if (game_state.ani_in == 'squid') {
+        }
+        else {
+            if (game_state.ani_in == 'hopps' || game_state.ani_in == 'ohnoes' || game_state.ani_in == 'squid' || game_state.ani_in == 'win' || game_state.ani_in == 'sam' || game_state.ani_in == 'fuzz') {
                 mygame.set_mode('jumpscare')
             }
         }
