@@ -501,7 +501,6 @@ class JumpscareReady {
         this.timer.stop()
     }
     run() {
-        console.log('lollimuffins!')
         if (this.timer.paused) {
             this.timer.play()
         }
@@ -1763,24 +1762,22 @@ game.onUpdate(function () {
             }
         }
         if (game_state.monitor_on) {
+            if (game_state.ani_in == 'hopps' || game_state.ani_in == 'ohnoes' || game_state.ani_in == 'win') {
+                game_state.jumpscare_ready.run()
+                if (game_state.jumpscare_wait_timer.paused) {
+                    game_state.jumpscare_wait_timer.start()
+                }
+                if (game_state.jumpscare_wait_timer.get_time() > game_state.jumpscare_wait_limit) {
+                    mygame.set_mode('jumpscare')
+                }
+            }
+            else {
+                game_state.jumpscare_ready.stop()
+                game_state.jumpscare_wait_timer.stop()
+            }
             //changeme
-            let cond = ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam') && !game_timer.paused
+            let cond = (ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam') && !game_timer.paused)
             if (cond) {
-                if (game_state.ani_in == 'hopps' || game_state.ani_in == 'ohnoes' || game_state.ani_in == 'win') {
-                    game_state.jumpscare_ready.run()
-                    if (game_state.jumpscare_wait_timer.paused) {
-                        game_state.jumpscare_wait_timer.start()
-                    }
-                    console.log('time: ' + game_state.jumpscare_wait_timer.get_time().toString())
-                    console.log('limit: ' + game_state.jumpscare_wait_limit.toString())
-                    if (game_state.jumpscare_wait_timer.get_time() > game_state.jumpscare_wait_limit) {
-                        mygame.set_mode('jumpscare')
-                    }
-                }
-                else {
-                    game_state.jumpscare_ready.stop()
-                    game_state.jumpscare_wait_timer.stop()
-                }
                 if (ani['hopps'].room == 'Left Door' && game_state.doors_broken[0]) {
                     ani['hopps'].room = 'office'
                     game_state.ani_in = 'hopps'
