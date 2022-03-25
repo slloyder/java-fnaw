@@ -390,6 +390,10 @@ class Fnaw {
                 }
                 if (!blockSettings.exists('night')) {
                     hide_sprite(menu_texts[1])
+                    menu_texts[0].setText('Play')
+                }
+                else {
+                    menu_texts[0].setText('New Game')
                 }
                 if (blockSettings.readNumber('everything') == 0) {
                     hide_sprite(menu_texts[2])
