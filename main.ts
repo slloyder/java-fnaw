@@ -17,9 +17,10 @@ function install_handler(handler: EventHandler) {
 }
 let jumpscare_animations: { [key: string]: Image[] } = {
     'hopps': assets.animation`HopperJumpscare`,
-    'ohnoes': assets.animation`OhnoesJumpscare`,
-    'squid': assets.animation`squidicalJumpscare`
+    'ohnoes': assets.animation`OhnoesJumpscare`//,
+    //'squid': assets.animation`squidicalJumpscare`
 }
+let squid_temp_jump_sprite = sprites.create(assets.image`squidJumpPic`)
 let jump_sprite = sprites.create(image.create(160, 120), SpriteKind.Player)
 let static_anim = assets.animation`StaticAnim`
 let static_sprite = sprites.create(image.create(160, 120))
@@ -453,7 +454,9 @@ class Fnaw {
                 }
                 if (game_state.ani_in == 'squid') {
                     scene.setBackgroundImage(office_backgrounds[1])
-                    animation.runImageAnimation(jump_sprite, jumpscare_animations[game_state.ani_in], 166, false)
+                    //animation.runImageAnimation(jump_sprite, jumpscare_animations[game_state.ani_in], 166, false)
+                    squid_temp_jump_sprite.right = 151
+                    squid_temp_jump_sprite.bottom = 100
                 }
                 else {
                     scene.setBackgroundImage(office_backgrounds[2])
@@ -1924,6 +1927,7 @@ function hide_all() {
     hide_sprite(menu_selector)
     hide_sprite(menu_winston)
     hide_sprite(kitchen_anim_sprite)
+    hide_sprite(squid_temp_jump_sprite)
 }
 function hide_array (a: Sprite[]) {
     for (let i = 0; i <= a.length - 1; i++) {
