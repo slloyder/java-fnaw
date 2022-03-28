@@ -6,7 +6,6 @@ class EventHandler {
     left: () => void
     right: () => void
 }
-
 function install_handler(handler: EventHandler) {
     controller.A.onEvent(ControllerButtonEvent.Pressed, handler.A ? handler.A : function () { })
     controller.B.onEvent(ControllerButtonEvent.Pressed, handler.B ? handler.B : function () { })
@@ -97,6 +96,7 @@ let room_disp_text = textsprite.create('')
 let room_backgrounds = {
     'generic': assets.image`genericRoom`
 }
+let hal_sounds: SoundBuffer[]
 
 
 class Fnaw {
@@ -1320,6 +1320,7 @@ class Hal extends Animatronic {
     move_tables: { [key: string]: { [key: string]: { [key: string]: () => number } } }
     constructor() {
         super('Arcade')
+        //super('Kitchen')
         super.reset()
         this.reset()
         this.monitor_images = {
@@ -1522,17 +1523,44 @@ class Hal extends Animatronic {
         this.song_timer.start()
         this.sound_seq = new Sequence([
             0, function (a: number) {
-                music.setTempo(75)
-                music.playTone(262, music.beat(BeatFraction.Half))
-                music.playTone(523, music.beat(BeatFraction.Half))
-                music.playTone(262, music.beat(BeatFraction.Half))
-                music.playTone(523, music.beat(BeatFraction.Half))
-                music.playTone(262, music.beat(BeatFraction.Quarter))
-                music.playTone(523, music.beat(BeatFraction.Quarter))
-                music.playTone(262, music.beat(BeatFraction.Quarter))
-                music.playTone(523, music.beat(BeatFraction.Quarter))
-                music.playTone(262, music.beat(BeatFraction.Half))
-                music.playTone(523, music.beat(BeatFraction.Half))
+                hal_sounds[0].play()
+            },
+            0.4, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[1].play()
+            },
+            0.4, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[0].play()
+            },
+            0.4, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[1].play()
+            },
+            0.4, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[2].play()
+            },
+            0.2, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[3].play()
+            },
+            0.2, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[2].play()
+            },
+            0.2, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[3].play()
+            },
+            0.2, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[0].play()
+            },
+            0.4, function (a: number) { },
+            0, function (a: number) {
+                hal_sounds[1].play()
+                this.song_timer.reset()
             }
         ])
     }
@@ -1584,16 +1612,27 @@ class Hal extends Animatronic {
         game_state.hal_meddled_room = this.meddled_room
         if (this.room == 'Kitchen') {
             if (this.song_timer.get_time() > 3.2 * 2) {
-                this.song_timer.reset()
-                this.sound_seq.reset()
                 if (viewed_room == 'Kitchen') {
-                    music.setVolume(255)
+                    hal_sounds = [
+                        soundEffects.createSound(1, 400, 262, 262, 255, 255),
+                        soundEffects.createSound(1, 400, 523, 523, 255, 255),
+                        soundEffects.createSound(1, 200, 262, 262, 255, 255),
+                        soundEffects.createSound(1, 200, 523, 523, 255, 255)
+                    ]
                     this.sound_seq.run_once(spf)
                 }
                 else {
-                    music.setVolume(180)
+                    hal_sounds = [
+                        soundEffects.createSound(1, 400, 262, 262, 128, 128),
+                        soundEffects.createSound(1, 400, 523, 523, 128, 128),
+                        soundEffects.createSound(1, 200, 262, 262, 128, 128),
+                        soundEffects.createSound(1, 200, 523, 523, 128, 128)
+                    ]
                     this.sound_seq.run_once(spf)
                 }
+            }
+            else {
+                this.sound_seq.reset()
             }
         }
         if (!this.meddled_room_timer.paused) {
