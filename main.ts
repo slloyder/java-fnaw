@@ -454,6 +454,7 @@ class Fnaw {
                 }
                 if (game_state.ani_in == 'squid') {
                     scene.setBackgroundImage(office_backgrounds[1])
+                    hide_sprite(jump_sprite)
                     //animation.runImageAnimation(jump_sprite, jumpscare_animations[game_state.ani_in], 166, false)
                     squid_temp_jump_sprite.right = 151
                     squid_temp_jump_sprite.bottom = 100
@@ -556,17 +557,13 @@ class Game {
         this.monitor_on = false
         this.power = 100
         this.cams_broken = false
-        this.doors_broken = [false, false]
-        this.doors_broken_limits = [0, 0]
-        this.ani_in = ''
-        this.jumpscare_wait_limit = Math.randomRange(5.0, 10)
-        this.jumpscare_ready = new JumpscareReady
+        this.cams_broken_limit = Math.randomRange(3.0, 5)
         this.cams_broken_sound_seq = new Sequence([
-            0, function(a: number) {
+            0, function (a: number) {
                 music.setVolume(64)
                 music.thump.play()
             },
-            0.2, function(a: number) { },
+            0.2, function (a: number) { },
             0, function (a: number) {
                 music.setVolume(64)
                 music.thump.play()
@@ -578,6 +575,11 @@ class Game {
             },
             0.2, function (a: number) { }
         ])
+        this.doors_broken = [false, false]
+        this.doors_broken_limits = [0, 0]
+        this.ani_in = ''
+        this.jumpscare_wait_limit = Math.randomRange(5.0, 10)
+        this.jumpscare_ready = new JumpscareReady
     }
 
     get_usage() {
