@@ -14,90 +14,74 @@ function install_handler(handler: EventHandler) {
     controller.left.onEvent(ControllerButtonEvent.Pressed, handler.left ? handler.left : function () { })
     controller.right.onEvent(ControllerButtonEvent.Pressed, handler.right ? handler.right : function () { })
 }
-let jumpscare_animations: { [key: string]: Image[] } = {
-    'hopps': assets.animation`HopperJumpscare`,
-    'ohnoes': assets.animation`OhnoesJumpscare`//,
-    //'squid': assets.animation`squidicalJumpscare`
+namespace SpriteKind {
+    export const inram = SpriteKind.create()
 }
-let squid_temp_jump_sprite = sprites.create(assets.image`squidJumpPic`)
-let jump_sprite = sprites.create(image.create(160, 120), SpriteKind.Player)
-let static_anim = assets.animation`StaticAnim`
-let static_sprite = sprites.create(image.create(160, 120))
-let kitchen_anim = assets.animation`redThingAnim`
-let kitchen_anim_sprite = sprites.create(assets.image`redThingSprite`, SpriteKind.Player)
-
-let menu_winston = sprites.create(assets.image`menuWinston`, SpriteKind.Player)
+blockSettings.writeNumber('everything', 1)
+//global
+let power_usage_sprites: Sprite[] = [
+    sprites.create(assets.image`powerBarGreen`),
+    sprites.create(assets.image`powerBarGreen`),
+    sprites.create(assets.image`powerBarYellow`),
+    sprites.create(assets.image`powerBarRed`)
+]
+let power_text = textsprite.create('')
+let time_text = textsprite.create('')
+let night_text = textsprite.create('')
+//office
+let office_backgrounds: string[] = [
+    'officeLeft',
+    'officeRight',
+    'officeMid'
+]
+let door_sprites: Sprite[] = [null, null]
+let door_light_sprites: Sprite[] = [null, null]
+let window_light_sprites: Sprite[] = [null, null]
+let left_door_ani_sprites: { [key: string]: Sprite } = {
+    'hopps': null,
+    'hal': null
+}
+let right_door_ani_sprites: { [key: string]: Sprite } = {
+    'ohnoes':  null,
+    'hal': null
+}
+//monitor
+let cam_select = sprites.create(assets.image`camSelect`)
+let selected_room_text = textsprite.create('')
+let monitor_select_numbers_sprite: Sprite = null
+let kitchen_anim: Image[] = [
+    assets.image`monitorRecordIndicator`, image.create(13, 13)   
+]
+let kitchen_anim_sprite: Sprite = null
+let kitchen_texts = [
+    textsprite.create('Cam Disabled'),
+    textsprite.create('Audio Only')
+]
+//transitions
+let six_am_slit: Sprite = null
+let six_am_slide: Sprite = null
+let twelve_am_text = textsprite.create('12:00 AM')
+//menu
+let menu_winston: Sprite = null
+let menu_selector = sprites.create(assets.image`menuSelector`)
 let menu_title = [
     textsprite.create('Five Nights'),
     textsprite.create("at Winston's"),
     textsprite.create('2')
 ]
-let menu_texts = [
+let menu_option_texts = [
     textsprite.create('Play'),
     textsprite.create('Continue'),
-    textsprite.create('Hardest Night')
+    textsprite.create('6th Night')
 ]
-let menu_selector = sprites.create(assets.image`menuSelector`, SpriteKind.Player)
-
-let office_backgrounds = [
-    assets.image`OfficeLeft`,
-    assets.image`OfficeRight`,
-    assets.image`OfficeMid`
-]
-let black_background = image.create(160, 120)
-black_background.fill(15)
-let window_lights = [
-    sprites.create(assets.image`LLight`, SpriteKind.Player),
-    sprites.create(assets.image`RLight`, SpriteKind.Player)
-]
-let door_lights = [
-    sprites.create(assets.image`LDoorLight`, SpriteKind.Player),
-    sprites.create(assets.image`RDoorLight`, SpriteKind.Player)
-]
-
-let l_door_ani_images: { [key: string]: Sprite } = {
-    'hal': sprites.create(assets.image`halLeft`),
-    'hopps': sprites.create(assets.image`hopperDoor`, SpriteKind.Player)
-}
-let r_door_ani_images: { [key: string]: Sprite } = {
-    'ohnoes': sprites.create(assets.image`ohnoesDoor`, SpriteKind.Player),
-    'hal': sprites.create(assets.image`halRight`)
-}
-
-let door_images = [
-    sprites.create(assets.image`LDoor`, SpriteKind.Player),
-    sprites.create(assets.image`RDoor`, SpriteKind.Player)
-]
-
-
-let power_usage_images = [
-    sprites.create(assets.image`Power1`, SpriteKind.Player),
-    sprites.create(assets.image`Power2`, SpriteKind.Player),
-    sprites.create(assets.image`Power3`, SpriteKind.Player),
-    sprites.create(assets.image`Power4`, SpriteKind.Player)
-]
-
-let power_text = textsprite.create('')
-let time_text = textsprite.create('')
-let time_disp_text = textsprite.create('12:00 AM')
-let night_disp_text = textsprite.create('')
-
-let win_slide = sprites.create(assets.image`6AMSlide`, SpriteKind.Player)
-let win_background = sprites.create(assets.image`6AMBackground`, SpriteKind.Player)
-
-let monitor_select_background = assets.image`monitorSelectBackground`
-let cam_select = sprites.create(assets.image`camSelect`)
-let monitor_select_text = sprites.create(assets.image`monitorSelectTexts`, SpriteKind.Player)
-let kitchen_texts = [
-    textsprite.create('Cam Disabled'),
-    textsprite.create('Audio Only')
-]
-let room_disp_text = textsprite.create('')
-let room_backgrounds = {
-    'generic': assets.image`genericRoom`
-}
+//jumpscare
+let jumpscare_sprite: Sprite = null
+let static_anim: Image[] = null
+let static_anim_sprite: Sprite = null
+//other random stuffis
 let hal_sounds: SoundBuffer[]
 
+scene.setBackgroundColor(15)
 
 class Fnaw {
     mode: string
@@ -129,10 +113,14 @@ class Fnaw {
         this.office_handler.left = function () {
             game_state.lights[1] = false
             game_state.side = 0
+            scene.setBackgroundImage(createImage(office_backgrounds[game_state.side]))
+            load_scene('office_left')
         }
         this.office_handler.right = function () {
             game_state.lights[0] = false
             game_state.side = 1
+            scene.setBackgroundImage(createImage(office_backgrounds[game_state.side]))
+            load_scene('office_right')
         }
         this.office_handler.up = function () {
             music.setVolume(150)
@@ -182,6 +170,11 @@ class Fnaw {
             switch (menu_pos) {
                 case 0: {
                     night = 1
+                    //changeme (temp for debug stuffis)
+                    if (controller.up.isPressed()) { night = 2 }
+                    if (controller.right.isPressed()) { night = 3 }
+                    if (controller.left.isPressed()) { night = 4 }
+                    if (controller.down.isPressed()) { night = 5 }
                     mygame.set_mode('setup')
                     break
                 }
@@ -191,7 +184,7 @@ class Fnaw {
                     break
                 }
                 case 2: {
-                    night = 7
+                    night = 6
                     mygame.set_mode('setup')
                     break
                 }
@@ -220,6 +213,8 @@ class Fnaw {
 
     set_mode(mode: string) {
         this.mode = mode
+        sprites.destroyAllSpritesOfKind(SpriteKind.inram)
+        control.gc()
         hide_all()
         switch (mode) {
             case 'office': {
@@ -228,33 +223,39 @@ class Fnaw {
                 game_state.monitor_on = false
                 viewed_room = null
                 play_all()
+                if (game_state.side == 0) {
+                    load_scene('office_left')
+                }
+                else if (game_state.side == 1) {
+                    load_scene('office_right')
+                }
+                scene.setBackgroundImage(createImage(office_backgrounds[game_state.side]))
                 the_update_handler = function () {
                     handle_lights()
                     handle_doors()
                     handle_power()
                     handle_time()
-                    scene.setBackgroundImage(office_backgrounds[game_state.side])
                 }
                 break
             }
             case 'monitor_select': {
                 install_handler(this.monitor_select_handler)
                 init_palette('monitor')
+                load_scene('monitor_select')
                 pause_all()
                 game_state.lights[0] = false
                 game_state.lights[1] = false
                 game_state.monitor_on = true
                 viewed_room = null
-                scene.setBackgroundImage(monitor_select_background)
-                show_sprite(monitor_select_text)
-                monitor_select_text.top = 11
-                monitor_select_text.left = 30
+                scene.setBackgroundImage(createImage('monitorSelectBackground'))
+                monitor_select_numbers_sprite.top = 11
+                monitor_select_numbers_sprite.left = 30
                 show_sprite(power_text)
                 for (let i = 0; i <= 3; i++) {
                     if (i < game_state.get_usage()) {
-                        show_sprite(power_usage_images[i])
+                        show_sprite(power_usage_sprites[i])
                     } else {
-                        hide_sprite(power_usage_images[i])
+                        hide_sprite(power_usage_sprites[i])
                     }
                 }
                 power_text.setText(Math.ceil(game_state.power).toString() + '%')
@@ -263,9 +264,9 @@ class Fnaw {
                 time_text.right = 158
                 time_text.top = 12
                 time_text.setText(time.toString() + ' AM')
-                night_disp_text.setText('Night ' + night.toString())
-                night_disp_text.right = 158
-                night_disp_text.top = 2
+                night_text.setText('Night ' + night.toString())
+                night_text.right = 158
+                night_text.top = 2
                 game_timer.pause()
                 let keys = Object.keys(ani)
                 for (let i = 0; i < keys.length; i++) {
@@ -275,16 +276,16 @@ class Fnaw {
                     show_sprite(cam_select)
                     cam_select.left = cam_positions[selected_room][0]
                     cam_select.top = cam_positions[selected_room][1]
-                    show_sprite(room_disp_text)
-                    room_disp_text.top = 1
-                    room_disp_text.left = 1
-                    room_disp_text.setText(selected_room)
+                    selected_room_text.top = 1
+                    selected_room_text.left = 1
+                    selected_room_text.setText(selected_room)
                 }
                 break
             }
             case 'monitor_view': {
                 install_handler(this.monitor_view_handler)
                 init_palette('monitor')
+                load_scene('monitor_view')
                 play_all() 
                 if (viewed_room == 'Kitchen') {
                     kitchen_anim_sprite.top = 12
@@ -296,7 +297,7 @@ class Fnaw {
                     kitchen_texts[1].left = 20
                 }
                 else {
-                    hide_array(kitchen_texts)
+                    hide_sprite_array(kitchen_texts)
                 }
                 the_update_handler = function () {
                     game_state.monitor_on = true
@@ -306,10 +307,10 @@ class Fnaw {
                         return
                     }
                     if (game_state.cams_broken || viewed_room == 'Kitchen' || viewed_room == game_state.hal_meddled_room) {
-                        scene.setBackgroundImage(black_background)
+                        scene.setBackgroundImage(null)
                     }
                     else {
-                        scene.setBackgroundImage(room_backgrounds['generic'])
+                        scene.setBackgroundImage(createImage('genericRoom'))
                     }
                     let keys = Object.keys(ani)
                     for (let i = 0; i < keys.length; i++) {
@@ -318,30 +319,28 @@ class Fnaw {
                     
                     handle_power()
                     handle_time()
-                    room_disp_text.top = 1
-                    room_disp_text.left = 1
-                    room_disp_text.setText(viewed_room)
+                    selected_room_text.top = 1
+                    selected_room_text.left = 1
+                    selected_room_text.setText(viewed_room)
                 }
                 break
             }
             case 'win': {
                 install_handler(this.win_handler)
+                load_scene('win')
                 pause_all()
-                scene.setBackgroundImage(black_background)
-                show_sprite(win_background)
-                win_background.top = 27
-                win_background.left = 52
-                show_sprite(win_slide)
-                win_slide.bottom = 66
-                win_slide.left = 52
-                let animator = make_lerp(win_slide.top, win_slide.top + win_slide.height / 2)
-
+                scene.setBackgroundImage(null)
+                six_am_slit.top = 27
+                six_am_slit.left = 52
+                six_am_slide.bottom = 66
+                six_am_slide.left = 52
+                let animator = make_lerp(six_am_slide.top, six_am_slide.top + six_am_slide.height / 2)
                 let win_seq = new Sequence([
                     0.5, function (a: number) {
-                        scene.setBackgroundImage(black_background)
+                        scene.setBackgroundImage(null)
                     },
                     3, function (a: number) {
-                        win_slide.top = animator(a)
+                        six_am_slide.top = animator(a)
                     },
                     0.5, function (a: number) { },
                     0, function (a: number) {
@@ -369,11 +368,11 @@ class Fnaw {
             case 'menu': {
                 install_handler(this.menu_handler)
                 init_palette('menu')
+                load_scene('menu')
                 if (!blockSettings.exists('everything')) {
                     blockSettings.writeNumber('everything', 0)
                 }
-                scene.setBackgroundImage(black_background)
-                show_sprite(menu_selector)
+                scene.setBackgroundImage(null)
                 menu_title[0].scale = 2
                 menu_title[0].top = 1
                 menu_title[0].left = 1
@@ -385,21 +384,20 @@ class Fnaw {
                 menu_title[2].right = 150
                 menu_winston.bottom = 110
                 menu_winston.right = 150
-                menu_texts[1].setText('Continue ' + blockSettings.readNumber('night').toString())
-                for (let i = 0; i < menu_texts.length; i++) {
-                    show_sprite(menu_texts[i])
-                    menu_texts[i].left = 17
-                    menu_texts[i].top = 50 + i * 12
+                menu_option_texts[1].setText('Continue ' + blockSettings.readNumber('night').toString())
+                for (let i = 0; i < menu_option_texts.length; i++) {
+                    menu_option_texts[i].left = 17
+                    menu_option_texts[i].top = 50 + i * 12
                 }
                 if (!blockSettings.exists('night')) {
-                    hide_sprite(menu_texts[1])
-                    menu_texts[0].setText('Play')
+                    hide_sprite(menu_option_texts[1])
+                    menu_option_texts[0].setText('Play')
                 }
                 else {
-                    menu_texts[0].setText('New Game')
+                    menu_option_texts[0].setText('New Game')
                 }
                 if (blockSettings.readNumber('everything') == 0) {
-                    hide_sprite(menu_texts[2])
+                    hide_sprite(menu_option_texts[2])
                 }
                 the_update_handler = function () {
                     menu_selector.right = 13
@@ -409,13 +407,12 @@ class Fnaw {
             }
             case 'night_display': {
                 install_handler(this.night_display_handler)
-                time_disp_text.setPosition(80, 55)
-                night_disp_text.setText('Night ' + night.toString())
-                night_disp_text.setPosition(80, 65)
+                twelve_am_text.setPosition(80, 55)
+                night_text.setText('Night ' + night.toString())
+                night_text.setPosition(80, 65)
                 let night_seq = new Sequence([
                     3, function (a: number) {
-                        scene.setBackgroundImage(black_background)
-                        show_sprite(time_disp_text)
+                        scene.setBackgroundImage(null)
                     },
                     0, function (a: number) {
                         game_timer.start()
@@ -445,23 +442,31 @@ class Fnaw {
             case 'jumpscare': {
                 install_handler(this.jumpscare_handler)
                 init_palette('office')
+                load_scene('jumpscare')
                 pause_all()
                 blockSettings.writeNumber('night', night)
-                show_sprite(jump_sprite)
                 let keys = Object.keys(ani)
                 for (let i = 0; i < keys.length; i++) {
                     ani[keys[i]].reset()
                 }
-                if (game_state.ani_in == 'squid') {
-                    scene.setBackgroundImage(office_backgrounds[1])
-                    hide_sprite(jump_sprite)
-                    //animation.runImageAnimation(jump_sprite, jumpscare_animations[game_state.ani_in], 166, false)
-                    squid_temp_jump_sprite.right = 151
-                    squid_temp_jump_sprite.bottom = 100
-                }
-                else {
-                    scene.setBackgroundImage(office_backgrounds[2])
-                    animation.runImageAnimation(jump_sprite, jumpscare_animations[game_state.ani_in], 300, true)
+                switch (game_state.ani_in) {
+                    case 'hopps': {
+                        scene.setBackgroundImage(createImage(office_backgrounds[2]))
+                        jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
+                        break
+                    }
+                    case 'ohnoes': {
+                        scene.setBackgroundImage(createImage(office_backgrounds[2]))
+                        jumpscare_sprite = sprites.create(createImage('ohnoesJumpscarePic1'), SpriteKind.inram)
+                        break
+                    }
+                    case 'squid': {
+                        jumpscare_sprite = sprites.create(createImage('squidJumpPic'), SpriteKind.inram)
+                        scene.setBackgroundImage(createImage(office_backgrounds[1]))
+                        jumpscare_sprite.right = 151
+                        jumpscare_sprite.bottom = 100
+                        break
+                    }
                 }
                 the_update_handler = function () {
                     init_palette(game_state.ani_in)
@@ -472,13 +477,16 @@ class Fnaw {
             case 'static': {
                 install_handler(this.jumpscare_handler)
                 init_palette('static')
-                scene.setBackgroundImage(black_background)
-                show_sprite(static_sprite)
-                animation.runImageAnimation(static_sprite, static_anim, 77, true)
+                load_scene('static')
+                scene.setBackgroundImage(null)
+                show_sprite(static_anim_sprite)
+                static_anim = [createImage('staticPic1'), createImage('staticPic2'), createImage('staticPic3'), createImage('staticPic4')]
+                animation.runImageAnimation(static_anim_sprite, static_anim, 77, true)
                 let static_seq = new Sequence([
                     5, function (a: number) { },
                     0, function (a: number) {
-                        animation.stopAnimation(animation.AnimationTypes.All, static_sprite)
+                        animation.stopAnimation(animation.AnimationTypes.All, static_anim_sprite)
+                        static_anim = null
                         mygame.set_mode('menu')
                     }
                 ])
@@ -490,39 +498,6 @@ class Fnaw {
             default: {
                 break
             }
-        }
-    }
-}
-
-class JumpscareReady {
-    timer: Timer = new Timer
-    pulse_limit: number
-    pulse_on: boolean = false
-    seq: Sequence
-    constructor() {
-        this.pulse_limit = Math.randomRange(0.5, 2)
-        this.seq = new Sequence([
-            0, function (a: number) {
-                music.setVolume(10)
-                music.buzzer.play()
-            }
-        ])
-    }
-    stop() {
-        this.timer.stop()
-    }
-    run() {
-        if (this.timer.paused) {
-            this.timer.play()
-        }
-        if (this.timer.get_time() > this.pulse_limit) {
-            this.pulse_on = !this.pulse_on
-            this.pulse_limit = Math.randomRange(0.25, 1)
-            this.timer.reset()
-            this.seq.reset()
-        }
-        if (this.pulse_on) {
-            this.seq.run_once(spf)
         }
     }
 }
@@ -662,6 +637,13 @@ class Sequence {
                 return false
 
             // last call on this entry
+            if (2 * this.i + 1 >= this.table.length)
+                console.log("walked off end of table")    
+            let func = this.table[2 * this.i + 1]
+            if (typeof func !== "function") {
+                console.log("not a function")
+                console.log(func)
+            }
             this.table[2 * this.i + 1](1)
 
             // start next entry
@@ -741,6 +723,38 @@ class Timer {
         return this.current_time / 1000
     }
 }
+class JumpscareReady {
+    timer: Timer = new Timer
+    pulse_limit: number
+    pulse_on: boolean = false
+    seq: Sequence
+    constructor() {
+        this.pulse_limit = Math.randomRange(0.5, 2)
+        this.seq = new Sequence([
+            0, function (a: number) {
+                music.setVolume(10)
+                music.buzzer.play()
+            }
+        ])
+    }
+    stop() {
+        this.timer.stop()
+    }
+    run() {
+        if (this.timer.paused) {
+            this.timer.play()
+        }
+        if (this.timer.get_time() > this.pulse_limit) {
+            this.pulse_on = !this.pulse_on
+            this.pulse_limit = Math.randomRange(0.25, 1)
+            this.timer.reset()
+            this.seq.reset()
+        }
+        if (this.pulse_on) {
+            this.seq.run_once(spf)
+        }
+    }
+}
 //anis
 class Animatronic {
     level: number = 0
@@ -758,7 +772,7 @@ class Animatronic {
     paused: boolean
     jump_seq: Sequence
     surprise: boolean = false
-    monitor_images: { [key: string]: Image }
+    monitor_images: { [key: string]: string }
     monitor_sprite: Sprite
     constructor(start_room: string) {
         this.start_room = start_room
@@ -778,7 +792,7 @@ class Animatronic {
 class Hopper extends Animatronic {
     constructor() {
         super('Show Stage')
-        //super('West Hall')
+        //super('Left Door')
         super.reset()
         this.reset()
         this.enter_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
@@ -788,7 +802,7 @@ class Hopper extends Animatronic {
                 jumpscare_sound()
             },
             0, function (a: number) {
-                animation.stopAnimation(animation.AnimationTypes.All, jump_sprite)
+                animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
                 mygame.set_mode('static')
             }
         ])
@@ -849,9 +863,8 @@ class Hopper extends Animatronic {
             },
         }
         this.monitor_images = {
-            'generic': assets.image`hopper`
+            'generic': 'hopper'
         }
-        this.monitor_sprite = sprites.create(this.monitor_images['generic'])
     }
 
     reset() {
@@ -971,7 +984,7 @@ class OhNoes extends Animatronic {
                 jumpscare_sound()
             },
             0, function (a: number) {
-                animation.stopAnimation(animation.AnimationTypes.All, jump_sprite)
+                animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
                 mygame.set_mode('static')
             }
         ])
@@ -1025,9 +1038,8 @@ class OhNoes extends Animatronic {
             }
         }
         this.monitor_images = {
-            'generic': assets.image`ohnoes`
+            'generic': 'ohnoes'
         }
-        this.monitor_sprite = sprites.create(this.monitor_images['generic'])
     }
     reset() {
         super.reset()
@@ -1172,7 +1184,7 @@ class Squidical extends Animatronic {
                 jumpscare_sound()
             },
             0, function (a: number) {
-                animation.stopAnimation(animation.AnimationTypes.All, jump_sprite)
+                animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
                 mygame.set_mode('static')
             }
         ])
@@ -1195,9 +1207,8 @@ class Squidical extends Animatronic {
             }
         ])
         this.monitor_images = {
-            'generic': assets.image`squidical`
+            'generic': 'squidical'
         }
-        this.monitor_sprite = sprites.create(this.monitor_images['generic'])
     }
     normal_reset () {
         super.reset()
@@ -1322,13 +1333,10 @@ class Hal extends Animatronic {
     move_tables: { [key: string]: { [key: string]: { [key: string]: () => number } } }
     constructor() {
         super('Arcade')
+        //super('Right Door')
         //super('Kitchen')
         super.reset()
         this.reset()
-        this.monitor_images = {
-            'generic': assets.image`hal`
-        }
-        this.monitor_sprite = sprites.create(this.monitor_images['generic'])
         this.move_tables = {
             'right': {
                 'Arcade': {
@@ -1500,6 +1508,9 @@ class Hal extends Animatronic {
                 }
             }
         }
+        this.monitor_images = {
+            'generic': 'hal'
+        }
     }
     reset() {
         super.reset()
@@ -1523,6 +1534,10 @@ class Hal extends Animatronic {
         this.activated = false
         this.song_timer.stop()
         this.song_timer.start()
+        let thefunc = function (a: number) {
+            hal_sounds[1].play()
+            this.song_timer.reset()
+        }
         this.sound_seq = new Sequence([
             0, function (a: number) {
                 hal_sounds[0].play()
@@ -1560,9 +1575,13 @@ class Hal extends Animatronic {
                 hal_sounds[0].play()
             },
             0.4, function (a: number) { },
-            0, function (a: number) {
-                hal_sounds[1].play()
-                this.song_timer.reset()
+            //0, function (a: number) {
+            //    hal_sounds[1].play()
+            //    //this.song_timer.reset()
+            //},
+            0, thefunc,
+            0.123, function (a: number) {
+                // do nothing!
             }
         ])
     }
@@ -1936,41 +1955,86 @@ function show_sprite(s: Sprite) {
         s.left -= 500
     }
 }
+//loadscene
+function load_scene(scene: string) {
+    sprites.destroyAllSpritesOfKind(SpriteKind.inram)
+    switch (scene) {
+        case 'office_left': {
+            door_light_sprites[0] = sprites.create(createImage('leftDoorLight'), SpriteKind.inram)
+            window_light_sprites[0] = sprites.create(createImage('leftLight'), SpriteKind.inram)
+            left_door_ani_sprites['hopps'] = sprites.create(createImage('hopperDoor'), SpriteKind.inram)
+            left_door_ani_sprites['hal'] = sprites.create(createImage('halLeftDoor'), SpriteKind.inram)
+            door_sprites[0] = sprites.create(createImage('leftDoor'), SpriteKind.inram)
+            power_text.destroy()
+            power_text = textsprite.create('')
+            for (let i = 0; i < power_usage_sprites.length; i++) {
+                power_usage_sprites[i].destroy()
+            }
+            power_usage_sprites = [
+                sprites.create(assets.image`powerBarGreen`),
+                sprites.create(assets.image`powerBarGreen`),
+                sprites.create(assets.image`powerBarYellow`),
+                sprites.create(assets.image`powerBarRed`)
+            ]
+            break
+        }
+        case 'office_right': {
+            door_light_sprites[1] = sprites.create(createImage('rightDoorLight'), SpriteKind.inram)
+            window_light_sprites[1] = sprites.create(createImage('rightLight'), SpriteKind.inram)
+            right_door_ani_sprites['ohnoes'] = sprites.create(createImage('ohnoesDoor'), SpriteKind.inram)
+            right_door_ani_sprites['hal'] = sprites.create(createImage('halRightDoor'), SpriteKind.inram)
+            door_sprites[1] = sprites.create(createImage('rightDoor'), SpriteKind.inram)
+            time_text.destroy()
+            time_text = textsprite.create('')
+            break
+        }
+        case 'monitor_select': {
+            monitor_select_numbers_sprite = sprites.create(createImage('monitorSelectNumbers'), SpriteKind.inram)
+            break
+        }
+        case 'monitor_view': {
+            kitchen_anim_sprite = sprites.create(image.create(13, 13), SpriteKind.inram)
+            let keys = Object.keys(ani)
+            for (let i = 0; i < keys.length; i++) {
+                ani[keys[i]].monitor_sprite = sprites.create(createImage(ani[keys[i]].monitor_images['generic']), SpriteKind.inram)
+            }
+            break
+        }
+        case 'win': {
+            six_am_slide = sprites.create(createImage('6AMSlide'), SpriteKind.inram)
+            six_am_slit = sprites.create(createImage('6AMBackground'), SpriteKind.inram)
+            break
+        }
+        case 'menu': {
+            menu_winston = sprites.create(createImage('menuWinston'), SpriteKind.inram)
+            menu_title[2] = textsprite.create('2')
+            break
+        }
+        case 'jumpscare': {
+            //jumpscare_sprite = sprites.create
+            break
+        }
+        case 'static': {
+            static_anim_sprite = sprites.create(image.create(160, 120), SpriteKind.inram)
+            break
+        }
+    }
+}
 //hideall
 function hide_all() {
-    hide_array(window_lights)
-    hide_array(door_lights)
-    hide_array(power_usage_images)
-    hide_array(door_images)
-    hide_array(menu_texts)
-    hide_array(menu_title)
-    hide_array(kitchen_texts)
-
-    hide_dict(l_door_ani_images)
-    hide_dict(r_door_ani_images)
-
-    let keys = Object.keys(ani)
-    for (let i = 0; i < keys.length; i++) {
-        hide_sprite(ani[keys[i]].monitor_sprite)
-    }
-    
+    hide_sprite_array(power_usage_sprites)
     hide_sprite(power_text)
     hide_sprite(time_text)
-    hide_sprite(win_background)
-    hide_sprite(win_slide)
-    hide_sprite(time_disp_text)
-    hide_sprite(night_disp_text)
-    hide_sprite(monitor_select_text)
+    hide_sprite(night_text)
+    hide_sprite_array(kitchen_texts)
     hide_sprite(cam_select)
-    hide_sprite(room_disp_text)
-    hide_sprite(jump_sprite)
-    hide_sprite(static_sprite)
+    hide_sprite(selected_room_text)
+    hide_sprite_array(menu_title)
+    hide_sprite_array(menu_option_texts)
     hide_sprite(menu_selector)
-    hide_sprite(menu_winston)
-    hide_sprite(kitchen_anim_sprite)
-    hide_sprite(squid_temp_jump_sprite)
+    hide_sprite(twelve_am_text)
 }
-function hide_array (a: Sprite[]) {
+function hide_sprite_array (a: Sprite[]) {
     for (let i = 0; i <= a.length - 1; i++) {
         hide_sprite(a[i])
     }
@@ -2072,114 +2136,126 @@ let ani_AI = {
 }
 
 let ani: { [key: string]: Animatronic }
-
+//handlers
 function handle_lights() {
-    for (let i = 0; i < game_state.lights.length; i++) {
-        if (game_state.lights[i]) {
-            show_sprite(window_lights[i])
-            window_lights[i].top = 22
-            if (game_state.side == 0) {
-                window_lights[i].left = 48
-            }
-            else if (game_state.side == 1) {
-                window_lights[i].left = 89
-            }
-            if (!game_state.doors[i]) {
-                show_sprite(door_lights[i])
-                door_lights[i].top = 13
-                if (game_state.side == 0) {
-                    door_lights[i].left = 9
-                }
-                else if (game_state.side == 1) {
-                    door_lights[i].left = 119
-                }
-            }
-            if (i == 0) {
-                let keys = Object.keys(ani)
-                for (let l = 0; l < keys.length; l++) {
-                    if (ani[keys[l]].room == 'Left Door') {
-                        show_sprite(l_door_ani_images[keys[l]])
-                        if (keys[l] == 'hopps') {
-                            l_door_ani_images[keys[l]].top = 12
-                            l_door_ani_images[keys[l]].right = 69
-                        }
-                        else if (keys[l] == 'hal') {
-                            l_door_ani_images[keys[l]].top = 22
-                            l_door_ani_images[keys[l]].left = 49
-                        }
-                        if (ani[keys[l]].surprise == true) {
-                            music.smallCrash.play()
-                            ani[keys[l]].surprise = false
-                        }
+    if (game_state.lights[game_state.side]) {
+        window_light_sprites[game_state.side].top = 22
+        if (game_state.side == 0)
+            window_light_sprites[game_state.side].left = 48
+        else if (game_state.side == 1)
+            window_light_sprites[game_state.side].left = 89
+        if (!game_state.doors[game_state.side]) {
+            door_light_sprites[game_state.side].top = 13
+            if (game_state.side == 0)
+                door_light_sprites[game_state.side].left = 9
+            else if (game_state.side == 1)
+                door_light_sprites[game_state.side].left = 119
+        }
+        if (game_state.side == 0) {
+            let keys = Object.keys(ani)
+            for (let l = 0; l < keys.length; l++) {
+                if (keys[l] == 'hopps') {
+                    if (ani['hopps'].room == 'Left Door') {
+                        left_door_ani_sprites['hopps'].top = 12
+                        left_door_ani_sprites['hopps'].right = 69
+                    }
+                    else {
+                        hide_sprite(left_door_ani_sprites['hopps'])
                     }
                 }
-            }
-            else {
-                let keys = Object.keys(ani)
-                for (let l = 0; l < keys.length; l++) {
-                    if (ani[keys[l]].room == 'Right Door') {
-                        show_sprite(r_door_ani_images[keys[l]])
-                        if (keys[l] == 'ohnoes') {
-                            r_door_ani_images[keys[l]].top = 23
-                            r_door_ani_images[keys[l]].left = 90
-                        }
-                        else if (keys[l] == 'hal') {
-                            r_door_ani_images[keys[l]].top = 14
-                            r_door_ani_images[keys[l]].left = 91
-                        }
-                        if (ani[keys[l]].surprise == true) {
-                            music.smallCrash.play()
-                            ani[keys[l]].surprise = false
-                        }
+                if (keys[l] == 'hal') {
+                    if (ani['hal'].room == 'Left Door') {
+                        left_door_ani_sprites['hal'].top = 22
+                        left_door_ani_sprites['hal'].left = 49
                     }
+                    else {
+                        hide_sprite(left_door_ani_sprites['hal'])
+                    }
+                }
+                if (ani[keys[l]].surprise == true && ani[keys[l]].room == 'Left Door') {
+                    music.setVolume(150)
+                    music.smallCrash.play()
+                    ani[keys[l]].surprise = false
                 }
             }
         }
-        else {
-            hide_sprite(window_lights[i])
-            hide_sprite(door_lights[i])
-            if (i == 0) {
-                let keys = Object.keys(l_door_ani_images)
-                for (let l = 0; l < keys.length; l++) {
-                    hide_sprite(l_door_ani_images[keys[l]])
+        else if (game_state.side == 1) {
+            let keys = Object.keys(ani)
+            for (let l = 0; l < keys.length; l++) {
+                if (keys[l] == 'ohnoes') {
+                    if (ani['ohnoes'].room == 'Right Door') {
+                        right_door_ani_sprites['ohnoes'].top = 23
+                        right_door_ani_sprites['ohnoes'].left = 90
+                    }
+                    else {
+                        hide_sprite(right_door_ani_sprites['ohnoes'])
+                    }
                 }
-            }
-            else {
-                let keys = Object.keys(r_door_ani_images)
-                for (let l = 0; l < keys.length; l++) {
-                    hide_sprite(r_door_ani_images[keys[l]])
+                if (keys[l] == 'hal') {
+                    if (ani['hal'].room == 'Right Door') {
+                        right_door_ani_sprites['hal'].top = 14
+                        right_door_ani_sprites['hal'].left = 91
+                    }
+                    else {
+                        hide_sprite(right_door_ani_sprites['hal'])
+                    }
+                }
+                if (ani[keys[l]].surprise == true && ani[keys[l]].room == 'Right Door') {
+                    music.setVolume(150)
+                    music.smallCrash.play()
+                    ani[keys[l]].surprise = false
                 }
             }
         }
     }
-}
-
-function handle_doors() {
-    for (let i = 0; i < game_state.doors.length; i++) {
-        if (game_state.doors[i] && game_state.side == i) {
-            show_sprite(door_images[i])
-            door_images[i].top = 13
-            if (game_state.side == 0) {
-                door_images[i].left = 9
-            }
-            else if (game_state.side == 1) {
-                door_images[i].left = 119
+    else if (!game_state.lights[game_state.side]) {
+        hide_sprite(window_light_sprites[game_state.side])
+        hide_sprite(door_light_sprites[game_state.side])
+        if (game_state.side == 0) {
+            let keys = Object.keys(left_door_ani_sprites)
+            for (let l = 0; l < keys.length; l++) {
+                hide_sprite(left_door_ani_sprites[keys[l]])
             }
         }
+        else if (game_state.side == 1) {
+            let keys = Object.keys(right_door_ani_sprites)
+            for (let l = 0; l < keys.length; l++) {
+                hide_sprite(right_door_ani_sprites[keys[l]])
+            }
+        }
+    }
+}
+//handlers
+function handle_doors() {
+    if (game_state.side == 0) {
+        if (game_state.doors[0]) {
+            door_sprites[0].top = 13
+            door_sprites[0].left = 9
+        }
         else {
-            hide_sprite(door_images[i])
+            hide_sprite(door_sprites[0])
+        }
+    }
+    if (game_state.side == 1) {
+        if (game_state.doors[1]) {
+            door_sprites[1].top = 13
+            door_sprites[1].left = 119
+        }
+        else {
+            hide_sprite(door_sprites[1])
         }
     }
 }
 //changeme
+//handlers
 function handle_power() {
     for (let i = 0; i <= 3; i++) {
-        power_usage_images[i].bottom = 119
-        power_usage_images[i].left = 1 + i * 7
+        power_usage_sprites[i].bottom = 119
+        power_usage_sprites[i].left = 1 + i * 7
         if (i < game_state.get_usage()) {
-            show_sprite(power_usage_images[i])
+            show_sprite(power_usage_sprites[i])
         } else {
-            hide_sprite(power_usage_images[i])
+            hide_sprite(power_usage_sprites[i])
         }
     }
     switch (game_state.get_usage()) {
@@ -2202,15 +2278,15 @@ function handle_power() {
     power_text.left = 0
     power_text.bottom = 109
 }
-
+//handlers
 function handle_time() {
     time = Math.floor((game_timer.get_time() / 86 + 11) % 12 + 1)
     time_text.right = 158
     time_text.top = 12
     time_text.setText(time.toString() + ' AM')
-    night_disp_text.setText('Night ' + night.toString())
-    night_disp_text.right = 158
-    night_disp_text.top = 2
+    night_text.setText('Night ' + night.toString())
+    night_text.right = 158
+    night_text.top = 2
     if (time == 6) {
         game_timer.stop()
         mygame.set_mode('win')
@@ -2220,16 +2296,27 @@ function handle_time() {
 let the_update_handler: () => void = null
 let last_game_runtime: number = 0
 let spf: number
-//let hopper
-//let ohnoes
-//let squidical
+let stats = textsprite.create("")
+stats.x = 0
+stats.y = 10
+
+function toString(gcs: control.GCStats) {
+    if (gcs == null)
+        return "(null)"
+    
+    return `#GC:${gcs.numGC}\n`
+    +      `#bl:${gcs.numBlocks}\n`
+    +      `TB: ${gcs.totalBytes}\n`
+    +      `LFB:${gcs.lastFreeBytes}\n`
+    +      `LMB:${gcs.lastMaxBlockBytes}\n`
+    +      `MFB:${gcs.minFreeBytes}`;
+}
+
 game.onUpdate(function () {
+    //stats.setText(toString(control.gcStats()))
+    //console.log(control.gcStats())
+    //console.log(control.heapSnapshot())
     spf = (game.runtime() - last_game_runtime) / 1000
-    //if (ani != null) {
-        //hopper = ani['hopps']
-        //ohnoes = ani['ohnoes']
-        //squidical = ani['squid']
-    //}
     last_game_runtime = game.runtime()
     if (!game_timer.paused) {
         let keys = Object.keys(ani)
@@ -2278,8 +2365,14 @@ game.onUpdate(function () {
             }
         }
         else {
-            if (game_state.ani_in == 'hopps' || game_state.ani_in == 'ohnoes' || game_state.ani_in == 'squid' || game_state.ani_in == 'win' || game_state.ani_in == 'sam' || game_state.ani_in == 'fuzz') {
-                mygame.set_mode('jumpscare')
+            // if (game_state.ani_in in ['hopps', 'ohnoes', 'squid', 'win', 'sam', 'fuzz'])
+            if (game_state.ani_in == 'hopps'  || 
+                game_state.ani_in == 'ohnoes' || 
+                game_state.ani_in == 'squid'  ||
+                game_state.ani_in == 'win' ||
+                game_state.ani_in == 'sam' ||
+                game_state.ani_in == 'fuzz') {
+                    mygame.set_mode('jumpscare')
             }
         }
     }
