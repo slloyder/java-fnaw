@@ -17,11 +17,19 @@
         "images.g.jres",
         "images.g.ts",
         "ximages.ts",
-        "temp.ts"
+        "fnaw.ts",
+        "game.ts",
+        "hopper.ts",
+        "ohnoes.ts",
+        "squidical.ts",
+        "hal.ts",
+        "handlers.ts",
+        "palette.ts",
+        "utils.ts",
+        "loop.ts",
+        "loadscene.ts"
     ],
-    "testFiles": [
-        "test.ts"
-    ],
+    "testFiles": [],
     "targetVersions": {
         "target": "1.12.46",
         "targetId": "arcade"
