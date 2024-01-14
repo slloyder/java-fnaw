@@ -1,8 +1,7 @@
 class Fnaw {
     mode: string
     office_handler: EventHandler
-    monitor_select_handler: EventHandler
-    monitor_view_handler: EventHandler
+    monitor_handler: EventHandler
     win_handler: EventHandler
     menu_handler: EventHandler
     night_display_handler: EventHandler
@@ -44,44 +43,67 @@ class Fnaw {
         this.office_handler.up = function () {
             music.setVolume(150)
             music.footstep.play()
-            mygame.set_scene('monitor_select')
+            mygame.set_scene('monitor')
         }
 
-        this.monitor_select_handler = new EventHandler
-        this.monitor_select_handler.A = function () {
-            viewed_room = selected_room
-            mygame.set_scene('monitor_view')
-        }
-        this.monitor_select_handler.B = function () {
-            music.setVolume(150)
-            music.footstep.play()
-            mygame.set_scene('office')
-        }
-        this.monitor_select_handler.left = function () {
+        this.monitor_handler = new EventHandler
+        this.monitor_handler.left = function () {
             selected_room = cams[selected_room][0]
+            if (selected_room == 'Kitchen') {
+                //kitchen_text.top = 1
+                //kitchen_text.left = 58
+                //kitchen_texts[0].top = 10
+                //kitchen_texts[0].left = 19
+                //kitchen_texts[1].top = 20
+                //kitchen_texts[1].left = 20
+            }
         }
-        this.monitor_select_handler.right = function () {
+        this.monitor_handler.right = function () {
             selected_room = cams[selected_room][1]
+            if (selected_room == 'Kitchen') {
+                //kitchen_text.top = 1
+                //kitchen_text.left = 58
+                //kitchen_texts[0].top = 10
+                //kitchen_texts[0].left = 19
+                //kitchen_texts[1].top = 20
+                //kitchen_texts[1].left = 20
+            }
         }
-        this.monitor_select_handler.up = function () {
+        this.monitor_handler.up = function () {
             selected_room = cams[selected_room][3]
+            if (selected_room == 'Kitchen') {
+                //kitchen_text.top = 1
+                //kitchen_text.left = 58
+                //kitchen_texts[0].top = 10
+                //kitchen_texts[0].left = 19
+                //kitchen_texts[1].top = 20
+                //kitchen_texts[1].left = 20
+            }
         }
-        this.monitor_select_handler.down = function () {
+        this.monitor_handler.down = function () {
             selected_room = cams[selected_room][2]
+            if (selected_room == 'Kitchen') {
+                //kitchen_text.top = 1
+                //kitchen_text.left = 58
+                //kitchen_texts[0].top = 10
+                //kitchen_texts[0].left = 19
+                //kitchen_texts[1].top = 20
+                //kitchen_texts[1].left = 20
+            }
         }
-
-        this.monitor_view_handler = new EventHandler
-        this.monitor_view_handler.A = function () {
-            animation.stopAnimation(animation.AnimationTypes.All, kitchen_anim_sprite)
-            mygame.set_scene('monitor_select')
+        this.monitor_handler.A = function () {
+            if (selected_room == 'DIE') {
+                game_state.ani_in = 'hopps'
+                mygame.set_scene('jumpscare')
+                return
+            }
         }
-        this.monitor_view_handler.B = function () {
-            animation.stopAnimation(animation.AnimationTypes.All, kitchen_anim_sprite)
+        this.monitor_handler.B = function () {
             music.setVolume(150)
             music.footstep.play()
             mygame.set_scene('office')
         }
-
+        
         this.win_handler = new EventHandler
 
         this.menu_handler = new EventHandler
@@ -133,6 +155,7 @@ class Fnaw {
     set_scene(mode: string) {
         this.mode = mode
         sprites.destroyAllSpritesOfKind(SpriteKind.inram)
+        //scene.setBackgroundImage(null)
         control.gc()
         hide_all()
         switch (mode) {
@@ -157,73 +180,29 @@ class Fnaw {
                 }
                 break
             }
-            case 'monitor_select': {
-                install_handler(this.monitor_select_handler)
+            case 'monitor': {
+                install_handler(this.monitor_handler)
                 init_palette('monitor')
-                load_scene('monitor_select')
-                pause_all()
-                game_state.lights[0] = false
-                game_state.lights[1] = false
-                game_state.monitor_on = true
-                viewed_room = null
-                scene.setBackgroundImage(createImage('monitorSelectBackground'))
-                monitor_select_numbers_sprite.top = 11
-                monitor_select_numbers_sprite.left = 30
-                show_sprite(power_text)
-                for (let i = 0; i <= 3; i++) {
-                    if (i < game_state.get_usage()) {
-                        show_sprite(power_usage_sprites[i])
-                    } else {
-                        hide_sprite(power_usage_sprites[i])
-                    }
-                }
-                power_text.setText(Math.ceil(game_state.power).toString() + '%')
-                power_text.left = 0
-                power_text.bottom = 109
-                time_text.right = 158
-                time_text.top = 12
-                time_text.setText(time.toString() + ' AM')
-                night_text.setText('Night ' + night.toString())
-                night_text.right = 158
-                night_text.top = 2
-                game_timer.pause()
-                let keys = Object.keys(ani)
-                for (let i = 0; i < keys.length; i++) {
-                    ani[keys[i]].pause()
-                }
-                the_update_handler = function () {
-                    show_sprite(cam_select)
-                    cam_select.left = cam_positions[selected_room][0]
-                    cam_select.top = cam_positions[selected_room][1]
-                    selected_room_text.top = 1
-                    selected_room_text.left = 1
-                    selected_room_text.setText(selected_room)
-                }
-                break
-            }
-            case 'monitor_view': {
-                install_handler(this.monitor_view_handler)
-                init_palette('monitor')
-                load_scene('monitor_view')
-                play_all()
-                if (viewed_room == 'Kitchen') {
-                    kitchen_anim_sprite.top = 12
-                    kitchen_anim_sprite.left = 2
-                    animation.runImageAnimation(kitchen_anim_sprite, kitchen_anim, 1000, true)
-                    kitchen_texts[0].top = 10
-                    kitchen_texts[0].left = 19
-                    kitchen_texts[1].top = 20
-                    kitchen_texts[1].left = 20
-                }
-                else {
-                    hide_sprite_array(kitchen_texts)
-                }
+                load_scene('monitor')
+                monitor_anim_sprite.top = 12
+                monitor_anim_sprite.left = 2
+                animation.runImageAnimation(monitor_anim_sprite, monitor_anim, 1000, true)
+                monitor_map_sprite.top = 0
+                monitor_map_sprite.left = 0
+                monitor_label_sprite.top = 11
+                monitor_label_sprite.left = 30
                 the_update_handler = function () {
                     game_state.monitor_on = true
-                    if (viewed_room == 'DIE') {
-                        game_state.ani_in = 'hopps'
-                        mygame.set_scene('jumpscare')
-                        return
+                    if (selected_room != 'DIE') {
+                        viewed_room = selected_room
+                    }
+                    if (viewed_room != 'Kitchen') {
+                        //hide_sprite_array(kitchen_texts)
+                        hide_sprite(kitchen_text)
+                    }
+                    else {
+                        kitchen_text.top = 1
+                        kitchen_text.left = 58
                     }
                     if (game_state.cams_broken || viewed_room == 'Kitchen' || viewed_room == game_state.hal_meddled_room) {
                         scene.setBackgroundImage(null)
@@ -238,9 +217,12 @@ class Fnaw {
 
                     handle_power()
                     handle_time()
-                    selected_room_text.top = 1
-                    selected_room_text.left = 1
-                    selected_room_text.setText(viewed_room)
+                    show_sprite(cam_select)
+                    cam_select.left = cam_positions[selected_room][0]
+                    cam_select.top = cam_positions[selected_room][1]
+                    monitor_room_text.top = 1
+                    monitor_room_text.left = 1
+                    monitor_room_text.setText(viewed_room)
                 }
                 break
             }
@@ -391,20 +373,18 @@ class Fnaw {
                 the_update_handler = function () {
                     init_palette(game_state.ani_in)
                     ani[game_state.ani_in].jumpscare()
-                    console.log("jumping catfish")
-
                 }
                 break
             }
             case 'static': {
                 install_handler(this.jumpscare_handler)
+                jumpscare_sprite.destroy()
                 init_palette('static')
                 load_scene('static')
                 scene.setBackgroundImage(null)
-                show_sprite(static_anim_sprite)
+                //show_sprite(static_anim_sprite)
                 console.log(control.gcStats())
                 //static_anim = [createImage('staticPic1')]
-                console.log('creation done o pg')
                 //animation.runImageAnimation(static_anim_sprite, static_anim, 77, true)
                 scene.setBackgroundImage(createImage('staticPic1'))
                 let static_seq = new Sequence([
@@ -417,7 +397,6 @@ class Fnaw {
                 ])
                 the_update_handler = function () {
                     static_seq.run_once(spf)
-                    console.log('...')
                 }
                 break
             }

@@ -1,11 +1,12 @@
 class Game {
+    time: number = 0
     side: number
     lights: boolean[]
     doors: boolean[]
     monitor_on: boolean
     power: number
     cams_broken: boolean
-    cams_broken_timer: Timer = new Timer
+    cams_broken_timer: Timer
     cams_broken_limit: number
     cams_broken_sound_seq: Sequence
     hal_meddled_room: string
@@ -13,15 +14,13 @@ class Game {
     doors_broken_timers: Timer[]
     doors_broken_limits: number[]
     ani_in: string = ''
-    jumpscare_wait_timer: Timer = new Timer
+    jumpscare_wait_timer: Timer
     jumpscare_wait_limit: number
     jumpscare_ready: JumpscareReady
-    constructor() {
-        this.doors_broken_timers = [new Timer, new Timer]
-        this.reset()
-    }
+    constructor() { }
 
     reset() {
+        this.time = 0
         this.side = 0
         this.lights = [false, false]
         this.doors = [false, false]
@@ -29,6 +28,7 @@ class Game {
         this.power = 100
         this.cams_broken = false
         this.cams_broken_limit = Math.randomRange(3.0, 5)
+        this.cams_broken_timer = new Timer
         this.cams_broken_sound_seq = new Sequence([
             0, function (a: number) {
                 music.setVolume(64)
@@ -44,12 +44,16 @@ class Game {
                 music.setVolume(64)
                 music.thump.play()
             },
-            0.2, function (a: number) { }
+            0.2, function (a: number) {
+             }
+
         ])
         this.doors_broken = [false, false]
         this.doors_broken_limits = [0, 0]
+        this.doors_broken_timers = [new Timer, new Timer]
         this.ani_in = ''
         this.jumpscare_wait_limit = Math.randomRange(5.0, 10)
+        this.jumpscare_wait_timer = new Timer
         this.jumpscare_ready = new JumpscareReady
     }
 
@@ -70,7 +74,17 @@ class Game {
         this.cams_broken_timer.reset()
         this.cams_broken_timer.start()
         this.cams_broken_limit = Math.randomRange(3.0, 5)
-        this.cams_broken_sound_seq.reset()
+        //this.cams_broken_sound_seq.reset()
+        music.setVolume(64)
+        music.thump.play()
+        timer.after(200, function () {
+            music.setVolume(64)
+            music.thump.play()
+            timer.after(200, function () {
+                music.setVolume(64)
+                music.thump.play()
+            })
+        })
     }
     disable_doors(d_night: number, d_side: number, d_ani: string) {
         this.doors_broken[d_side] = true

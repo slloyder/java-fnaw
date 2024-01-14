@@ -27,7 +27,8 @@
         "palette.ts",
         "utils.ts",
         "loop.ts",
-        "loadscene.ts"
+        "loadscene.ts",
+        "panteater.ts"
     ],
     "testFiles": [],
     "targetVersions": {

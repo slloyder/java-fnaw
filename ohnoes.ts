@@ -15,7 +15,7 @@ class OhNoes extends Animatronic {
                 jumpscare_sound()
             },
             0, function (a: number) {
-                animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
+                //animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
                 mygame.set_scene('static')
             }
         ])
@@ -189,8 +189,8 @@ class OhNoes extends Animatronic {
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
-            this.monitor_sprite.bottom = 111
-            this.monitor_sprite.left = 81
+            this.monitor_sprite.bottom = 114 //111
+            this.monitor_sprite.left = 50 //81
         }
         else {
             hide_sprite(this.monitor_sprite)

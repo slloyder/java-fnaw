@@ -99,7 +99,7 @@ class Timer {
         this.paused = false
         this.current_time = 0
         this.stored_time = 0
-        this.start_time = game.runtime()
+        this.start_time = game_state.time
     }
     pause() {
         this.paused = true
@@ -110,7 +110,7 @@ class Timer {
     }
     start() {
         this.paused = false
-        this.start_time = game.runtime()
+        this.start_time = game_state.time
     }
     stop() {
         this.pause()
@@ -118,7 +118,7 @@ class Timer {
     }
     get_time() {
         if (!this.paused) {
-            this.current_time = game.runtime() - this.start_time + this.stored_time
+            this.current_time = game_state.time - this.start_time + this.stored_time
         }
         return this.current_time / 1000
     }
@@ -243,9 +243,9 @@ function hide_all() {
     hide_sprite(power_text)
     hide_sprite(time_text)
     hide_sprite(night_text)
-    hide_sprite_array(kitchen_texts)
+    //hide_sprite_array(kitchen_texts)
     hide_sprite(cam_select)
-    hide_sprite(selected_room_text)
+    hide_sprite(monitor_room_text)
     hide_sprite_array(menu_title)
     hide_sprite_array(menu_option_texts)
     hide_sprite(menu_selector)

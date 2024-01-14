@@ -1,3 +1,11 @@
+/*
+TODO:
+cleanup code further (wait for Papa's stuff)
+add panteater
+*/
+
+
+
 //temp
 blockSettings.writeNumber('everything', 1)
 
@@ -14,8 +22,10 @@ let night_text = textsprite.create('')
 let office_backgrounds: string[] = [
     'officeLeft',
     'officeRight',
-    'officeMid'
+    'officeMid',
+    'officeBack'
 ]
+let back_door_sprite: Sprite = null
 let door_sprites: Sprite[] = [null, null]
 let door_light_sprites: Sprite[] = [null, null]
 let window_light_sprites: Sprite[] = [null, null]
@@ -28,17 +38,19 @@ let right_door_ani_sprites: { [key: string]: Sprite } = {
     'hal': null
 }
 //monitor
-let cam_select = sprites.create(assets.image`camSelect`)
-let selected_room_text = textsprite.create('')
-let monitor_select_numbers_sprite: Sprite = null
-let kitchen_anim: Image[] = [
+let monitor_room_text = textsprite.create('')
+let monitor_map_sprite: Sprite = null
+let monitor_anim: Image[] = [
     assets.image`monitorRecordIndicator`, image.create(13, 13)   
 ]
-let kitchen_anim_sprite: Sprite = null
-let kitchen_texts = [
-    textsprite.create('Cam Disabled'),
-    textsprite.create('Audio Only')
-]
+let cam_select = sprites.create(assets.image`camSelect`)
+let monitor_anim_sprite: Sprite = null
+//let kitchen_texts = [
+//    textsprite.create('Cam Disabled'),
+//    textsprite.create('Audio Only')
+//]
+let kitchen_text: Sprite = null
+let monitor_label_sprite: Sprite = null
 //transitions
 let six_am_slit: Sprite = null
 let six_am_slide: Sprite = null
@@ -107,6 +119,7 @@ function jumpscare_sound() {
 
 //Globals
 let game_state = new Game
+game_state.reset()
 let time = 0
 let night = 1
 let game_timer = new Timer

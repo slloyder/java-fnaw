@@ -4,14 +4,15 @@ game.onUpdate(function () {
     //console.log(control.heapSnapshot())
     spf = (game.runtime() - last_game_runtime) / 1000
     last_game_runtime = game.runtime()
+    game_state.time += Math.constrain(spf * 1000, 0, 200)
     if (!game_timer.paused) {
         let keys = Object.keys(ani)
         for (let i = 0; i < keys.length; i++) {
             ani[keys[i]].update()
         }
         if (game_state.cams_broken) {
-            game_state.cams_broken_sound_seq.run_once(spf)
-            if (game_state.cams_broken_timer.get_time() > game_state.cams_broken_limit) {
+            //game_state.cams_broken_sound_seq.run_once(spf)
+            if (game_state.cams_broken_timer.get_time() >= game_state.cams_broken_limit) {
                 game_state.cams_broken = false
             }
         }

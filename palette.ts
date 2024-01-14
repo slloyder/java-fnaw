@@ -22,6 +22,7 @@ function init_palette(palette: string) {
             color.setColor(10, color.rgb(61, 191, 135)) //ohnoes
             color.setColor(11, color.rgb(235, 153, 21)) //squidical
             color.setColor(12, color.rgb(59, 59, 64)) // hal
+            color.setColor(13, color.rgb(215, 210, 185)) //monitor map
             break
         }
         case 'static': {

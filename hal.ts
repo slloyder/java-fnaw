@@ -13,9 +13,9 @@ class Hal extends Animatronic {
     sound_seq: Sequence
     move_tables: { [key: string]: { [key: string]: { [key: string]: () => number } } }
     constructor() {
-        super('Arcade')
+        //super('Arcade')
         //super('Right Door')
-        //super('Kitchen')
+        super('Kitchen')
         super.reset()
         this.reset()
         this.move_tables = {
@@ -457,7 +457,7 @@ class Hal extends Animatronic {
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
             this.monitor_sprite.top = 51
-            this.monitor_sprite.left = 103
+            this.monitor_sprite.left = 105
         }
         else {
             hide_sprite(this.monitor_sprite)

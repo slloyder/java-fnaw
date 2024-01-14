@@ -15,7 +15,7 @@ class Squidical extends Animatronic {
                 jumpscare_sound()
             },
             0, function (a: number) {
-                animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
+                //animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
                 mygame.set_scene('static')
             }
         ])
