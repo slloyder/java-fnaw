@@ -157,3 +157,46 @@ function handle_time() {
     }
 }
 
+function init_jumpscare (animatronic: string) {
+    jumpscare_timer = new Timer
+    jumpscare_timer.reset()
+    init_palette(animatronic)
+    console.log('inited jumpscare')
+    switch (animatronic) {
+        case 'hopps': {
+            scene.setBackgroundImage(createImage('officeMid'))
+            jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
+            break
+        }
+        case 'ohnoes': {
+            scene.setBackgroundImage(createImage('officeMid'))
+            jumpscare_sprite = sprites.create(createImage('ohnoesJumpscarePic1'), SpriteKind.inram)
+            break
+        }
+        case 'squid': {
+            jumpscare_sprite = sprites.create(createImage('squidJumpPic'), SpriteKind.inram)
+            scene.setBackgroundImage(createImage('officeRight'))
+            jumpscare_sprite.right = 151
+            jumpscare_sprite.bottom = 100
+            break
+        }
+        case 'pant': {
+            scene.setBackgroundImage(createImage('officeBack'))
+            jumpscare_sprite = sprites.create(createImage('panteaterJumpscarePic'), SpriteKind.inram)
+            break
+        }
+    }
+
+}
+
+function handle_jumpscare() {
+    console.log('handling')
+    if (jumpscare_timer.get_time() < 1.5) {
+        jumpscare_sound()
+    }
+    else {
+        jumpscare_timer = null
+        mygame.set_scene('static')
+    }
+}
+

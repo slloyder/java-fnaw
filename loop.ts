@@ -24,7 +24,7 @@ game.onUpdate(function () {
                 }
             }
         }
-        if (game_state.monitor_on) {
+        if (game_state.monitor_on || mygame.scene == 'office_back') {
             if (game_state.ani_in == 'hopps' || game_state.ani_in == 'ohnoes' || game_state.ani_in == 'win') {
                 game_state.jumpscare_ready.run()
                 if (game_state.jumpscare_wait_timer.paused) {

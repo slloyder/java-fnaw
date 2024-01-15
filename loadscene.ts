@@ -31,22 +31,17 @@ function load_scene(specified_scene: string) {
             time_text = textsprite.create('')
             break
         }
-        case 'monitor_select': {
-            monitor_map_sprite = sprites.create(createImage('monitorSelectNumbers'), SpriteKind.inram)
-            break
-        }
-        case 'monitor_view': {
-            monitor_anim_sprite = sprites.create(image.create(13, 13), SpriteKind.inram)
-            let keys = Object.keys(ani)
-            for (let i = 0; i < keys.length; i++) {
-                ani[keys[i]].monitor_sprite = sprites.create(createImage(ani[keys[i]].monitor_images['generic']), SpriteKind.inram)
-            }
+        case 'office_back': {
+            back_door_sprite = sprites.create(createImage('backDoorOpen'), SpriteKind.inram)
+            back_door_sprite.left = 56
+            back_door_sprite.top = 26
             break
         }
         case 'monitor' : {
             let keys = Object.keys(ani)
             for (let i = 0; i < keys.length; i++) {
-                ani[keys[i]].monitor_sprite = sprites.create(createImage(ani[keys[i]].monitor_images['generic']), SpriteKind.inram)
+                if (ani[keys[i]].monitor_images != null)
+                    ani[keys[i]].monitor_sprite = sprites.create(createImage(ani[keys[i]].monitor_images['generic']), SpriteKind.inram)
             }
             monitor_map_sprite = sprites.create(createImage('monitorMap'), SpriteKind.inram)
             monitor_anim_sprite = sprites.create(image.create(13, 13), SpriteKind.inram)

@@ -21,9 +21,7 @@ let night_text = textsprite.create('')
 //office
 let office_backgrounds: string[] = [
     'officeLeft',
-    'officeRight',
-    'officeMid',
-    'officeBack'
+    'officeRight'
 ]
 let back_door_sprite: Sprite = null
 let door_sprites: Sprite[] = [null, null]
@@ -70,6 +68,7 @@ let menu_option_texts = [
 ]
 //jumpscare
 let jumpscare_sprite: Sprite = null
+let jumpscare_timer: Timer = null
 let static_anim: Image[] = null
 let static_anim_sprite: Sprite = null
 //other random stuffis
@@ -91,9 +90,8 @@ class Animatronic {
     leave_timer: Timer = new Timer
     move_table: { [key: string]: { [key: string]: () => number } }
     paused: boolean
-    jump_seq: Sequence
     surprise: boolean = false
-    monitor_images: { [key: string]: string }
+    monitor_images: { [key: string]: string } = null
     monitor_sprite: Sprite
     constructor(start_room: string) {
         this.start_room = start_room
@@ -106,7 +104,6 @@ class Animatronic {
     update() { }
     pause() { }
     play() { }
-    jumpscare() { }
     display(room: string) { }
 }
 
@@ -187,9 +184,9 @@ let ani: { [key: string]: Animatronic }
 let the_update_handler: () => void = null
 let last_game_runtime: number = 0
 let spf: number
-let stats = textsprite.create("")
-stats.x = 0
-stats.y = 10
+let stats = null//textsprite.create("")
+//stats.x = 0
+//stats.y = 10
 
 let mygame = new Fnaw
 mygame.set_scene('menu')

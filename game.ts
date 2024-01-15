@@ -3,6 +3,7 @@ class Game {
     side: number
     lights: boolean[]
     doors: boolean[]
+    back_door_closed: boolean
     monitor_on: boolean
     power: number
     cams_broken: boolean
@@ -24,6 +25,7 @@ class Game {
         this.side = 0
         this.lights = [false, false]
         this.doors = [false, false]
+        this.back_door_closed = false
         this.monitor_on = false
         this.power = 100
         this.cams_broken = false

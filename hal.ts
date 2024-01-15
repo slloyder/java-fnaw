@@ -13,9 +13,9 @@ class Hal extends Animatronic {
     sound_seq: Sequence
     move_tables: { [key: string]: { [key: string]: { [key: string]: () => number } } }
     constructor() {
-        //super('Arcade')
+        super('Arcade')
         //super('Right Door')
-        super('Kitchen')
+        //super('Kitchen')
         super.reset()
         this.reset()
         this.move_tables = {

@@ -1,6 +1,7 @@
 class Fnaw {
-    mode: string
+    scene: string
     office_handler: EventHandler
+    office_back_handler: EventHandler
     monitor_handler: EventHandler
     win_handler: EventHandler
     menu_handler: EventHandler
@@ -45,51 +46,35 @@ class Fnaw {
             music.footstep.play()
             mygame.set_scene('monitor')
         }
+        this.office_handler.down = function () {
+            load_scene('office_back')
+            mygame.set_scene('office_back')
+        }
+
+        this.office_back_handler = new EventHandler
+        this.office_back_handler.B = function () {
+            game_state.back_door_closed = false
+            mygame.set_scene('office')
+        }
+        this.office_back_handler.up = function () {
+            game_state.back_door_closed = false
+            music.setVolume(150)
+            music.footstep.play()
+            mygame.set_scene('monitor')
+        }
 
         this.monitor_handler = new EventHandler
         this.monitor_handler.left = function () {
             selected_room = cams[selected_room][0]
-            if (selected_room == 'Kitchen') {
-                //kitchen_text.top = 1
-                //kitchen_text.left = 58
-                //kitchen_texts[0].top = 10
-                //kitchen_texts[0].left = 19
-                //kitchen_texts[1].top = 20
-                //kitchen_texts[1].left = 20
-            }
         }
         this.monitor_handler.right = function () {
             selected_room = cams[selected_room][1]
-            if (selected_room == 'Kitchen') {
-                //kitchen_text.top = 1
-                //kitchen_text.left = 58
-                //kitchen_texts[0].top = 10
-                //kitchen_texts[0].left = 19
-                //kitchen_texts[1].top = 20
-                //kitchen_texts[1].left = 20
-            }
         }
         this.monitor_handler.up = function () {
             selected_room = cams[selected_room][3]
-            if (selected_room == 'Kitchen') {
-                //kitchen_text.top = 1
-                //kitchen_text.left = 58
-                //kitchen_texts[0].top = 10
-                //kitchen_texts[0].left = 19
-                //kitchen_texts[1].top = 20
-                //kitchen_texts[1].left = 20
-            }
         }
         this.monitor_handler.down = function () {
             selected_room = cams[selected_room][2]
-            if (selected_room == 'Kitchen') {
-                //kitchen_text.top = 1
-                //kitchen_text.left = 58
-                //kitchen_texts[0].top = 10
-                //kitchen_texts[0].left = 19
-                //kitchen_texts[1].top = 20
-                //kitchen_texts[1].left = 20
-            }
         }
         this.monitor_handler.A = function () {
             if (selected_room == 'DIE') {
@@ -115,7 +100,7 @@ class Fnaw {
                     if (controller.up.isPressed()) { night = 2 }
                     if (controller.right.isPressed()) { night = 3 }
                     if (controller.left.isPressed()) { night = 4 }
-                    if (controller.down.isPressed()) { night = 5 }
+                    if (controller.B.isPressed()) { night = 5 }
                     mygame.set_scene('setup')
                     break
                 }
@@ -152,13 +137,12 @@ class Fnaw {
 
     }
 
-    set_scene(mode: string) {
-        this.mode = mode
+    set_scene(specified_scene: string) {
+        this.scene = specified_scene
         sprites.destroyAllSpritesOfKind(SpriteKind.inram)
-        //scene.setBackgroundImage(null)
         control.gc()
         hide_all()
-        switch (mode) {
+        switch (specified_scene) {
             case 'office': {
                 install_handler(this.office_handler)
                 init_palette('office')
@@ -175,6 +159,35 @@ class Fnaw {
                 the_update_handler = function () {
                     handle_lights()
                     handle_doors()
+                    handle_power()
+                    handle_time()
+                }
+                break
+            }
+            case 'office_back': {
+                install_handler(this.office_back_handler)
+                init_palette('office_back')
+                load_scene('office_back')
+                scene.setBackgroundImage(createImage('officeBack'))
+                game_state.lights = [false, false]
+                the_update_handler = function () {
+                    if (controller.A.isPressed() && !game_state.back_door_closed) {
+                        game_state.back_door_closed = true
+                        back_door_sprite.setImage(createImage('backDoorClosed'))
+                        back_door_sprite.left = 66
+                        back_door_sprite.top = 36
+                        music.setVolume(140)
+                        music.thump.play()
+                    }
+                    else if (!controller.A.isPressed() && game_state.back_door_closed){
+                        game_state.back_door_closed = false
+                        back_door_sprite.setImage(createImage('backDoorOpen'))
+                        back_door_sprite.left = 56
+                        back_door_sprite.top = 26
+                        music.setVolume(60)
+                        music.zapped.play()
+                    }
+                    
                     handle_power()
                     handle_time()
                 }
@@ -228,6 +241,7 @@ class Fnaw {
             }
             case 'win': {
                 install_handler(this.win_handler)
+                hide_all()
                 load_scene('win')
                 pause_all()
                 scene.setBackgroundImage(null)
@@ -321,7 +335,8 @@ class Fnaw {
                             'hopps': new Hopper,
                             'ohnoes': new OhNoes,
                             'squid': new Squidical,
-                            'hal': new Hal
+                            'hal': new Hal,
+                            'pant': new Panteater
                         }
                         mygame.set_scene('office')
                     }
@@ -342,7 +357,7 @@ class Fnaw {
             }
             case 'jumpscare': {
                 install_handler(this.jumpscare_handler)
-                init_palette('office')
+                console.log('set scene as jumpscare')
                 load_scene('jumpscare')
                 pause_all()
                 blockSettings.writeNumber('night', night)
@@ -350,29 +365,10 @@ class Fnaw {
                 for (let i = 0; i < keys.length; i++) {
                     ani[keys[i]].reset()
                 }
-                switch (game_state.ani_in) {
-                    case 'hopps': {
-                        scene.setBackgroundImage(createImage(office_backgrounds[2]))
-                        jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
-                        break
-                    }
-                    case 'ohnoes': {
-                        scene.setBackgroundImage(createImage(office_backgrounds[2]))
-                        jumpscare_sprite = sprites.create(createImage('ohnoesJumpscarePic1'), SpriteKind.inram)
-                        break
-                    }
-                    case 'squid': {
-                        jumpscare_sprite = sprites.create(createImage('squidJumpPic'), SpriteKind.inram)
-                        scene.setBackgroundImage(createImage(office_backgrounds[1]))
-                        jumpscare_sprite.right = 151
-                        jumpscare_sprite.bottom = 100
-                        break
-                    }
-                }
-                console.log(control.gcStats())
+                //console.log(control.gcStats())
+                init_jumpscare(game_state.ani_in)
                 the_update_handler = function () {
-                    init_palette(game_state.ani_in)
-                    ani[game_state.ani_in].jumpscare()
+                    handle_jumpscare()
                 }
                 break
             }
@@ -383,7 +379,7 @@ class Fnaw {
                 load_scene('static')
                 scene.setBackgroundImage(null)
                 //show_sprite(static_anim_sprite)
-                console.log(control.gcStats())
+                //console.log(control.gcStats())
                 //static_anim = [createImage('staticPic1')]
                 //animation.runImageAnimation(static_anim_sprite, static_anim, 77, true)
                 scene.setBackgroundImage(createImage('staticPic1'))

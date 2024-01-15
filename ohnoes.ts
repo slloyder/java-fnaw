@@ -10,15 +10,6 @@ class OhNoes extends Animatronic {
         this.stl = Math.randomRange(1.0, 5) //SoundTimerLimit
         this.enter_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
         this.leave_time = (this.wait * 2.5 + Math.randomRange(0.0, 20 - this.level / 2.5)) / (2.5 - this.level / 50)
-        this.jump_seq = new Sequence([
-            1.5, function (a: number) {
-                jumpscare_sound()
-            },
-            0, function (a: number) {
-                //animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
-                mygame.set_scene('static')
-            }
-        ])
         this.move_table = {
             'Show Stage': {
                 'Dining Area': () => 1
@@ -183,9 +174,6 @@ class OhNoes extends Animatronic {
         this.mode_timer.play()
         this.move_timer.play()
         this.sound_timer.play()
-    }
-    jumpscare() {
-        this.jump_seq.loop(spf)
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {

@@ -10,15 +10,6 @@ class Squidical extends Animatronic {
         super('Squid Reef')
         super.reset()
         this.reset()
-        this.jump_seq = new Sequence([
-            1.5, function (a: number) {
-                jumpscare_sound()
-            },
-            0, function (a: number) {
-                //animation.stopAnimation(animation.AnimationTypes.All, jumpscare_sprite)
-                mygame.set_scene('static')
-            }
-        ])
         this.knock_seq = new Sequence([
             0, function (a: number) {
                 music.setVolume(200)
@@ -105,9 +96,6 @@ class Squidical extends Animatronic {
                 }
             }
         }
-    }
-    jumpscare() {
-        this.jump_seq.loop(spf)
     }
     display(room: string) {
         if (this.room == room && room != 'Kitchen' && room != game_state.hal_meddled_room && !game_state.cams_broken) {

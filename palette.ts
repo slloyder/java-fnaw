@@ -13,6 +13,15 @@ function init_palette(palette: string) {
             color.setColor(13, color.rgb(59, 59, 64))
             break
         }
+        case 'office_back': {
+            color.setColor(3, color.rgb(120, 120, 120)) //main wall
+            color.setColor(4, color.rgb(40, 40, 40)) //roof
+            color.setColor(6, color.rgb(90, 90, 90)) //sideWall          
+            color.setColor(8, color.rgb(87, 50, 27)) //floor
+            color.setColor(9, color.rgb(130, 100, 18)) //door
+            color.setColor(10, color.rgb(50, 50, 50)) //doorknob
+            break
+        }
         case 'monitor': {
             color.setColor(3, color.rgb(120, 120, 120)) //monitor background, room wall 1
             color.setColor(4, color.rgb(90, 90, 90)) //room wall 2
@@ -72,6 +81,17 @@ function init_palette(palette: string) {
             color.setColor(6, color.rgb(40, 40, 40)) //roof
             color.setColor(8, color.rgb(87, 50, 27)) //floor
             color.setColor(7, color.rgb(235, 153, 21)) // body
+            break
+        }
+        case 'pant': {
+            color.setColor(2, color.rgb(205, 55, 80)) //mouth
+            color.setColor(3, color.rgb(120, 120, 120)) //main wall
+            color.setColor(4, color.rgb(40, 40, 40)) //roof
+            color.setColor(5, color.rgb(65, 185, 160)) //body
+            color.setColor(6, color.rgb(90, 90, 90)) //sideWall
+            color.setColor(7, color.rgb(30, 60, 50)) //armholes, mouth
+            color.setColor(8, color.rgb(87, 50, 27)) //floor
+            color.setColor(9, color.rgb(62, 170, 150)) //arms
             break
         }
         default:
