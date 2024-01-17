@@ -2,33 +2,33 @@ function init_palette(palette: string) {
     color.setPalette(color.originalPalette)
     switch (palette) {
         case 'office': {
-            color.setColor(3, color.rgb(120, 120, 120)) //main wall
-            color.setColor(4, color.rgb(90, 90, 90)) //secondary wall, lights
-            color.setColor(6, color.rgb(40, 40, 40)) //roof
-            color.setColor(8, color.rgb(87, 50, 27)) //floor
-            color.setColor(9, color.rgb(140, 92, 77)) //door
-            color.setColor(10, color.rgb(181, 181, 74)) //door stripes
-            color.setColor(11, color.rgb(245, 194, 66)) //hopper body
-            color.setColor(12, color.rgb(61, 191, 135)) //ohnoes
+            color.setColor(3, color.rgb(72, 72, 72)) //door wall
+            color.setColor(4, color.rgb(48, 48, 48)) //main wall, lights
+            color.setColor(6, color.rgb(20, 20, 20)) //roof
+            color.setColor(8, color.rgb(65, 45, 20)) //floor
+            color.setColor(9, color.rgb(74, 60, 60)) //door
+            color.setColor(10, color.rgb(112, 112, 41)) //door stripes
+            color.setColor(11, color.rgb(211, 177, 74)) //hopper body
+            color.setColor(12, color.rgb(115, 141, 108)) //ohnoes
             color.setColor(13, color.rgb(59, 59, 64))
             break
         }
         case 'office_back': {
-            color.setColor(3, color.rgb(120, 120, 120)) //main wall
-            color.setColor(4, color.rgb(40, 40, 40)) //roof
-            color.setColor(6, color.rgb(90, 90, 90)) //sideWall          
-            color.setColor(8, color.rgb(87, 50, 27)) //floor
-            color.setColor(9, color.rgb(130, 100, 18)) //door
-            color.setColor(10, color.rgb(50, 50, 50)) //doorknob
+            color.setColor(3, color.rgb(72, 72, 72)) //main wall
+            color.setColor(6, color.rgb(48, 48, 48)) //side wall
+            color.setColor(4, color.rgb(20, 20, 20)) //roof
+            color.setColor(8, color.rgb(65, 45, 20)) //floor
+            color.setColor(9, color.rgb(100, 70, 26)) //door
+            color.setColor(10, color.rgb(20, 20, 20)) //doorknob
             break
         }
         case 'monitor': {
-            color.setColor(3, color.rgb(120, 120, 120)) //monitor background, room wall 1
-            color.setColor(4, color.rgb(90, 90, 90)) //room wall 2
-            color.setColor(6, color.rgb(40, 40, 40)) //roof
-            color.setColor(8, color.rgb(87, 50, 27)) //floor
-            color.setColor(9, color.rgb(255, 214, 90)) //hopper
-            color.setColor(10, color.rgb(61, 191, 135)) //ohnoes
+            color.setColor(3, color.rgb(72, 72, 72)) //left wall
+            color.setColor(4, color.rgb(48, 48, 48)) //right wall
+            color.setColor(6, color.rgb(20, 20, 20)) //roof
+            color.setColor(8, color.rgb(65, 45, 20)) //floor
+            color.setColor(9, color.rgb(211, 177, 74)) //hopper
+            color.setColor(10, color.rgb(141, 173, 132)) //ohnoes
             color.setColor(11, color.rgb(235, 153, 21)) //squidical
             color.setColor(12, color.rgb(59, 59, 64)) // hal
             color.setColor(13, color.rgb(215, 210, 185)) //monitor map
@@ -56,41 +56,56 @@ function init_palette(palette: string) {
             color.setColor(13, color.rgb(171, 0, 40))//mid2
             break
         }
+        case 'win': {
+            color.setColor(2, color.rgb(72, 72, 72)) //side wall
+            color.setColor(3, color.rgb(72, 63, 48)) //winston teeth        
+            color.setColor(4, color.rgb(20, 20, 20)) //roof
+            color.setColor(5, color.rgb(65, 45, 20)) //floor
+            color.setColor(6, color.rgb(127, 127, 0)) //body
+            color.setColor(7, color.rgb(122, 0, 0)) // mouth
+            color.setColor(8, color.rgb(118, 118, 6)) // mouth outline
+            break
+        } 
         case 'hopps': {
-            color.setColor(2, color.rgb(120, 120, 120)) //main wall
-            color.setColor(3, color.rgb(90, 90, 90)) //secondary rightWall          
-            color.setColor(4, color.rgb(40, 40, 40)) //roof
-            color.setColor(5, color.rgb(87, 50, 27)) //floor
-            color.setColor(6, color.rgb(245, 194, 66)) // body
-            color.setColor(7, color.rgb(200, 0, 0)) // mouth
+            color.setColor(2, color.rgb(72, 72, 72)) //side wall
+            color.setColor(3, color.rgb(48, 48, 48)) //main wall
+            color.setColor(4, color.rgb(20, 20, 20)) //roof
+            color.setColor(5, color.rgb(65, 45, 20)) //floor
+            color.setColor(6, color.rgb(211, 177, 74)) // body
+            color.setColor(7, color.rgb(97, 13, 15)) // mouth
+            color.setColor(8, color.rgb(207, 207, 207)) // teeth
+            color.setColor(9, color.rgb(205, 169, 71)) // jaw, lower arm
+            color.setColor(10, color.rgb(166, 166, 166)) // connectors
             break
         }
         case 'ohnoes': {
-            color.setColor(2, color.rgb(120, 120, 120)) //main wall
-            color.setColor(3, color.rgb(90, 90, 90)) //secondary rightWall          
-            color.setColor(4, color.rgb(40, 40, 40)) //roof
-            color.setColor(5, color.rgb(87, 50, 27)) //floor
-            color.setColor(6, color.rgb(61, 191, 135)) // body
-            color.setColor(7, color.rgb(50, 156, 110)) //semicolon
-            color.setColor(8, color.rgb(200, 0, 0)) //mouth
+            color.setColor(2, color.rgb(72, 72, 72)) //side wall
+            color.setColor(3, color.rgb(48, 48, 48)) //main wall
+            color.setColor(4, color.rgb(20, 20, 20)) //roof
+            color.setColor(5, color.rgb(65, 45, 20)) //floor
+            color.setColor(6, color.rgb(141, 173, 132)) // body
+            color.setColor(7, color.rgb(102, 125, 95)) //semicolon
+            color.setColor(8, color.rgb(96, 22, 18)) //mouth
+            color.setColor(9, color.rgb(118, 150, 110)) //eyebrows, mouth outline
+            color.setColor(10, color.rgb(190, 190, 190)) //teeth, eye glint
             break
         }
         case 'squid': {
-            color.setColor(3, color.rgb(120, 120, 120)) //main wall
-            color.setColor(4, color.rgb(90, 90, 90)) //secondary wall, lights
-            color.setColor(6, color.rgb(40, 40, 40)) //roof
-            color.setColor(8, color.rgb(87, 50, 27)) //floor
+            color.setColor(3, color.rgb(72, 72, 72)) //door wall
+            color.setColor(4, color.rgb(48, 48, 48)) //main wall
+            color.setColor(6, color.rgb(20, 20, 20)) //roof
+            color.setColor(8, color.rgb(65, 45, 20)) //floor
             color.setColor(7, color.rgb(235, 153, 21)) // body
             break
         }
         case 'pant': {
             color.setColor(2, color.rgb(205, 55, 80)) //mouth
-            color.setColor(3, color.rgb(120, 120, 120)) //main wall
-            color.setColor(4, color.rgb(40, 40, 40)) //roof
+            color.setColor(3, color.rgb(72, 72, 72)) //main wall
+            color.setColor(4, color.rgb(20, 20, 20)) //roof
             color.setColor(5, color.rgb(65, 185, 160)) //body
-            color.setColor(6, color.rgb(90, 90, 90)) //sideWall
+            color.setColor(6, color.rgb(48, 48, 48)) //side wall
             color.setColor(7, color.rgb(30, 60, 50)) //armholes, mouth
-            color.setColor(8, color.rgb(87, 50, 27)) //floor
+            color.setColor(8, color.rgb(65, 45, 20)) //floor
             color.setColor(9, color.rgb(62, 170, 150)) //arms
             break
         }

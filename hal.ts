@@ -270,7 +270,7 @@ class Hal extends Animatronic {
         this.activated = true
         this.move_timer.reset()
         this.wait = Math.map(this.level, 0, 20, 30, 5) + Math.randomRange(0.0, 10 / (this.level + 1))
-        if (viewed_room == this.room && !game_state.cams_broken && viewed_room != 'Kitchen') {
+        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen') {
             game_state.disable_cams()
         }
         this.room = choose(this.move_tables[this.to][this.room])
@@ -287,7 +287,7 @@ class Hal extends Animatronic {
             this.enter_time = (this.wait * 0.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
             this.leave_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
         }
-        if (viewed_room == this.room && !game_state.cams_broken && viewed_room != 'Kitchen') {
+        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen') {
             game_state.disable_cams()
         }
     }
@@ -314,7 +314,7 @@ class Hal extends Animatronic {
         game_state.hal_meddled_room = this.meddled_room
         if (this.room == 'Kitchen') {
             if (this.song_timer.get_time() > 3.2 * 2) {
-                if (viewed_room == 'Kitchen') {
+                if (game_state.viewed_room == 'Kitchen') {
                     hal_sounds = [
                         soundEffects.createSound(1, 400, 262, 262, 255, 255),
                         soundEffects.createSound(1, 400, 523, 523, 255, 255),
@@ -376,7 +376,7 @@ class Hal extends Animatronic {
             this.change_to_time = Math.randomRange(100.0, 200)
             this.change_to.reset()
         }
-        if (this.mode_timer.get_time() > 25 && (viewed_room != this.room || game_state.cams_broken)) {
+        if (this.mode_timer.get_time() > 25 && (game_state.viewed_room != this.room || game_state.cams_broken)) {
             this.mode = Math.randomRange(0.0, 3)
             this.mode_timer.reset()
             this.mode_limit = Math.randomRange(20.0, 35)

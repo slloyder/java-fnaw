@@ -1,7 +1,5 @@
 game.onUpdate(function () {
-    //stats.setText(toString(control.gcStats()))
     //console.log(control.gcStats())
-    //console.log(control.heapSnapshot())
     spf = (game.runtime() - last_game_runtime) / 1000
     last_game_runtime = game.runtime()
     game_state.time += Math.constrain(spf * 1000, 0, 200)
@@ -48,6 +46,9 @@ game.onUpdate(function () {
                 else if (ani['ohnoes'].room == 'Right Door' && game_state.doors_broken[1]) {
                     ani['ohnoes'].room = 'office'
                     game_state.ani_in = 'ohnoes'
+                }
+                else if (ani['win'].room == 'office') {
+                    game_state.ani_in = 'win'
                 }
             }
         }

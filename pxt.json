@@ -28,7 +28,8 @@
         "utils.ts",
         "loop.ts",
         "loadscene.ts",
-        "panteater.ts"
+        "panteater.ts",
+        "winston.ts"
     ],
     "testFiles": [],
     "targetVersions": {

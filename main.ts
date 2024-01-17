@@ -1,7 +1,7 @@
 /*
 TODO:
 cleanup code further (wait for Papa's stuff)
-add panteater
+add fake squidical level
 */
 
 
@@ -120,8 +120,6 @@ game_state.reset()
 let time = 0
 let night = 1
 let game_timer = new Timer
-let selected_room = 'Show Stage'
-let viewed_room = ''
 let menu_pos = 0
 let cams: { [key: string]: string[] } = {
     //              Left            Right           Down        Up
@@ -170,10 +168,10 @@ let cam_positions: { [key: string]: number[] } = {
 }
 let ani_AI = {
     'win':    [0, 0, 3,  8,  13, 15, 0],
-    'hopps':  [3, 6, 10, 12, 14, 15, 20],
-    'ohnoes': [3, 6, 10, 12, 14, 15, 20],
-    'squid':  [0, 6, 8,  10, 12, 15, 20],
-    'hal':    [0, 1, 4,  7,  12, 15, 20],
+    'hopps':  [3, 6, 10, 12, 14, 15, 0],
+    'ohnoes': [3, 6, 10, 12, 14, 15, 0],
+    'squid':  [0, 6, 8,  10, 12, 15, 0],
+    'hal':    [0, 1, 4,  7,  12, 15, 0],
     'pant':   [0, 0, 3,  6,  9,  15, 0],
     'sam':    [0, 0, 1,  6,  10, 15, 0],
     'fuzz':   [0, 0, 0,  1,  9,  15, 0]

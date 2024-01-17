@@ -83,7 +83,7 @@ class Hopper extends Animatronic {
     move() {
         this.move_timer.reset()
         this.wait = Math.map(this.level, 0, 20, 30, 5) + Math.randomRange(0.0, 10 / (this.level + 1))
-        if (viewed_room == this.room && !game_state.cams_broken) {
+        if (game_state.viewed_room == this.room && !game_state.cams_broken) {
             game_state.disable_cams()
         }
         this.room = choose(this.move_table[this.room])
@@ -97,7 +97,7 @@ class Hopper extends Animatronic {
             this.leave_time = (this.wait * 2 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
             game_state.lights[0] = false
         }
-        if (viewed_room == this.room && !game_state.cams_broken) {
+        if (game_state.viewed_room == this.room && !game_state.cams_broken) {
             game_state.disable_cams()
         }
     }
@@ -106,7 +106,7 @@ class Hopper extends Animatronic {
         if (this.room == 'office') {
             return
         }
-        if (this.mode_timer.get_time() > 25 && (viewed_room != this.room || game_state.cams_broken)) {
+        if (this.mode_timer.get_time() > 25 && (game_state.viewed_room != this.room || game_state.cams_broken)) {
             this.mode = Math.randomRange(0.0, 3)
             this.mode_timer.reset()
             this.mode_limit = Math.randomRange(20.0, 35)

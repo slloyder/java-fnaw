@@ -24,14 +24,13 @@ class Panteater extends Animatronic {
             this.run_pos += spf * 100
             if (this.run_pos >= 50) {
                 if (game_state.back_door_closed) {
-                    music.setVolume(200)
+                    music.setVolume(220)
                     music.knock.play()
                     music.thump.play()
                     this.reset()
                 }
                 //changeme bc of no door anim, in real pant enters at runpos >= 100
                 else {
-                    console.log('entered jumpscare call')
                     game_state.ani_in = 'pant'
                     mygame.set_scene('jumpscare')    
                 }
@@ -39,7 +38,7 @@ class Panteater extends Animatronic {
             else {
                 if (this.timer.get_time() > 0.1) {
                     this.timer.reset()
-                    music.setVolume(80)
+                    music.setVolume(150)
                     music.footstep.play()
                 }
             }
