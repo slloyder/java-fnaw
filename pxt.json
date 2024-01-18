@@ -29,7 +29,9 @@
         "loop.ts",
         "loadscene.ts",
         "panteater.ts",
-        "winston.ts"
+        "winston.ts",
+        "sam.ts",
+        "fuzzy.ts"
     ],
     "testFiles": [],
     "targetVersions": {

@@ -1,7 +1,13 @@
 /*
+
 TODO:
-cleanup code further (wait for Papa's stuff)
-add fake squidical level
+ - cleanup code further (wait for Papa's stuff)
+ - add fake squidical level
+ - check if squidical disables cams when he changes anger position, if so, implement
+ - add Sam better jumpscare
+ - add Fuzzy
+ - add Golden Winston
+ - add custom night
 */
 
 
@@ -426,4 +432,65 @@ mygame.set_scene('menu')
 },
     this.dir = true;
 }
+
+GOLDEN WINSTON
+
+GWT: new Timer(),
+        startGame: function() {
+            this.GWTT = false; // Golden Winston Toggle Thing
+            this.GW = false; // Golden Winston
+            this.GWwC = random(5) < 1; // Golden Winston will Come
+            this.GWCT = random(516); // Golden Winston Come Time
+            this.GWD = random(10, 20); // Golden Winston Death
+            this.GWDe = false; // Golden Winston Dead
+            this.GWT.stop();
+            this.GWT.start();
+-----------------------<update>----------------------------------
+var ttttt = true;
+            for(var i in ani) {
+                if(ani.room === "office") {
+                    ttttt = false;
+                }
+            }
+if(this.GWT.getTime() > this.GWCT && this.GWwC && !this.GWTT && this.camRot === 0 && !powerOut) {
+                this.GWTT = true;
+            }                                
+            if(this.GWTT && this.camRot > 0 && !this.GW && this.GWwC && this.aniIn === "" && ttttt && !powerOut) {
+                this.GWTT = false;                              
+                this.GW = true;
+                this.GWT.reset();
+            }
+            if(this.GW && this.camRot === 0) {
+                this.GW = false;
+                this.GWwC = false;
+            }
+            if(this.GW && this.camRot > 0 && this.GWT.getTime() > this.GWD) {
+                this.GWDe = true;
+            }
+
+--------------<Other Uses>-----------------------------
+if(this.runPos >= 100 && scenes.game.aniIn === "" && !scenes.game.GW) {
+                scenes.game.aniIn = "pant";
+            } else {
+
+if(this.runPos >= 200 && !scenes.game.GW) {
+                if(scenes.game.rightWall.door === false || scenes.game.rightWall.doorY < 300 && !powerOut) {
+                    if(scenes.game.aniIn === "" || scenes.game.aniIn === "squid") {
+                        scenes.game.squidJumpscare = true;
+                    }
+
+if(!this.GW) {
+                    this.backButton.update();
+                    BACK = this.backButton.choice;
+                } else {
+                    this.backButton.choice = false;
+                    BACK = false;
+if(this.GWDe) {
+                        goldenWinston(300, 300, 800);
+                        throw{message: "Golden Winston crashed this program!"};
+                    }
+                    if(this.GW) {
+                        goldenWinston(300, 400, 400);
+                    }
+                } else {
 */

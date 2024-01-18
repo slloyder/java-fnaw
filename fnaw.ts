@@ -324,12 +324,13 @@ class Fnaw {
                     0, function (a: number) {
                         game_timer.start()
                         ani = {
+                            'hal': new Hal,
                             'win': new Winston,
                             'hopps': new Hopper,
                             'ohnoes': new OhNoes,
                             'squid': new Squidical,
-                            'hal': new Hal,
-                            'pant': new Panteater
+                            'pant': new Panteater,
+                            'sam': new Sam
                         }
                         mygame.set_scene('office_left')
                     }

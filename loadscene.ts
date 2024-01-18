@@ -152,6 +152,11 @@ function load_scene(specified_scene: string) {
                     jumpscare_sprite = sprites.create(createImage('panteaterJumpscarePic'), SpriteKind.inram)
                     break
                 }
+                case 'sam': {
+                    scene.setBackgroundImage(createImage('officeMid'))
+                    jumpscare_sprite = sprites.create(createImage('samJumpscarePic'), SpriteKind.inram)
+                    break
+                }
             }
             break
         }

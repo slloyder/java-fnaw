@@ -8,8 +8,6 @@ class OhNoes extends Animatronic {
         super.reset()
         this.reset()
         this.stl = Math.randomRange(1.0, 5) //SoundTimerLimit
-        this.enter_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
-        this.leave_time = (this.wait * 2.5 + Math.randomRange(0.0, 20 - this.level / 2.5)) / (2.5 - this.level / 50)
         this.move_table = {
             'Show Stage': {
                 'Dining Area': () => 1
@@ -71,6 +69,8 @@ class OhNoes extends Animatronic {
         this.mode_timer.start()
         this.mode_limit = Math.randomRange(20.0, 35)
         this.mode = Math.randomRange(0.0, 3)
+        this.enter_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
+        this.leave_time = (this.wait * 2.5 + Math.randomRange(0.0, 20 - this.level / 2.5)) / (2.5 - this.level / 50)
         this.leave_timer.stop()
         this.sound_timer.stop()
         this.sound_timer.start()

@@ -95,42 +95,133 @@ class Winston extends Animatronic {
         }
     }
     move_noise () {
-        music.setVolume(3)
-        //music.pewPew.play()
+        music.setVolume(200)
         music.play(music.createSoundEffect(
-            WaveShape.Noise, 239, 675, 255, 230, 170, SoundExpressionEffect.Tremolo, InterpolationCurve.Curve
+            WaveShape.Noise,
+            1750,
+            1800,
+            50,
+            200,
+            60,
+            SoundExpressionEffect.None,
+            InterpolationCurve.Logarithmic
+        ), music.PlaybackMode.InBackground)
+        timer.after(50, function () {
+            music.play(music.createSoundEffect(
+                    WaveShape.Noise,
+                    1900,
+                    1500,
+                    255,
+                    115,
+                    90,
+                    SoundExpressionEffect.Vibrato,
+                    InterpolationCurve.Curve
             ), music.PlaybackMode.InBackground)
-        timer.after(170, function () {
+        })
+        music.setVolume(200)
+        timer.after(500, function () {
             music.play(music.createSoundEffect(
                 WaveShape.Noise,
-                675,
-                500,
-                230,
-                108,
-                100,
-                SoundExpressionEffect.Tremolo,
+                1750,
+                1800,
+                50,
+                200,
+                60,
+                SoundExpressionEffect.None,
                 InterpolationCurve.Logarithmic
             ), music.PlaybackMode.InBackground)
-        })
-        timer.after(500, function () {
-            music.setVolume(3)
-            music.play(music.createSoundEffect(
-                WaveShape.Noise, 239, 675, 255, 230, 170, SoundExpressionEffect.Tremolo, InterpolationCurve.Curve
-            ), music.PlaybackMode.InBackground)
-            timer.after(170, function () {
+            timer.after(50, function () {
                 music.play(music.createSoundEffect(
-                    WaveShape.Noise,
-                    675,
-                    500,
-                    230,
-                    108,
-                    100,
-                    SoundExpressionEffect.Tremolo,
-                    InterpolationCurve.Logarithmic
+                        WaveShape.Noise,
+                        1900,
+                        1500,
+                        255,
+                        115,
+                        90,
+                        SoundExpressionEffect.Vibrato,
+                        InterpolationCurve.Curve
                 ), music.PlaybackMode.InBackground)
+                timer.after(80, function () {
+                    music.play(music.createSoundEffect(
+                            WaveShape.Noise,
+                            1500,
+                            1500,
+                            115,
+                            90,
+                            50,
+                            SoundExpressionEffect.Vibrato,
+                            InterpolationCurve.Curve
+                    ), music.PlaybackMode.InBackground)
+                })
             })
-            //music.pewPew.play()
         })
+        /*music.setVolume(3)
+        music.play(music.createSoundEffect(WaveShape.Noise, 1700, 1750, 50, 200, 60, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.UntilDone)
+        music.play(music.createSoundEffect(
+            WaveShape.Noise,
+            1800,
+            1900,
+            200,
+            255,
+            100,
+            SoundExpressionEffect.Vibrato,
+            InterpolationCurve.Logarithmic
+        ), music.PlaybackMode.UntilDone)
+        music.play(music.createSoundEffect(
+            WaveShape.Noise,
+            1900,
+            1500,
+            255,
+            115,
+            90,
+            SoundExpressionEffect.Vibrato,
+            InterpolationCurve.Curve
+        ), music.PlaybackMode.UntilDone)
+                timer.after(500, function() {
+                    music.setVolume(3)
+                    music.play(music.createSoundEffect(
+                        WaveShape.Noise,
+                        1700,
+                        1750,
+                        50,
+                        200,
+                        60,
+                        SoundExpressionEffect.None,
+                        InterpolationCurve.Logarithmic
+                    ), music.PlaybackMode.UntilDone)
+                    music.play(music.createSoundEffect(
+                        WaveShape.Noise,
+                        1800,
+                        1900,
+                        200,
+                        255,
+                        100,
+                        SoundExpressionEffect.Vibrato,
+                        InterpolationCurve.Logarithmic
+                    ), music.PlaybackMode.UntilDone)
+                    music.play(music.createSoundEffect(
+                        WaveShape.Noise,
+                        1900,
+                        1500,
+                        255,
+                        115,
+                        90,
+                        SoundExpressionEffect.Vibrato,
+                        InterpolationCurve.Curve
+                    ), music.PlaybackMode.UntilDone)
+                    music.play(music.createSoundEffect(
+                        WaveShape.Noise,
+                        1500,
+                        1500,
+                        115,
+                        90,
+                        50,
+                        SoundExpressionEffect.Vibrato,
+                        InterpolationCurve.Curve
+                    ), music.PlaybackMode.InBackground)
+                })*/
+                
+        
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {

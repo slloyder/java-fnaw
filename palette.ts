@@ -32,6 +32,7 @@ function init_palette(palette: string) {
             color.setColor(11, color.rgb(235, 153, 21)) //squidical
             color.setColor(12, color.rgb(59, 59, 64)) // hal
             color.setColor(13, color.rgb(215, 210, 185)) //monitor map
+            color.setColor(14, color.rgb(0, 146, 213)) //sam
             break
         }
         case 'static': {
@@ -107,6 +108,18 @@ function init_palette(palette: string) {
             color.setColor(7, color.rgb(30, 60, 50)) //armholes, mouth
             color.setColor(8, color.rgb(65, 45, 20)) //floor
             color.setColor(9, color.rgb(62, 170, 150)) //arms
+            break
+        }
+        case 'sam': {
+            color.setColor(2, color.rgb(72, 72, 72)) //side wall
+            color.setColor(3, color.rgb(48, 48, 48)) //main wall
+            color.setColor(4, color.rgb(20, 20, 20)) //roof
+            color.setColor(5, color.rgb(65, 45, 20)) //floor
+            color.setColor(6, color.rgb(0, 146, 213)) // body
+            color.setColor(7, color.rgb(0, 50, 74)) //hair
+            color.setColor(8, color.rgb(50, 50, 50)) //glasses
+            color.setColor(9, color.rgb(255, 50, 0)) //eyes
+            color.setColor(10, color.rgb(200, 0, 25)) //mouth
             break
         }
         default:
