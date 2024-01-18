@@ -71,7 +71,6 @@ class Sam extends Animatronic {
         this.move_timer.play()
     }
     display(room: string) {
-        console.log(this.pos)
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
             if (this.pos == 0) {
                 this.monitor_sprite.bottom = 104

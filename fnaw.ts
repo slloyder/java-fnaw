@@ -331,7 +331,8 @@ class Fnaw {
                             'ohnoes': new OhNoes,
                             'squid': new Squidical,
                             'pant': new Panteater,
-                            'sam': new Sam
+                            'sam': new Sam,
+                            'fuzz': new Fuzzy
                         }
                         mygame.set_scene('office_left')
                     }
