@@ -3,11 +3,12 @@
 TODO:
  - cleanup code further (wait for Papa's stuff)
  - add fake squidical level
- - check if squidical disables cams when he changes anger position, if so, implement
- - add Sam better jumpscare
  - add Fuzzy
  - add Golden Winston
  - add custom night
+ - add Sam chilling before jumpscare
+ - add winston music
+ - add power out scene
 */
 
 

@@ -157,6 +157,11 @@ function load_scene(specified_scene: string) {
                     jumpscare_sprite = sprites.create(createImage('samJumpscarePic'), SpriteKind.inram)
                     break
                 }
+                case 'fuzz': {
+                    scene.setBackgroundImage(createImage('officeMid'))
+                    jumpscare_sprite = sprites.create(createImage('fuzzyJumpscarePic'), SpriteKind.inram)
+                    break
+                }
             }
             break
         }

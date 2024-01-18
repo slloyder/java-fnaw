@@ -327,6 +327,7 @@ class Fnaw {
                             'hal': new Hal,
                             'win': new Winston,
                             'hopps': new Hopper,
+                            'fuzz': new Fuzzy,
                             'ohnoes': new OhNoes,
                             'squid': new Squidical,
                             'pant': new Panteater,

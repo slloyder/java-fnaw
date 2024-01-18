@@ -122,6 +122,16 @@ function init_palette(palette: string) {
             color.setColor(10, color.rgb(200, 0, 25)) //mouth
             break
         }
+        case 'fuzz': {
+            color.setColor(2, color.rgb(72, 72, 72)) //side wall
+            color.setColor(3, color.rgb(48, 48, 48)) //main wall
+            color.setColor(4, color.rgb(20, 20, 20)) //roof
+            color.setColor(5, color.rgb(65, 45, 20)) //floor
+            color.setColor(6, color.rgb(209, 63, 37)) // face
+            color.setColor(7, color.rgb(100, 100, 100)) //spikes
+            color.setColor(8, color.rgb(185, 24, 26)) //eye rings
+            break
+        }
         default:
             color.setPalette(color.originalPalette)
             break
