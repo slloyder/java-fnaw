@@ -264,12 +264,6 @@ e6ee04e4eee4ee0600056010006eee6eee03fe1e141411e4ee060e000460006604ee66ee03fe1ef4
 09000460e666e6ee060d4402e4ee07000460e0e666c1ee04fe1e1411e4ee0700041066e0e666ee04fe1ef40c1fe4ee07000406e0e66ec1ee04fe1e141fe4ee07000340600600e66ee6ee03fe501ef41f
 e4ee060e000360110002e6eee6ee03fe1e141411e4ee060e0006e6ee6631ee05e4eee4ee060007e6eeb66eee054402e4ee06000706ee0f720e000706e0ee0e000aee0d0e5d000ae0ee0c000cee0b0e00
 0ce0dbee0a000ee0ee080010e0ee06000900` // 418 bytes
-        case 'fuzzy':
-            buf = hex`
-1b192500050c000ec0cc0002c00ce1000ac0cc0cc0cc02000acc06fb0007cc0200cc060007cc090007cc038e2c2203cc030006c0cc2c220525cc030c0004c0cc2202f2ffd52202c2cc020c0005cc2202
-ff02982f22c2cc020005c02c220248fff12f2202cc0c0005cc962c2202ff022f2202cc0c000448c0cc2c2202f2ff2203ccac00c00003cc022c2207cc000548c0cc2c2202f2ff2203cc590006cc2c2202
-ff022f2202cc120c0005c02c2202fff12f692202cc0c0006cc2202ff022f4c22c2cc020005c0cc2202f22aff2202c2cc020c0004c0ccb62c2205cc030c0004cc032c2203dfcc030006cc090007cc0200
-cc06000ac3cc06000ac0cc0cc0cc02000aa4c0cc0002c00c000b0c000a00` // 270 bytes
             break
         case 'fuzzy':
             buf = hex`
@@ -701,7 +695,7 @@ function createImage(name:string)
         case 'winstonJumpscarePic': return decompressImage(name)
         case 'samJumpscarePic': return decompressImage(name)
         case 'fuzzyJumpscarePic': return decompressImage(name)
-        default: 
+        default:
             console.log('Unknown image name')
             control.panic(666)
             return null
