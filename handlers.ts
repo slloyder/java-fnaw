@@ -222,9 +222,9 @@ function handle_power() {
 
 function handle_time() {
     time = Math.floor((game_timer.get_time() / 86 + 11) % 12 + 1)
+    time_text.setText(time.toString() + ' AM')
     time_text.right = 158
     time_text.top = 12
-    time_text.setText(time.toString() + ' AM')
     night_text.setText('Night ' + night.toString())
     night_text.right = 158
     night_text.top = 2

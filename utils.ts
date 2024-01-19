@@ -262,6 +262,44 @@ function hide_dict(d: { [key: string]: Sprite }) {
         hide_sprite(d[keys[i]])
     }
 }
+function null_sprites() {
+    power_usage_sprites = null
+    power_text = null
+    time_text = null
+    night_text = null
+    back_door_sprite = null
+    door_sprites = [null, null]
+    door_light_sprites = [null, null]
+    window_light_sprites = [null, null]
+    left_door_ani_sprites = {
+        'hopps': null,
+        'hal': null
+    }
+    right_door_ani_sprites = {
+        'ohnoes': null,
+        'hal': null
+    }
+    monitor_room_text = null
+    monitor_map_sprite = null
+    cam_select = null
+    monitor_anim_sprite = null
+    kitchen_text = null
+    monitor_label_sprite = null
+    six_am_slit = null
+    six_am_slide = null
+    twelve_am_text = null
+    menu_winston = null
+    menu_selector = null
+    menu_title = null
+    menu_option_texts = null
+    jumpscare_sprite = null
+    jumpscare_timer = null
+    static_anim_sprite = null
+    let keys = Object.keys(ani)
+    for (let i = 0; i < keys.length; i++) {
+        ani[keys[i]].monitor_sprite = null
+    }
+}
 function pause_all() {
     let keys: any[]
     if (!game_timer.paused)

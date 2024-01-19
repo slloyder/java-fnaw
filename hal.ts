@@ -523,7 +523,9 @@ class Hal extends Animatronic {
             }
         }
         else {
-            if (room == 'Dining Area' || room == 'North Hall' || room == 'West Hall' || room == 'Furnace Room' || room == 'South Hall' || room == 'Arcade' || room == 'Bathrooms' || room == 'East Hall 1' || room == 'East Hall 2' || room == 'East Hall 3' || room == 'Laser Tag Prep' || room == 'Changing Rooms') {
+            if (room == 'Dining Area' || room == 'North Hall' || room == 'West Hall' || room == 'Furnace Room'
+            || room == 'South Hall' || room == 'Arcade' || room == 'Bathrooms' || room == 'East Hall 1'
+            || room == 'East Hall 2' || room == 'East Hall 3' || room == 'Laser Tag Prep' || room == 'Changing Rooms') {
                 hide_sprite(this.monitor_sprite)
             }
         }

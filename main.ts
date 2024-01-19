@@ -15,15 +15,10 @@ TODO:
 //temp
 blockSettings.writeNumber('everything', 1)
 
-let power_usage_sprites: Sprite[] = [
-    sprites.create(assets.image`powerBarGreen`),
-    sprites.create(assets.image`powerBarGreen`),
-    sprites.create(assets.image`powerBarYellow`),
-    sprites.create(assets.image`powerBarRed`)
-]
-let power_text = textsprite.create('')
-let time_text = textsprite.create('')
-let night_text = textsprite.create('')
+let power_usage_sprites: Sprite[] = null
+let power_text: TextSprite = null
+let time_text: TextSprite = null
+let night_text: TextSprite = null
 //office
 let office_backgrounds: string[] = [
     'officeLeft',
@@ -42,12 +37,12 @@ let right_door_ani_sprites: { [key: string]: Sprite } = {
     'hal': null
 }
 //monitor
-let monitor_room_text = textsprite.create('')
+let monitor_room_text: TextSprite = null
 let monitor_map_sprite: Sprite = null
 let monitor_anim: Image[] = [
     assets.image`monitorRecordIndicator`, image.create(13, 13)   
 ]
-let cam_select = sprites.create(assets.image`camSelect`)
+let cam_select: Sprite = null
 let monitor_anim_sprite: Sprite = null
 //let kitchen_texts = [
 //    textsprite.create('Cam Disabled'),
@@ -58,20 +53,12 @@ let monitor_label_sprite: Sprite = null
 //transitions
 let six_am_slit: Sprite = null
 let six_am_slide: Sprite = null
-let twelve_am_text = textsprite.create('12:00 AM')
+let twelve_am_text: TextSprite = null
 //menu
 let menu_winston: Sprite = null
-let menu_selector = sprites.create(assets.image`menuSelector`)
-let menu_title = [
-    textsprite.create('Five Nights'),
-    textsprite.create("at Winston's"),
-    textsprite.create('2')
-]
-let menu_option_texts = [
-    textsprite.create('Play'),
-    textsprite.create('Continue'),
-    textsprite.create('6th Night')
-]
+let menu_selector: Sprite = null
+let menu_title: TextSprite[] = null
+let menu_option_texts: TextSprite[] = null
 //jumpscare
 let jumpscare_sprite: Sprite = null
 let jumpscare_timer: Timer = null
