@@ -1,25 +1,22 @@
 {
-    "name": "Java Fnaw",
+    "name": "Java Fnaw Images",
     "description": "",
     "dependencies": {
-        "device": "*",
-        "arcade-text": "github:microsoft/arcade-text#v1.3.0",
-        "Color Fading": "github:jwunderl/pxt-color#v0.2.1",
-        "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
-        "sound effects": "github:klausw3/pxt-sound-effects#v1.1.0"
+        "device": "*"
     },
     "files": [
-        "main.ts",
-        "README.md",
         "assets.json",
         "images.g.jres",
-        "images.g.ts"
+        "images.g.ts",
+        "main.ts",
+        "imageUtils.ts",
+        "ximages.ts"
     ],
     "testFiles": [
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.8.22",
+        "target": "1.12.46",
         "targetId": "arcade"
     },
     "supportedTargets": [
