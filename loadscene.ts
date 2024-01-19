@@ -44,11 +44,8 @@ function load_scene(specified_scene: string) {
         }
         case 'monitor' : {
             init_palette('monitor')
-            let keys = Object.keys(ani)
-            for (let i = 0; i < keys.length; i++) {
-                if (ani[keys[i]].monitor_images != null)
-                    ani[keys[i]].monitor_sprite = sprites.create(createImage(ani[keys[i]].monitor_images['generic']), SpriteKind.inram)
-            }
+            load_monitor_room_background(game_state.viewed_room)
+            load_monitor_room(game_state.viewed_room)
             monitor_map_sprite = sprites.create(createImage('monitorMap'), SpriteKind.inram)
             monitor_map_sprite.top = 0
             monitor_map_sprite.left = 0

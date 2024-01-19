@@ -31,7 +31,10 @@
         "panteater.ts",
         "winston.ts",
         "sam.ts",
-        "fuzzy.ts"
+        "fuzzy.ts",
+        "load_monitor_room.ts",
+        "update_decals.ts",
+        "load_monitor_room_background.ts"
     ],
     "testFiles": [],
     "targetVersions": {

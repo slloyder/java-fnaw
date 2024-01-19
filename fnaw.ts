@@ -167,7 +167,6 @@ class Fnaw {
                 install_handler(this.office_left_handler)
                 load_scene('office_left')
                 game_state.monitor_on = false
-                game_state.viewed_room = null
                 play_all()
 
                 the_update_handler = function () {
@@ -182,7 +181,6 @@ class Fnaw {
                 install_handler(this.office_right_handler)
                 load_scene('office_right')
                 game_state.monitor_on = false
-                game_state.viewed_room = null
                 play_all()
 
                 the_update_handler = function () {
@@ -232,7 +230,12 @@ class Fnaw {
                 game_state.monitor_on = true
 
                 the_update_handler = function () {
-                    if (game_state.selected_room != 'DIE') { game_state.viewed_room = game_state.selected_room }
+                    if (game_state.selected_room != 'DIE') {
+                        if (game_state.viewed_room != game_state.selected_room) {
+                            game_state.viewed_room = game_state.selected_room
+                            load_scene('monitor')
+                        }
+                    }
                     if (game_state.viewed_room != 'Kitchen') { hide_sprite(kitchen_text) }
                     else {
                         kitchen_text.top = 1
@@ -240,9 +243,7 @@ class Fnaw {
                     }
                     if (game_state.cams_broken || game_state.viewed_room == 'Kitchen' || game_state.viewed_room == game_state.hal_meddled_room) {
                         scene.setBackgroundImage(null)
-                    }
-                    else { scene.setBackgroundImage(createImage('genericRoom')) }
-                    
+                    }                    
                     let keys = Object.keys(ani)
                     for (let i = 0; i < keys.length; i++) {
                         ani[keys[i]].display(game_state.viewed_room)

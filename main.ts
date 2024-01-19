@@ -3,10 +3,9 @@
 TODO:
  - cleanup code further (wait for Papa's stuff)
  - add fake squidical level
- - add Fuzzy
  - add Golden Winston
  - add custom night
- - add Sam chilling before jumpscare
+ - add Sam chilling in office before jumpscare
  - add winston music
  - add power out scene
 */
@@ -111,6 +110,11 @@ class Animatronic {
     update() { }
     pause() { }
     play() { }
+    load() {
+        if (this.monitor_images != null) {
+            this.monitor_sprite = sprites.create(createImage(this.monitor_images['generic']), SpriteKind.inram)
+        }
+    }
     display(room: string) { }
 }
 
@@ -195,245 +199,7 @@ let stats = null//textsprite.create("")
 
 let mygame = new Fnaw
 mygame.set_scene('menu')
-
 /*
-
-
-
-// Winston
-'Show Stage': {
-    'Dining Area': () => 1
-},
-'Dining Area': {
-    'East Hall 1': () => 50-this.level*2,
-    'Kitchen': () => 50+this.level*2
-},
-'East Hall 1': {
-    'Dining Area': () => 25-this.level,
-    'East Hall 2': () => 75+this.level*3
-},
-'East Hall 2': {
-    'East Hall 1': () => 25-this.level,
-    'East Hall 3': () => 75+this.level*3
-},
-'East Hall 3': {
-    'South Hall': () => 75+this.level*3,
-    'East Hall 2': () => 25-this.level
-},
-'South Hall': {
-    'Kitchen': () => 50,
-    'East Hall 3': () => 50
-},
-'Kitchen': {
-    'South Hall': () => 75+this.level*3,
-    'Dining Area': () => 25-this.level
-},
-}
-
-// HAL RIGHT
-'Arcade': {
-    'East Hall 3': () => 20+this.level/2,
-    'Bathrooms': () => 20-this.level,
-    'Laser Tag Prep': () => 20-this.level,
-    'South Hall': () => 20+this.level,
-    'East Hall 2': () => 20-this.level
-},
-'Bathrooms': {
-    'Arcade': () => 40-this.level*1.75,
-    'East Hall 3': () => 30+this.level*0.25,
-    'South Hall': () => 30+this.level*2
-},
-'East Hall 3': {
-    'Arcade': () => 25-this.level,
-    'Kitchen': () => 25-this.level,
-    'Laser Tag Prep': () => 25-this.level,
-    'East Hall 2': () => 25-this.level,
-    'Changing Rooms': () => 25-this.level,
-    'South Hall': () => 25+this.level*5,
-    'Right Door': () => 25+this.level*10
-},
-'Right Door': {
-    'South Hall': () => 50,
-    'Kitchen': () => 25+this.level,
-    'East Hall 3': () => 25-this.level
-},
-'Kitchen': {
-    'South Hall': () => 20+this.level,
-    'Dining Area': () => 20-this.level
-},
-'Laser Tag Prep': {
-    'South Hall': () => 50+this.level,
-    'East Hall 3': () => 50+this.level*0.5,
-    'Arcade': () => 50-this.level
-},
-'South Hall': {
-    'Arcade': () => 25-this.level,
-    'Kitchen': () => 50-this.level,
-    'East Hall 3': () => 25-this.level,
-    'East Hall 2': () => 25-this.level,
-    'Right Door': () => 50+this.level*3.5,
-    'Laser Tag Prep': () => 25-this.level
-},
-'East Hall 2': {
-    'Arcade': () => 25-this.level,
-    'East Hall 3': () => 25+this.level,
-    'Changing Rooms': () => 20-this.level,
-    'East Hall 1': () => 20-this.level,
-    'South Hall': () => 25+this.level*2
-},
-'Dining Area': {
-    'Kitchen': () => 25+this.level*2,
-    'South Hall': () => 25+this.level*3
-},
-'North Hall': {
-    'Kitchen': () => 60+this.level*5,
-    'Dining Area': () => 60
-},
-'Furnace Room': {
-    'North Hall': () => 25+this.level,
-    'Dining Area': () => 25+this.level*3
-},
-'Left Door': {
-    'North Hall': () => 100+this.level*5,
-    'West Hall': () => 100+this.level,
-    'Furnace Room': () => 100-this.level*5
-},
-'West Hall': {
-    'North Hall': () => 50+this.level,
-    'Furnace Room': () => 50-this.level*2,
-    'Dining Area': () => 50+this.level*4
-},
-'East Hall 1': {
-    'Dining Area': () => 50+this.level,
-    'East Hall 2': () => 50
-},
-'Changing Rooms': {
-    'East Hall 2': () => 50,
-    'East Hall 1': () => 50-this.level*2,
-    'East Hall 3': () => 50+this.level*2
-},
-}
-
-// HAL LEFT
-'Arcade': {
-    'East Hall 3': () => 20+this.level/2,
-    'Bathrooms': () => 20-this.level,
-    'Laser Tag Prep': () => 20-this.level,
-    'South Hall': () => 20-this.level,
-    'East Hall 2': () => 20+this.level*2
-},
-'Bathrooms': {
-    'Arcade': () => 40-this.level*1.75,
-    'East Hall 3': () => 30+this.level*2,
-    'South Hall': () => 30-this.level
-},
-'East Hall 3': {
-    'Arcade': () => 25-this.level,
-    'Kitchen': () => 25-this.level,
-    'Laser Tag Prep': () => 25-this.level,
-    'East Hall 2': () => 25+this.level*5,
-    'Changing Rooms': () => 25+this.level,
-    'South Hall': () => 25-this.level
-},
-'Right Door': {
-    'South Hall': () => 50-this.level*2,
-    'Kitchen': () => 25+this.level*5,
-    'East Hall 3': () => 25+this.level*5
-},
-'Kitchen': {
-    'South Hall': () => 20-this.level,
-    'Dining Area': () => 20+this.level*3
-},
-'Laser Tag Prep': {
-    'South Hall': () => 50-this.level*2,
-    'East Hall 3': () => 50+this.level*2,
-    'East Hall 2': () => 50+this.level*3,
-    'Arcade': () => 50-this.level*2
-},
-'South Hall': {
-    'Arcade': () => 25-this.level,
-    'Kitchen': () => 50+this.level*2,
-    'East Hall 3': () => 25-this.level,
-    'East Hall 2': () => 25-this.level,
-    'Laser Tag Prep': () => 25-this.level
-},
-'East Hall 2': {
-    'Arcade': () => 25-this.level,
-    'East Hall 3': () => 25-this.level,
-    'Changing Rooms': () => 20-this.level,
-    'East Hall 1': () => 20+this.level*3,
-    'South Hall': () => 25-this.level
-},
-'Dining Area': {
-    'North Hall': () => 30+this.level*2,
-    'West Hall': () => 25+this.level*3,
-    'Furnace Room': () => 20+this.level
-},
-'North Hall': {
-    'West Hall': () => 60+this.level*3,
-    'Furnace Room': () => 60-this.level*2,
-    'Left Door': () => 60+this.level*5
-},
-'Furnace Room': {
-    'North Hall': () => 25+this.level,
-    'West Hall': () => 25+this.level*2,
-    'Dining Area': () => 25-this.level
-},
-'Left Door': {
-    'North Hall': () => 100+this.level,
-    'West Hall': () => 50+this.level*3,
-    'Furnace Room': () => 100-this.level
-},
-'West Hall': {
-    'North Hall': () => 50-this.level*2,
-    'Furnace Room': () => 50-this.level*2,
-    'Dining Area': () => 20-this.level,
-    'Left Door': () => 60+this.level*4
-},
-'East Hall 1': {
-    'Dining Area': () => 50+this.level*2,
-    'East Hall 2': () => 50-this.level*2
-},
-'Changing Rooms': {
-    'East Hall 2': () => 50-this.level*2,
-    'East Hall 1': () => 50+this.level*2,
-    'Dining Area': () => 30+this.level*5
-},
-}
-
-// Fuzzy
-'Lab': {
-    'Kitchen Tools': () => 1
-},
-'Kitchen Tools': {
-    'Kitchen': () => 1
-},
-'Kitchen': {
-    'South Hall': () => 1
-},
-'South Hall': {
-    if(!scenes.game.rightWall.door && scenes.game.camRot === 0: {
-        'office': () => 1
-},
-    } else {
-        'Kitchen': () => 1
-},
-        this.dir = false;
-    }}
-
-
-'South Hall': {
-    'Kitchen': () => 1
-},
-'Kitchen': {
-    'Kitchen Tools': () => 1
-},
-'Kitchen Tools': {
-    'Kitchen': () => 1
-},
-    this.dir = true;
-}
-
 GOLDEN WINSTON
 
 GWT: new Timer(),
@@ -494,4 +260,71 @@ if(this.GWDe) {
                         goldenWinston(300, 400, 400);
                     }
                 } else {
+*/
+
+
+
+/*
+switch () {
+    case 'Show Stage': {
+        break
+    }
+    case 'Backstage': {
+        break
+    }
+    case 'Dining Area': {
+        break
+    }
+    case 'Supply Closet': {
+        break
+    }
+    case 'North Hall': {
+        break
+    }
+    case 'West Hall': {
+        break
+    }
+    case 'Furnace Room': {
+        break
+    }
+    case 'South Hall': {
+        break
+    }
+    case 'Kitchen': {
+        break
+    }
+    case 'Kitchen Tools': {
+        break
+    }
+    case 'Arcade': {
+        break
+    }
+    case 'Spare Room': {
+        break
+    }
+    case 'Bathrooms': {
+        break
+    }
+    case 'East Hall 1': {
+        break
+    }
+    case 'East Hall 2': {
+        break
+    }
+    case 'East Hall 3': {
+        break
+    }
+    case 'Laser Tag Prep': {
+        break
+    }
+    case 'Changing Rooms': {
+        break
+    }
+    case 'Squid Reef': {
+        break
+    }
+    default: {
+        break
+    }
+}
 */

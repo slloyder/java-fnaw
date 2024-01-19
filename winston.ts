@@ -225,11 +225,47 @@ class Winston extends Animatronic {
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
-            this.monitor_sprite.bottom = 118 
-            this.monitor_sprite.left = 126 
+            switch (room) {
+                case 'Show Stage': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 126
+                    break
+                }
+                case 'Dining Area': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 126
+                    break
+                }
+                case 'South Hall': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 126
+                    break
+                }
+                case 'East Hall 1': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 126
+                    break
+                }
+                case 'East Hall 2': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 126
+                    break
+                }
+                case 'East Hall 3': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 126
+                    break
+                }    
+                default: {
+                    break
+                }
+            }
         }
         else {
-            hide_sprite(this.monitor_sprite)
+            if (room == 'Dining Area' || room == 'East Hall 1' || room == 'East Hall 2' || room == 'East Hall 3'
+                || room == 'Show Stage' || room == 'South Hall') {
+                hide_sprite(this.monitor_sprite)
+            }
         }
     }
 }

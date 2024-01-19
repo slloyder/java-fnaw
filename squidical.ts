@@ -99,37 +99,45 @@ class Squidical extends Animatronic {
     }
     display(room: string) {
         if (this.room == room && room != 'Kitchen' && room != game_state.hal_meddled_room && !game_state.cams_broken) {
-            if (this.room == 'Squid Reef') {
-                if (!this.run) {
-                    switch (this.danger) {
-                        case 0: {
-                            this.monitor_sprite.top = 105
-                            this.monitor_sprite.left = 58
-                            break
-                        }
-                        case 1: {
-                            this.monitor_sprite.top = 86
-                            this.monitor_sprite.left = 58
-                            break
-                        }
-                        case 2: {
-                            this.monitor_sprite.top = 59
-                            this.monitor_sprite.right = 120
-                            break
-                        }
-                        case 3: {
-                            this.monitor_sprite.top = 72
-                            this.monitor_sprite.left = 138
+            switch (room) {
+                case 'East Hall 2': {
+                    this.monitor_sprite.top = 59
+                    this.monitor_sprite.right = 120
+                    break
+                }
+                case 'Squid Reef': {
+                    if (!this.run) {
+                        switch (this.danger) {
+                            case 0: {
+                                this.monitor_sprite.top = 105
+                                this.monitor_sprite.left = 58
+                                break
+                            }
+                            case 1: {
+                                this.monitor_sprite.top = 86
+                                this.monitor_sprite.left = 58
+                                break
+                            }
+                            case 2: {
+                                this.monitor_sprite.top = 59
+                                this.monitor_sprite.right = 120
+                                break
+                            }
+                            case 3: {
+                                this.monitor_sprite.top = 72
+                                this.monitor_sprite.left = 138
+                            }
                         }
                     }
+                    break
                 }
-            }
-            else if (this.room == 'East Hall 2') {
-                this.monitor_sprite.top = 59
-                this.monitor_sprite.right = 120
+                default: {
+                    break
+                }
             }
         }
         else {
+            if (room == 'Squid Reef' || room == 'East Hall 2')
             hide_sprite(this.monitor_sprite)
         }
     }

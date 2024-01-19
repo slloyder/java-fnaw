@@ -155,11 +155,57 @@ class Hopper extends Animatronic {
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
-            this.monitor_sprite.bottom = 118 //111
-            this.monitor_sprite.left = 5 //33
+            switch (room) {
+                case 'Show Stage': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 5
+                    break
+                }
+                case 'Backstage': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 5
+                    break
+                }
+                case 'Dining Area': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 5
+                    break
+                }
+                case 'Supply Closet': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 5
+                    break
+                }
+                case 'North Hall': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 5
+                    break
+                }
+                case 'West Hall': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 5
+                    break
+                }
+                case 'Spare Room': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 5
+                    break
+                }
+                case 'Furnace Room': {
+                    this.monitor_sprite.bottom = 118
+                    this.monitor_sprite.left = 5
+                    break
+                }
+                default: {
+                    break
+                }
+            }
         }
         else {
-            hide_sprite(this.monitor_sprite)
+            if (room == 'Dining Area' || room == 'North Hall' || room == 'West Hall' || room == 'Furnace Room'
+                || room == 'Backstage' || room == 'Show Stage' || room == 'Supply Closet' || room == 'Spare Room') {
+                hide_sprite(this.monitor_sprite)
+            }
         }
     }
 }

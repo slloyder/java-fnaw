@@ -177,11 +177,68 @@ class OhNoes extends Animatronic {
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
-            this.monitor_sprite.bottom = 114 //111
-            this.monitor_sprite.left = 50 //81
+            switch (room) {
+                case 'Show Stage': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'Dining Area': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'South Hall': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'Spare Room': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'Bathrooms': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'East Hall 1': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'East Hall 2': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'East Hall 3': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'Laser Tag Prep': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                case 'Changing Rooms': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 50
+                    break
+                }
+                default: {
+                    break
+                }
+            }
         }
         else {
-            hide_sprite(this.monitor_sprite)
+            if (room == 'Dining Area' || room == 'Show Stage' || room == 'Spare Room'
+            || room == 'South Hall' || room == 'Bathrooms' || room == 'East Hall 1'|| room == 'East Hall 2'
+            || room == 'East Hall 3' || room == 'Laser Tag Prep' || room == 'Changing Rooms') {
+                hide_sprite(this.monitor_sprite)
+            }
         }
     }
 }

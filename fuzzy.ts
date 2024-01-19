@@ -77,11 +77,26 @@ class Fuzzy extends Animatronic {
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
-            this.monitor_sprite.bottom = 114
-            this.monitor_sprite.left = 27
+            switch (room) {
+                case 'South Hall': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 27
+                    break
+                }
+                case 'Kitchen Tools': {
+                    this.monitor_sprite.bottom = 114
+                    this.monitor_sprite.left = 27
+                    break
+                }
+                default: {
+                    break
+                }
+            }
         }
         else {
-            hide_sprite(this.monitor_sprite)
+            if (room == 'Kitchen Tools' || room == 'South Hall') {
+                hide_sprite(this.monitor_sprite)
+            }
         }
     }
 }

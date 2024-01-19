@@ -12,6 +12,7 @@ game.onUpdate(function () {
             //game_state.cams_broken_sound_seq.run_once(spf)
             if (game_state.cams_broken_timer.get_time() >= game_state.cams_broken_limit) {
                 game_state.cams_broken = false
+                if (game_state.monitor_on){ load_monitor_room_background(game_state.viewed_room) }
             }
         }
         for (let i = 0; i < game_state.doors.length; i++) {

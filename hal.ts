@@ -455,12 +455,77 @@ class Hal extends Animatronic {
         this.meddle_power_timer.play()
     }
     display(room: string) {
-        if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
-            this.monitor_sprite.top = 51
-            this.monitor_sprite.left = 105
+        if (this.room == room && !game_state.cams_broken && room != 'Kitchen' && room != game_state.hal_meddled_room) {
+            switch (room) {
+                case 'Dining Area': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'North Hall': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'West Hall': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'Furnace Room': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'South Hall': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'Arcade': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'Bathrooms': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'East Hall 1': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'East Hall 2': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'East Hall 3': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'Laser Tag Prep': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                case 'Changing Rooms': {
+                    this.monitor_sprite.top = 51
+                    this.monitor_sprite.left = 105
+                    break
+                }
+                default: {
+                    break
+                }
+            }
         }
         else {
-            hide_sprite(this.monitor_sprite)
+            if (room == 'Dining Area' || room == 'North Hall' || room == 'West Hall' || room == 'Furnace Room' || room == 'South Hall' || room == 'Arcade' || room == 'Bathrooms' || room == 'East Hall 1' || room == 'East Hall 2' || room == 'East Hall 3' || room == 'Laser Tag Prep' || room == 'Changing Rooms') {
+                hide_sprite(this.monitor_sprite)
+            }
         }
     }
 }
