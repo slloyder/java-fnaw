@@ -301,6 +301,14 @@ function null_sprites() {
     }
     //decals
     show_stage_decal = null
+    left_furnace_room_decal = null
+    right_furnace_room_decal = null
+    door_decal1 = null
+    door_decal2 = null
+    supply_closet_background_decal = null
+    supply_closet_decal = null
+    arcade_decal1 = null
+    arcade_decal2 = null
 }
 function pause_all() {
     let keys: any[]

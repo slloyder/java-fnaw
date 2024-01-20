@@ -46,6 +46,14 @@ let kitchen_text: Sprite = null
 let monitor_label_sprite: Sprite = null
 //decals
 let show_stage_decal: Sprite = null
+let left_furnace_room_decal: Sprite = null
+let right_furnace_room_decal: Sprite = null
+let door_decal1: Sprite = null
+let door_decal2: Sprite = null
+let supply_closet_background_decal: Sprite = null
+let supply_closet_decal: Sprite = null
+let arcade_decal1: Sprite = null
+let arcade_decal2: Sprite = null
 //transitions
 let six_am_slit: Sprite = null
 let six_am_slide: Sprite = null

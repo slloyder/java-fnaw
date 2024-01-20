@@ -25,9 +25,14 @@
         "displayName": "powerBarYellow"
     },
     "image7": {
-        "data": "hwQNAA0AAAAAICIiIgAAAAAiIiIiAgAAICIiIiIiAAAiIiIiIiICACIiIiIiIgIAIiIiIiIiAgAiIiIiIiICACIiIiIiIgIAIiIiIiIiAgAiIiIiIiICACAiIiIiIgAAACIiIiICAAAAICIiIgAAAA==",
+        "data": "hwQLAAsAAAAAACICAAAAAAAiIiICAAAAICIiIiIAAAAgIiIiIgAAACIiIiIiAgAAIiIiIiICAAAiIiIiIgIAACAiIiIiAAAAICIiIiIAAAAAIiIiAgAAAAAAIgIAAAAA",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "monitorRecordIndicator"
+    },
+    "image1": {
+        "data": "hwQMAAkAAACamEZGCAAAAKuJZGQEAAAAmkhGRgYAAACriWRkBAAAAJqYSEYGAAAAr4mJiQkAAAD/mpiYCAAAAL+vqakJAAAA//v6+goAAAD/v7+/DwAAAP//+/sPAAAA/////w8AAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "supplyClosetBackground"
     },
     "*": {
         "mimeType": "image/x-mkcd-f4",

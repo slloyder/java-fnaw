@@ -27,10 +27,27 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Supply Closet': {
+            color.setColor(14, color.rgb(255, 236, 193)) //light
+            color.setColor(4, color.rgb(43, 43, 43)) //dark tiles1
+            color.setColor(6, color.rgb(120, 120, 120)) //light tiles1
+            color.setColor(8, color.rgb(95, 95, 95)) //light tiles2
+            color.setColor(9, color.rgb(25, 25, 25)) //dark tiles2
+            color.setColor(10, color.rgb(50, 50, 50)) //light tiles3
+            color.setColor(11, color.rgb(20, 20, 20)) //light tiles4
+            supply_closet_background_decal = sprites.create(assets.image`supplyClosetBackground`, SpriteKind.inram)
+            scaling.scaleToPixels(supply_closet_background_decal, 161, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
+            supply_closet_decal = sprites.create(createImage('supplyClosetDecal'), SpriteKind.inram)
             ani['hopps'].load()
             break
         }
         case 'North Hall': {
+            color.setColor(4, color.rgb(90, 90, 90)) //wall
+            color.setColor(6, color.rgb(105, 105, 105)) //light tiles1
+            color.setColor(11, color.rgb(35, 35, 35)) //light tiles2
+            color.setColor(12, color.rgb(70, 70, 70)) //door outline
+            color.setColor(14, color.rgb(102, 90, 62)) //door
+            door_decal1 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
+            scaling.scaleToPixels(door_decal1, 82, ScaleDirection.Vertically, ScaleAnchor.Middle, true)
             ani['hopps'].load()
             ani['hal'].load()
             ani['sam'].load()
@@ -43,6 +60,13 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Furnace Room': {
+            color.setColor(4, color.rgb(70, 40, 35)) //wall
+            color.setColor(6, color.rgb(40, 35, 32)) //floor
+            color.setColor(10, color.rgb(66, 17, 17)) //furnace body
+            color.setColor(11, color.rgb(200, 81, 20)) //bright fire
+            color.setColor(12, color.rgb(145, 59, 15)) //dimmer fire
+            left_furnace_room_decal = sprites.create(createImage('leftFurnaceRoomDecal'), SpriteKind.inram)
+            right_furnace_room_decal = sprites.create(createImage('rightFurnaceRoomDecal'), SpriteKind.inram)
             ani['hopps'].load()
             ani['hal'].load()
             break
@@ -62,10 +86,21 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Arcade': {
+            color.setColor(3, color.rgb(80, 80, 80)) //arcade machine dark
+            color.setColor(4, color.rgb(90, 90, 90)) //wall
+            color.setColor(6, color.rgb(105, 105, 105)) //light tiles1
+            color.setColor(10, color.rgb(100, 100, 100)) //arcade machine light
+            color.setColor(11, color.rgb(35, 35, 35)) //light tiles3
+            color.setColor(12, color.rgb(70, 70, 70)) //light tiles2
+            color.setColor(14, color.rgb(41, 56, 158)) //blue button
+            arcade_decal1 = sprites.create(createImage('arcadeDecal'), SpriteKind.inram)
+            arcade_decal2 = sprites.create(createImage('arcadeDecal'), SpriteKind.inram)
             ani['hal'].load()
             break
         }
         case 'Spare Room': {
+            color.setColor(6, color.rgb(83, 83, 83)) //wall
+            color.setColor(8, color.rgb(102, 74, 33)) //floor
             ani['hopps'].load()
             ani['ohnoes'].load()
             break
@@ -86,6 +121,11 @@ function load_monitor_room(room: string) {
             break
         }
         case 'East Hall 2': {
+            color.setColor(3, color.rgb(35, 35, 35)) //wall
+            color.setColor(10, color.rgb(35, 35, 35)) //wall
+            color.setColor(11, color.rgb(60, 60, 60)) //light tiles
+            color.setColor(12, color.rgb(35, 35, 35)) //wall
+            color.setColor(14, color.rgb(35, 35, 35)) //wall
             ani['ohnoes'].load()
             ani['squid'].load()
             ani['hal'].load()
@@ -93,12 +133,25 @@ function load_monitor_room(room: string) {
             break
         }
         case 'East Hall 3': {
+            color.setColor(3, color.rgb(35, 35, 35)) //wall
+            color.setColor(10, color.rgb(25, 25, 25)) //dark wall
+            color.setColor(11, color.rgb(60, 60, 60)) //light tiles
+            color.setColor(12, color.rgb(0, 0, 0)) //dark tiles
+            color.setColor(14, color.rgb(60, 60, 60)) //light tiles
             ani['ohnoes'].load()
             ani['hal'].load()
             ani['win'].load()
             break
         }
         case 'Laser Tag Prep': {
+            color.setColor(3, color.rgb(95, 95, 95)) //wall
+            color.setColor(6, color.rgb(65, 65, 65)) //darker wall
+            color.setColor(12, color.rgb(80, 80, 80)) //door outline
+            color.setColor(14, color.rgb(109, 97, 67)) //door
+            door_decal1 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
+            door_decal2 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
+            scaling.scaleToPixels(door_decal1, 126, ScaleDirection.Vertically, ScaleAnchor.Middle, true)
+            scaling.scaleToPixels(door_decal2, 126, ScaleDirection.Vertically, ScaleAnchor.Middle, true)
             ani['ohnoes'].load()
             ani['hal'].load()
             break

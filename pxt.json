@@ -8,7 +8,8 @@
         "settings-blocks": "github:microsoft/pxt-settings-blocks#v1.0.0",
         "sound effects": "github:klausw3/pxt-sound-effects#v1.2.0",
         "controller": "*",
-        "Timers": "github:microsoft/arcade-timers#v1.1.0"
+        "Timers": "github:microsoft/arcade-timers#v1.1.0",
+        "sprite-scaling": "*"
     },
     "files": [
         "main.ts",
