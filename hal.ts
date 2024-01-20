@@ -270,7 +270,7 @@ class Hal extends Animatronic {
         this.activated = true
         this.move_timer.reset()
         this.wait = Math.map(this.level, 0, 20, 30, 5) + Math.randomRange(0.0, 10 / (this.level + 1))
-        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen') {
+        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen' && game_state.monitor_on) {
             game_state.disable_cams()
         }
         this.room = choose(this.move_tables[this.to][this.room])
@@ -287,7 +287,7 @@ class Hal extends Animatronic {
             this.enter_time = (this.wait * 0.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
             this.leave_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
         }
-        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen') {
+        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen' && game_state.monitor_on) {
             game_state.disable_cams()
         }
     }

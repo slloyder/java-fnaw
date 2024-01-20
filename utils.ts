@@ -299,6 +299,8 @@ function null_sprites() {
     for (let i = 0; i < keys.length; i++) {
         ani[keys[i]].monitor_sprite = null
     }
+    //decals
+    show_stage_decal = null
 }
 function pause_all() {
     let keys: any[]

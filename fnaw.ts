@@ -228,6 +228,10 @@ class Fnaw {
                 load_scene('monitor')
                 game_state.lights = [false, false]
                 game_state.monitor_on = true
+                if (monitor_anim_timer == null) {
+                    monitor_anim_timer = new Timer
+                    monitor_anim_timer.reset()
+                }
 
                 the_update_handler = function () {
                     if (game_state.selected_room != 'DIE') {
@@ -243,7 +247,8 @@ class Fnaw {
                     }
                     if (game_state.cams_broken || game_state.viewed_room == 'Kitchen' || game_state.viewed_room == game_state.hal_meddled_room) {
                         scene.setBackgroundImage(null)
-                    }                    
+                    }  
+                    update_decals(game_state.viewed_room)                  
                     let keys = Object.keys(ani)
                     for (let i = 0; i < keys.length; i++) {
                         ani[keys[i]].display(game_state.viewed_room)
@@ -252,6 +257,17 @@ class Fnaw {
                     cam_select.left = cam_positions[game_state.selected_room][0]
                     cam_select.top = cam_positions[game_state.selected_room][1]
                     monitor_room_text.setText(game_state.viewed_room)
+
+                    if(monitor_anim_timer.get_time() <= 1.5) {
+                        monitor_anim_sprite.top = 12
+                        monitor_anim_sprite.left = 2
+                    }
+                    else if (1.5 < monitor_anim_timer.get_time() && monitor_anim_timer.get_time() <= 3.0) {
+                        hide_sprite(monitor_anim_sprite)
+                    }
+                    else if (monitor_anim_timer.get_time() > 3) {
+                        monitor_anim_timer.reset()
+                    }
 
                     handle_power()
                     handle_time()

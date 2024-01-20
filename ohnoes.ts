@@ -78,7 +78,7 @@ class OhNoes extends Animatronic {
     move() {
         this.move_timer.reset()
         this.wait = Math.map(this.level, 0, 20, 30, 7) + Math.randomRange(-5, 10 / (this.level + 1))
-        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen') {
+        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen' && game_state.monitor_on) {
             game_state.disable_cams()
         }
         if (game_state.viewed_room == 'Arcade' && !game_state.cams_broken && Math.floor(this.mode) == 2 && this.room == 'East Hall 3') {
@@ -95,10 +95,10 @@ class OhNoes extends Animatronic {
             this.leave_time = (this.wait * 2.5 + Math.randomRange(0.0, 20 - this.level / 2.5)) / (2.5 - this.level / 50)
             game_state.lights[1] = false
         }
-        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen') {
+        if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen' && game_state.monitor_on) {
             game_state.disable_cams()
         }
-        if (game_state.viewed_room == 'Arcade' && !game_state.cams_broken && Math.floor(this.mode) == 2 && this.room == 'East Hall 3') {
+        if (game_state.viewed_room == 'Arcade' && !game_state.cams_broken && Math.floor(this.mode) == 2 && this.room == 'East Hall 3' && game_state.monitor_on) {
             game_state.disable_cams()
         }
     }

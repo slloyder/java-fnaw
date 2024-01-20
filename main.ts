@@ -1,16 +1,16 @@
 /*
 
 TODO:
- - cleanup code further (wait for Papa's stuff)
+ - add Papa's new stuff
  - add fake squidical level
  - add Golden Winston
  - add custom night
  - add Sam chilling in office before jumpscare
- - add winston music
+ - add winston music (sound engine overhaul)
  - add power out scene
+ - add sam glitch
 */
-
-
+let tor = decompressImage('cornerRoom')
 
 //temp
 blockSettings.writeNumber('everything', 1)
@@ -39,17 +39,13 @@ let right_door_ani_sprites: { [key: string]: Sprite } = {
 //monitor
 let monitor_room_text: TextSprite = null
 let monitor_map_sprite: Sprite = null
-let monitor_anim: Image[] = [
-    assets.image`monitorRecordIndicator`, image.create(13, 13)   
-]
+let monitor_anim_timer: Timer = null
 let cam_select: Sprite = null
 let monitor_anim_sprite: Sprite = null
-//let kitchen_texts = [
-//    textsprite.create('Cam Disabled'),
-//    textsprite.create('Audio Only')
-//]
 let kitchen_text: Sprite = null
 let monitor_label_sprite: Sprite = null
+//decals
+let show_stage_decal: Sprite = null
 //transitions
 let six_am_slit: Sprite = null
 let six_am_slide: Sprite = null

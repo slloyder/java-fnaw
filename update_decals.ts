@@ -1,11 +1,12 @@
 function update_decals(room: string) {        
     switch(room) {    
         case 'Show Stage': {
-            if (!game_state.cams_broken) {
-                //position
+            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+                show_stage_decal.top = 36
+                show_stage_decal.left = 0
             }
             else {
-                //hide
+                hide_sprite(show_stage_decal)
             }
             break
         }

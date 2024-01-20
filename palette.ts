@@ -23,16 +23,16 @@ function init_palette(palette: string) {
             break
         }
         case 'monitor': {
-            color.setColor(3, color.rgb(72, 72, 72)) //left wall
-            color.setColor(4, color.rgb(48, 48, 48)) //right wall
-            color.setColor(6, color.rgb(20, 20, 20)) //roof
-            color.setColor(8, color.rgb(65, 45, 20)) //floor
-            color.setColor(9, color.rgb(211, 177, 74)) //hopper
-            color.setColor(10, color.rgb(141, 173, 132)) //ohnoes
-            color.setColor(11, color.rgb(235, 153, 21)) //squidical
-            color.setColor(12, color.rgb(59, 59, 64)) // hal
+            color.setColor(3, color.rgb(211, 177, 74)) //hopper
+            color.setColor(4, color.rgb(141, 173, 132)) //ohnoes
+            color.setColor(6, color.rgb(235, 153, 21)) //squidical
+            color.setColor(8, color.rgb(59, 59, 64)) // hal
+            color.setColor(9, color.rgb(84, 88, 96)) //left wall, hal secondary
+            color.setColor(10, color.rgb(0, 146, 213)) //sam
+            color.setColor(11, color.rgb(48, 48, 48)) //right wall
+            color.setColor(12, color.rgb(20, 20, 20)) //roof
             color.setColor(13, color.rgb(215, 210, 185)) //monitor map
-            color.setColor(14, color.rgb(0, 146, 213)) //sam
+            color.setColor(14, color.rgb(65, 45, 20)) //floor
             break
         }
         case 'static': {

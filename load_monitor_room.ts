@@ -3,6 +3,13 @@
 function load_monitor_room(room: string) {
     switch (room) {
         case 'Show Stage': {
+            color.setColor(6, color.rgb(57, 70, 81)) //left wall
+            color.setColor(8, color.rgb(105, 105, 105)) //checkerboard right
+            color.setColor(10, color.rgb(65, 45, 20)) //floor
+            color.setColor(11, color.rgb(38, 46, 52)) //right wall
+            color.setColor(12, color.rgb(29, 35, 40)) //roof
+            color.setColor(14, color.rgb(125, 125, 125)) //checkerboard left
+            show_stage_decal = sprites.create(createImage('showStageDecal'), SpriteKind.inram)
             ani['hopps'].load()
             ani['ohnoes'].load()
             ani['win'].load()
@@ -69,6 +76,10 @@ function load_monitor_room(room: string) {
             break
         }
         case 'East Hall 1': {
+            color.setColor(6, color.rgb(120, 120, 120)) //right wall
+            color.setColor(10, color.rgb(26, 26, 26)) //floor
+            color.setColor(11, color.rgb(60, 60, 60)) //left wall
+            color.setColor(12, color.rgb(40, 40, 40)) //roof
             ani['ohnoes'].load()
             ani['hal'].load()
             ani['win'].load()

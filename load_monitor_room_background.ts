@@ -1,7 +1,7 @@
 function load_monitor_room_background(room: string) {
     switch (room) {
         case 'Show Stage': {
-            scene.setBackgroundImage(createImage('genericRoom'))
+            scene.setBackgroundImage(createImage('cornerRoom'))
             break
         }
         case 'Backstage': {
@@ -49,7 +49,7 @@ function load_monitor_room_background(room: string) {
             break
         }
         case 'East Hall 1': {
-            scene.setBackgroundImage(createImage('genericRoom'))
+            scene.setBackgroundImage(createImage('cornerRoomFlipped'))
             break
         }
         case 'East Hall 2': {

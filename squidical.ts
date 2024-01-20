@@ -63,7 +63,7 @@ class Squidical extends Animatronic {
             this.danger = Math.floor(this.anger)
             if (this.danger >= 4) {
                 this.run = true
-                if (game_state.viewed_room == 'Squid Reef') {
+                if (game_state.viewed_room == 'Squid Reef' && game_state.monitor_on) {
                     game_state.disable_cams()
                 }
             }

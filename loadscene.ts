@@ -3,7 +3,6 @@ function load_scene(specified_scene: string) {
     sprites.destroyAllSpritesOfKind(SpriteKind.Text)
     null_sprites()
     control.gc()
-    //hide_all()
     switch (specified_scene) {
         case 'office_left': {
             init_palette('office')
@@ -67,13 +66,10 @@ function load_scene(specified_scene: string) {
             monitor_map_sprite = sprites.create(createImage('monitorMap'), SpriteKind.inram)
             monitor_map_sprite.top = 0
             monitor_map_sprite.left = 0
-            monitor_anim_sprite = sprites.create(image.create(13, 13), SpriteKind.inram)
-            monitor_anim_sprite.top = 12
-            monitor_anim_sprite.left = 2
+            monitor_anim_sprite = sprites.create(assets.image`monitorRecordIndicator`, SpriteKind.inram)
             monitor_room_text = textsprite.create('')
             monitor_room_text.top = 1
             monitor_room_text.left = 1
-            animation.runImageAnimation(monitor_anim_sprite, monitor_anim, 1000, true)
             cam_select = sprites.create(assets.image`camSelect`, SpriteKind.inram)
             monitor_label_sprite = sprites.create(createImage('monitorSelectNumbers'), SpriteKind.inram)
             monitor_label_sprite.top = 11
