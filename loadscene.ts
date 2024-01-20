@@ -89,6 +89,7 @@ function load_scene(specified_scene: string) {
         case 'win': {
             init_palette('')
             scene.setBackgroundImage(null)
+            scene.setBackgroundColor(15)
             six_am_slide = sprites.create(createImage('6AMSlide'), SpriteKind.inram)
             six_am_slide.bottom = 66
             six_am_slide.left = 52
@@ -100,6 +101,7 @@ function load_scene(specified_scene: string) {
         case 'menu': {
             init_palette('menu')
             scene.setBackgroundImage(null)
+            scene.setBackgroundColor(15)
             menu_winston = sprites.create(createImage('menuWinston'), SpriteKind.inram)
             menu_winston.bottom = 110
             menu_winston.right = 150
@@ -132,6 +134,7 @@ function load_scene(specified_scene: string) {
         }
         case 'night_display': {
             init_palette('')
+            scene.setBackgroundColor(15)
             scene.setBackgroundImage(null)
             twelve_am_text = textsprite.create('12:00 AM')
             twelve_am_text.setPosition(80, 55)
@@ -185,6 +188,7 @@ function load_scene(specified_scene: string) {
         }
         case 'static': {
             init_palette('static')
+            scene.setBackgroundColor(15)
             scene.setBackgroundImage(createImage('staticPic1'))
             break
         }
