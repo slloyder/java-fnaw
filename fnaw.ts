@@ -247,8 +247,7 @@ class Fnaw {
                     }
                     if (game_state.cams_broken || game_state.viewed_room == 'Kitchen' || game_state.viewed_room == game_state.hal_meddled_room) {
                         scene.setBackgroundImage(null)
-                        scene.setBackgroundColor(15)
-                    }
+                    }  
                     update_decals(game_state.viewed_room)                  
                     let keys = Object.keys(ani)
                     for (let i = 0; i < keys.length; i++) {

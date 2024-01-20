@@ -16,22 +16,6 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Backstage': {
-            color.setColor(4, color.rgb(40, 40, 40)) //wall
-            color.setColor(6, color.rgb(84, 81, 1)) //winstons body
-            color.setColor(8, color.rgb(56, 12, 13)) //winstons mouth
-            color.setColor(9, color.rgb(61, 90, 61)) //ohnoes outline
-            color.setColor(10, color.rgb(39, 9, 9)) //ohnoes mouth
-            color.setColor(11, color.rgb(75, 75, 75))//ohnoes teeth
-            color.setColor(12, color.rgb(86, 51, 16)) //squidical
-            color.setColor(14, color.rgb(89, 80, 37)) //squidical
-            winston_backstage_decals = [
-                sprites.create(createImage('winstonBackstageDecal1'), SpriteKind.inram),
-                sprites.create(createImage('winstonBackstageDecal2'), SpriteKind.inram),
-                sprites.create(createImage('winstonBackstageDecal3'), SpriteKind.inram)
-            ]
-            oh_noes_backstage_decal = sprites.create(createImage('ohNoesBackstageDecal'), SpriteKind.inram)
-            squidical_backstage_decal = sprites.create(createImage('squidicalBackstageDecal'), SpriteKind.inram)
-            hopper_backstage_decal = sprites.create(createImage('hopperBackstageDecal'), SpriteKind.inram)
             ani['hopps'].load()
             break
         }
@@ -70,7 +54,6 @@ function load_monitor_room(room: string) {
             break
         }
         case 'West Hall': {
-            color.setColor(10, color.rgb(85, 85, 85)) //wall
             ani['hopps'].load()
             ani['hal'].load()
             ani['sam'].load()
@@ -89,7 +72,6 @@ function load_monitor_room(room: string) {
             break
         }
         case 'South Hall': {
-            color.setColor(10, color.rgb(85, 85, 85)) //wall
             ani['ohnoes'].load()
             ani['hal'].load()
             ani['win'].load()
@@ -104,12 +86,12 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Arcade': {
-            color.setColor(3, color.rgb(75, 75, 75)) //arcade machine dark
+            color.setColor(3, color.rgb(80, 80, 80)) //arcade machine dark
             color.setColor(4, color.rgb(90, 90, 90)) //wall
-            color.setColor(6, color.rgb(105, 105, 105)) //light tiles1, arcade machine light
-            color.setColor(10, color.rgb(220, 20, 20)) // red button
+            color.setColor(6, color.rgb(105, 105, 105)) //light tiles1
+            color.setColor(10, color.rgb(100, 100, 100)) //arcade machine light
             color.setColor(11, color.rgb(35, 35, 35)) //light tiles3
-            color.setColor(12, color.rgb(65, 65, 65)) //light tiles2
+            color.setColor(12, color.rgb(70, 70, 70)) //light tiles2
             color.setColor(14, color.rgb(41, 56, 158)) //blue button
             arcade_decal1 = sprites.create(createImage('arcadeDecal'), SpriteKind.inram)
             arcade_decal2 = sprites.create(createImage('arcadeDecal'), SpriteKind.inram)

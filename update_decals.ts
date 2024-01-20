@@ -11,18 +11,6 @@ function update_decals(room: string) {
             break
         }
         case 'Backstage': {
-            winston_backstage_decals[0].top = 36
-            winston_backstage_decals[0].left = 66
-            winston_backstage_decals[1].top = 48
-            winston_backstage_decals[1].left = 54
-            winston_backstage_decals[2].top = 51
-            winston_backstage_decals[2].left = 69
-            oh_noes_backstage_decal.top = 13
-            oh_noes_backstage_decal.left = 17
-            squidical_backstage_decal.top = 74
-            squidical_backstage_decal.left = 93
-            hopper_backstage_decal.top = 3
-            hopper_backstage_decal.left = 93
             break
         }
         case 'Dining Area': {

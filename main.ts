@@ -54,11 +54,6 @@ let supply_closet_background_decal: Sprite = null
 let supply_closet_decal: Sprite = null
 let arcade_decal1: Sprite = null
 let arcade_decal2: Sprite = null
-let winston_backstage_decals: Sprite[] = [null, null, null]
-let oh_noes_backstage_decal: Sprite = null
-let squidical_backstage_decal: Sprite = null
-let hopper_backstage_decal: Sprite = null
-
 //transitions
 let six_am_slit: Sprite = null
 let six_am_slide: Sprite = null

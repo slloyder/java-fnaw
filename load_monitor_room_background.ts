@@ -6,10 +6,7 @@ function load_monitor_room_background(room: string) {
             break
         }
         case 'Backstage': {
-            im = image.create(160, 120)
-            im.fill(4)
-            im.fillRect(0, 105, 160, 15, 15)
-            scene.setBackgroundImage(im)
+            scene.setBackgroundImage(createImage('genericRoom'))
             break
         }
         case 'Dining Area': {
@@ -25,8 +22,7 @@ function load_monitor_room_background(room: string) {
             break
         }
         case 'West Hall': {
-            scene.setBackgroundImage(null)
-            scene.setBackgroundColor(10)
+            scene.setBackgroundImage(createImage('genericRoom'))
             break
         }
         case 'Furnace Room': {
@@ -38,12 +34,7 @@ function load_monitor_room_background(room: string) {
             break
         }
         case 'South Hall': {
-            scene.setBackgroundImage(null)
-            scene.setBackgroundColor(10)
-            break
-        }
-        case 'Kitchen': {
-            scene.setBackgroundColor(15)
+            scene.setBackgroundImage(createImage('genericRoom'))
             break
         }
         case 'Kitchen Tools': {
