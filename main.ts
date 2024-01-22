@@ -2,7 +2,6 @@
 
 TODO:
  - add Papa's new stuff
- - add fake squidical level
  - add Golden Winston
  - add custom night
  - add Sam chilling in office before jumpscare
@@ -10,7 +9,6 @@ TODO:
  - add power out scene
  - add sam glitch
 */
-let tor = decompressImage('cornerRoom')
 
 //temp
 blockSettings.writeNumber('everything', 1)
@@ -54,6 +52,14 @@ let supply_closet_background_decal: Sprite = null
 let supply_closet_decal: Sprite = null
 let arcade_decal1: Sprite = null
 let arcade_decal2: Sprite = null
+let winston_backstage_decals: Sprite[] = [null, null, null]
+let oh_noes_backstage_decal: Sprite = null
+let squidical_backstage_decal: Sprite = null
+let hopper_backstage_decal: Sprite = null
+let squid_reef_door_frame_decal: Sprite = null
+let squid_reef_door_decal: Sprite = null
+let dining_area_chair_decal1: Sprite = null
+let dining_area_chair_decal2: Sprite = null
 //transitions
 let six_am_slit: Sprite = null
 let six_am_slide: Sprite = null
@@ -90,6 +96,7 @@ class Animatronic {
     surprise: boolean = false
     monitor_images: { [key: string]: string } = null
     monitor_sprite: Sprite
+    danger: number = 0 //squidical only
     constructor(start_room: string) {
         this.start_room = start_room
     }

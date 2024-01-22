@@ -16,6 +16,7 @@ class Game {
     cams_broken_limit: number
     hal_meddled_room: string
     ani_in: string = ''
+    fake_squidical_level: number
     jumpscare_timer: Timer
     jumpscare_wait_timer: Timer
     jumpscare_wait_limit: number
@@ -39,6 +40,7 @@ class Game {
         this.cams_broken_limit = Math.randomRange(3.0, 5)
         this.cams_broken_timer = new Timer
         this.ani_in = ''
+        this.fake_squidical_level = 0
         this.jumpscare_timer = new Timer
         this.jumpscare_wait_limit = Math.randomRange(5.0, 10)
         this.jumpscare_wait_timer = new Timer
@@ -58,6 +60,8 @@ class Game {
         this.cams_broken_timer.reset()
         this.cams_broken_timer.start()
         this.cams_broken_limit = Math.randomRange(3.0, 5)
+        this.fake_squidical_level = ani['squid'].danger
+        load_scene('monitor')
         music.setVolume(64)
         music.thump.play()
         timer.after(200, function () {

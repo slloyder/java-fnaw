@@ -44,7 +44,7 @@ function load_scene(specified_scene: string) {
         }
         case 'office_back': {
             init_palette('office_back')
-            scene.setBackgroundImage(createImage('officeBack'))
+            scene.setBackgroundImage(createImage('officeMid'))
             back_door_sprite = sprites.create(createImage('backDoorOpen'), SpriteKind.inram)
             back_door_sprite.left = 56
             back_door_sprite.top = 26
@@ -166,7 +166,7 @@ function load_scene(specified_scene: string) {
                     break
                 }
                 case 'pant': {
-                    scene.setBackgroundImage(createImage('officeBack'))
+                    scene.setBackgroundImage(createImage('officeMid'))
                     jumpscare_sprite = sprites.create(createImage('panteaterJumpscarePic'), SpriteKind.inram)
                     break
                 }
@@ -185,7 +185,8 @@ function load_scene(specified_scene: string) {
         }
         case 'static': {
             init_palette('static')
-            scene.setBackgroundImage(createImage('staticPic1'))
+            scene.setBackgroundColor(15)
+            scene.setBackgroundImage(null)//createImage('staticPic1'))
             break
         }
     }

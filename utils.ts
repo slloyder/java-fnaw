@@ -309,6 +309,14 @@ function null_sprites() {
     supply_closet_decal = null
     arcade_decal1 = null
     arcade_decal2 = null
+    winston_backstage_decals = [null, null, null]
+    oh_noes_backstage_decal = null
+    squidical_backstage_decal = null
+    hopper_backstage_decal = null
+    squid_reef_door_frame_decal = null
+    squid_reef_door_decal = null
+    dining_area_chair_decal1 = null
+    dining_area_chair_decal2 = null
 }
 function pause_all() {
     let keys: any[]

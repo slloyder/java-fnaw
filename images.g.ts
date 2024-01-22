@@ -3,14 +3,6 @@ namespace myImages {
 
     helpers._registerFactory("image", function(name: string) {
         switch(helpers.stringTrim(name)) {
-            case "image18":
-            case "camSelect":return img`
-7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 
-7 7 7 7 7 7 7 7 
-`;
             case "image24":
             case "menuSelector":return img`
 1 . . 1 . . 1 . . 
@@ -69,17 +61,25 @@ namespace myImages {
 . . 2 2 2 2 2 2 2 . . 
 . . . . 2 2 2 . . . . 
 `;
+            case "image18":
+            case "camSelect":return img`
+2 2 2 2 2 2 2 2 
+2 2 2 2 2 2 2 2 
+2 2 2 2 2 2 2 2 
+2 2 2 2 2 2 2 2 
+2 2 2 2 2 2 2 2 
+`;
             case "image1":
             case "supplyClosetBackground":return img`
 a b a b a f f f f f f f 
-9 a 9 a 9 a f b f f f f 
-8 9 8 9 8 9 a f b f f f 
-9 8 4 8 9 8 9 a f b f f 
-6 4 6 4 8 9 8 9 a f b f 
-4 6 4 6 4 8 9 a f b f f 
-6 4 6 4 6 9 8 9 a f b f 
-4 6 4 6 4 8 9 a f b f f 
-8 4 6 4 6 9 8 9 a f f f 
+c a c a c a f b f f f f 
+8 c 8 c 8 c a f b f f f 
+c 8 4 8 c 8 c a f b f f 
+6 4 6 4 8 c 8 c a f b f 
+4 6 4 6 4 8 c a f b f f 
+6 4 6 4 6 c 8 c a f b f 
+4 6 4 6 4 8 c a f b f f 
+8 4 6 4 6 c 8 c a f f f 
 `;
         }
         return null;

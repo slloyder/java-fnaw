@@ -1,9 +1,4 @@
 {
-    "image18": {
-        "data": "hwQIAAUAAAB3dwcAd3cHAHd3BwB3dwcAd3cHAHd3BwB3dwcAd3cHAA==",
-        "mimeType": "image/x-mkcd-f4",
-        "displayName": "camSelect"
-    },
     "image24": {
         "data": "hwQJAAUAAAABAAEAEBAAAAABAAABAAEAEBAAAAABAAABAAEAEBAAAAABAAA=",
         "mimeType": "image/x-mkcd-f4",
@@ -29,8 +24,13 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "monitorRecordIndicator"
     },
+    "image18": {
+        "data": "hwQIAAUAAAAiIgIAIiICACIiAgAiIgIAIiICACIiAgAiIgIAIiICAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "camSelect"
+    },
     "image1": {
-        "data": "hwQMAAkAAACamEZGCAAAAKuJZGQEAAAAmkhGRgYAAACriWRkBAAAAJqYSEYGAAAAr4mJiQkAAAD/mpiYCAAAAL+vqakJAAAA//v6+goAAAD/v7+/DwAAAP//+/sPAAAA/////w8AAAA=",
+        "data": "hwQMAAkAAADKyEZGCAAAAKuMZGQEAAAAykhGRgYAAACrjGRkBAAAAMrISEYGAAAAr4yMjAwAAAD/ysjICAAAAL+vrKwMAAAA//v6+goAAAD/v7+/DwAAAP//+/sPAAAA/////w8AAAA=",
         "mimeType": "image/x-mkcd-f4",
         "displayName": "supplyClosetBackground"
     },

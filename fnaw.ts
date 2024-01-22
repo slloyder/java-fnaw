@@ -225,18 +225,20 @@ class Fnaw {
             }
             case 'monitor': {
                 install_handler(this.monitor_handler)
-                load_scene('monitor')
+                game_state.fake_squidical_level = ani['squid'].danger
                 game_state.lights = [false, false]
                 game_state.monitor_on = true
+                load_scene('monitor')
                 if (monitor_anim_timer == null) {
                     monitor_anim_timer = new Timer
-                    monitor_anim_timer.reset()
                 }
+                monitor_anim_timer.reset()
 
                 the_update_handler = function () {
                     if (game_state.selected_room != 'DIE') {
                         if (game_state.viewed_room != game_state.selected_room) {
                             game_state.viewed_room = game_state.selected_room
+                            game_state.fake_squidical_level = ani['squid'].danger
                             load_scene('monitor')
                         }
                     }

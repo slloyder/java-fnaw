@@ -1,6 +1,5 @@
 class Squidical extends Animatronic {
     anger: number = 0
-    danger: number = 0
     power_drain: number = 0
     run: boolean = false
     run_pos: number = 0
@@ -44,6 +43,9 @@ class Squidical extends Animatronic {
         else if (this.power_drain >= 1) {
             this.power_drain += 5
         }
+        if (game_state.viewed_room == 'Squid Reef' && game_state.monitor_on && !game_state.cams_broken) {
+            game_state.disable_cams()
+        }
     }
     reset() {
         this.normal_reset()
@@ -62,10 +64,10 @@ class Squidical extends Animatronic {
             this.careful = Math.constrain(this.careful, -4, 4)
             this.danger = Math.floor(this.anger)
             if (this.danger >= 4) {
-                this.run = true
-                if (game_state.viewed_room == 'Squid Reef' && game_state.monitor_on) {
+                if (game_state.viewed_room == 'Squid Reef' && game_state.monitor_on && !game_state.cams_broken) {
                     game_state.disable_cams()
                 }
+                this.run = true
             }
         }
         else {
@@ -107,10 +109,9 @@ class Squidical extends Animatronic {
                 }
                 case 'Squid Reef': {
                     if (!this.run) {
-                        switch (this.danger) {
+                        switch (game_state.fake_squidical_level) {
                             case 0: {
-                                this.monitor_sprite.top = 105
-                                this.monitor_sprite.left = 58
+                                hide_sprite(this.monitor_sprite)
                                 break
                             }
                             case 1: {
@@ -126,6 +127,11 @@ class Squidical extends Animatronic {
                             case 3: {
                                 this.monitor_sprite.top = 72
                                 this.monitor_sprite.left = 138
+                                break
+                            }
+                            case 4: {
+                                hide_sprite(this.monitor_sprite)
+                                break
                             }
                         }
                     }
