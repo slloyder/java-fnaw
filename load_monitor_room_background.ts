@@ -6,7 +6,10 @@ function load_monitor_room_background(room: string) {
             break
         }
         case 'Backstage': {
-            scene.setBackgroundImage(createImage('genericRoom'))
+            im = image.create(160, 120)
+            im.fill(4)
+            im.fillRect(0, 105, 160, 15, 15)
+            scene.setBackgroundImage(im)
             break
         }
         case 'Dining Area': {
@@ -42,12 +45,16 @@ function load_monitor_room_background(room: string) {
             scene.setBackgroundColor(14)
             break
         }
+        case 'Kitchen': {
+            scene.setBackgroundColor(15)
+            break
+        }
         case 'Kitchen Tools': {
-                im = image.create(160, 120)
-                im.fill(3)
-                im.drawLine(46, 0, 46, 120, 4)
-                im.drawLine(116, 0, 116, 120, 4)
-                im.fillRect(47, 0, 69, 120, 6)
+            im = image.create(160, 120)
+            im.fill(3)
+            im.drawLine(46, 0, 46, 120, 4)
+            im.drawLine(116, 0, 116, 120, 4)
+            im.fillRect(47, 0, 69, 120, 6)
             scene.setBackgroundImage(im)
             break
         }
