@@ -132,8 +132,7 @@ class JumpscareReady {
         this.pulse_limit = Math.randomRange(0.5, 2)
         this.seq = new Sequence([
             0, function (a: number) {
-                music.setVolume(10)
-                music.buzzer.play()
+                music.buzzer.play(10)
             }
         ])
     }
@@ -155,6 +154,14 @@ class JumpscareReady {
         }
     }
 }
+
+function proj_lerp(x0: number, x1: number, s1: number, a: number) {
+    let s0 = 1
+    let x = x0 + (x1/s1 - x0) * a
+    let s = 1 + (1/s1 - 1) * a
+    return x / s
+}
+
 function choose(prob_map: { [key: string]: () => number }) {
     let keys = Object.keys(prob_map)
     let cdf: number[] = [0]

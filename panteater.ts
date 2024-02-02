@@ -24,9 +24,8 @@ class Panteater extends Animatronic {
             this.run_pos += spf * 100
             if (this.run_pos >= 50) {
                 if (game_state.back_door_closed) {
-                    music.setVolume(220)
-                    music.knock.play()
-                    music.thump.play()
+                    music.knock.play(220)
+                    music.thump.play(220)
                     this.reset()
                 }
                 //changeme bc of no door anim, in real pant enters at runpos >= 100
@@ -38,8 +37,7 @@ class Panteater extends Animatronic {
             else {
                 if (this.timer.get_time() > 0.1) {
                     this.timer.reset()
-                    music.setVolume(150)
-                    music.footstep.play()
+                    music.footstep.play(150)
                 }
             }
         }
@@ -51,34 +49,3 @@ class Panteater extends Animatronic {
         }
     }
 }
-/*
-    update: function() {
-        if(!this.run) {
-            if(this.timer.getTime() > this.limit) {
-                this.limit = this.setLimit();
-                this.run = true;
-            }
-        } else {
-            this.runPos += spf*100;
-            if(this.runPos >= 50) {
-                if(rooms.office.doorRot !== 0) {
-                    rooms.office.doorRot += 0.6;
-                    rooms.office.doorRot = constrain(rooms.office.doorRot, 0, 1.5);
-                } else {
-                    addSound("retro/hit2", {time: 0, start: 0.05, PBR: 0.5});
-                    addSound("retro/hit1", {time: 200, start: 0.05});
-                    this.reset();
-                }
-            }
-            if(this.runPos >= 100 && scenes.game.aniIn === "" && !scenes.game.GW) {
-                scenes.game.aniIn = "pant";
-            } else {
-                if(this.timer.getTime() > 0.1) {
-                    this.timer.reset();
-                    addSound("rpg/step-heavy", {time: 0, start: 0.35, stop: 0.45, volume: normVol(0.5)});
-                }
-            }
-        }
-    },
-};
-*/

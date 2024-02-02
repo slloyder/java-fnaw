@@ -155,51 +155,53 @@ class Hopper extends Animatronic {
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
+            let im: Image = null
             switch (room) {
                 case 'Show Stage': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 5
+                    this.monitor_sprite.top = 32
+                    this.monitor_sprite.left = 3
                     break
                 }
-                case 'Backstage': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 5
+                case 'Backstage': {               
+                    this.monitor_sprite.top = 24
+                    this.monitor_sprite.left = 96
                     break
                 }
                 case 'Dining Area': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 5
+                    this.monitor_sprite.top = -20
+                    this.monitor_sprite.left = -20
                     break
                 }
                 case 'Supply Closet': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 5
+                    this.monitor_sprite.bottom = 59
+                    this.monitor_sprite.right = 118
                     break
                 }
                 case 'North Hall': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 5
+                    this.monitor_sprite.top = 20
+                    this.monitor_sprite.left = 99
                     break
                 }
                 case 'West Hall': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 5
+                    this.monitor_sprite.top = 12
+                    this.monitor_sprite.left = 16
                     break
                 }
                 case 'Spare Room': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 5
+                    this.monitor_sprite.top = 17
+                    this.monitor_sprite.left = -5
                     break
                 }
                 case 'Furnace Room': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 5
+                    this.monitor_sprite.top = 17
+                    this.monitor_sprite.left = 87
                     break
                 }
                 default: {
                     break
                 }
             }
+            im = null
         }
         else {
             if (room == 'Dining Area' || room == 'North Hall' || room == 'West Hall' || room == 'Furnace Room'
@@ -207,5 +209,29 @@ class Hopper extends Animatronic {
                 hide_sprite(this.monitor_sprite)
             }
         }
+    }
+    load(mode: number) {
+        let im: Image = null
+        if(mode == 0){
+            this.monitor_sprite = sprites.create(createImage(this.monitor_images['generic']), SpriteKind.inram)
+        }
+        if (mode == 1 || mode == 3) {
+            im = createImage('hopper')
+            im.fillRect(20, 11, 3, 2, 15) // make eyes black
+            im.fillRect(29, 11, 3, 2, 15)
+            this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        }
+        if (mode == 2) {
+            im = createImage('hopper')
+            im.fillRect(20, 11, 3, 1, 15) //make eyelids partially closed
+            im.fillRect(29, 11, 3, 1, 15)
+            im.setPixel(21, 12, 15)
+            im.setPixel(30, 12, 15)
+            this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        }
+        if(mode == 3){
+            im.replace(9, 15)
+        }
+        im = null
     }
 }

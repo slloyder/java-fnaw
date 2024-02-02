@@ -27,8 +27,7 @@ function handle_lights() {
             }
             // surprise
             if (ani[keys[l]].surprise == true && ani[keys[l]].room == 'Left Door') {
-                music.setVolume(150)
-                music.smallCrash.play()
+                music.smallCrash.play(150)
                 ani[keys[l]].surprise = false
             }
         }
@@ -68,8 +67,7 @@ function handle_lights() {
             }
             // surprise
             if (ani[keys[l]].surprise == true && ani[keys[l]].room == 'Right Door') {
-                music.setVolume(150)
-                music.smallCrash.play()
+                music.smallCrash.play(150)
                 ani[keys[l]].surprise = false
             }
         }
@@ -80,98 +78,7 @@ function handle_lights() {
         hide_sprite(door_light_sprites[1])
         hide_dict(right_door_ani_sprites)
     }
-    /*
-    if (game_state.lights[game_state.side]) {
-        window_light_sprites[game_state.side].top = 22
-        if (game_state.side == 0)
-            window_light_sprites[game_state.side].left = 48
-        else if (game_state.side == 1)
-            window_light_sprites[game_state.side].left = 89
-        if (game_state.doors[game_state.side]) {
-            hide_sprite(door_light_sprites[game_state.side])
-        }
-        else {
-            door_light_sprites[game_state.side].top = 13
-            if (game_state.side == 0)
-                door_light_sprites[game_state.side].left = 9
-            else if (game_state.side == 1)
-                door_light_sprites[game_state.side].left = 119
-        }
-        if (game_state.side == 0) {
-            let keys = Object.keys(ani)
-            for (let l = 0; l < keys.length; l++) {
-                if (keys[l] == 'hopps') {
-                    if (ani['hopps'].room == 'Left Door') {
-                        left_door_ani_sprites['hopps'].top = 12
-                        left_door_ani_sprites['hopps'].right = 69
-                    }
-                    else {
-                        hide_sprite(left_door_ani_sprites['hopps'])
-                    }
-                }
-                if (keys[l] == 'hal') {
-                    if (ani['hal'].room == 'Left Door') {
-                        left_door_ani_sprites['hal'].top = 22
-                        left_door_ani_sprites['hal'].left = 49
-                    }
-                    else {
-                        hide_sprite(left_door_ani_sprites['hal'])
-                    }
-                }
-                if (ani[keys[l]].surprise == true && ani[keys[l]].room == 'Left Door') {
-                    music.setVolume(150)
-                    music.smallCrash.play()
-                    ani[keys[l]].surprise = false
-                }
-            }
-        }
-        else if (game_state.side == 1) {
-            let keys = Object.keys(ani)
-            for (let l = 0; l < keys.length; l++) {
-                if (keys[l] == 'ohnoes') {
-                    if (ani['ohnoes'].room == 'Right Door') {
-                        right_door_ani_sprites['ohnoes'].top = 23
-                        right_door_ani_sprites['ohnoes'].left = 90
-                    }
-                    else {
-                        hide_sprite(right_door_ani_sprites['ohnoes'])
-                    }
-                }
-                if (keys[l] == 'hal') {
-                    if (ani['hal'].room == 'Right Door') {
-                        right_door_ani_sprites['hal'].top = 14
-                        right_door_ani_sprites['hal'].left = 91
-                    }
-                    else {
-                        hide_sprite(right_door_ani_sprites['hal'])
-                    }
-                }
-                if (ani[keys[l]].surprise == true && ani[keys[l]].room == 'Right Door') {
-                    music.setVolume(150)
-                    music.smallCrash.play()
-                    ani[keys[l]].surprise = false
-                }
-            }
-        }
-        
-    }
-    else if (!game_state.lights[game_state.side]) {
-        hide_sprite(window_light_sprites[game_state.side])
-        hide_sprite(door_light_sprites[game_state.side])
-        if (game_state.side == 0) {
-            let keys = Object.keys(left_door_ani_sprites)
-            for (let l = 0; l < keys.length; l++) {
-                hide_sprite(left_door_ani_sprites[keys[l]])
-            }
-        }
-        else if (game_state.side == 1) {
-            let keys = Object.keys(right_door_ani_sprites)
-            for (let l = 0; l < keys.length; l++) {
-                hide_sprite(right_door_ani_sprites[keys[l]])
-            }
-        }
-    }
-    */
+    
 }
 
 function handle_doors() {
@@ -233,7 +140,7 @@ function handle_time() {
         mygame.set_scene('win')
     }
 }
-
+//unused
 function init_jumpscare (animatronic: string) {
 
     init_palette(animatronic)
@@ -270,12 +177,14 @@ function init_jumpscare (animatronic: string) {
 }
 
 function handle_jumpscare() {
-    if (jumpscare_timer.get_time() < 1.5) {
-        jumpscare_sound()
-    }
-    else {
-        jumpscare_timer = null
-        mygame.set_scene('static')
+    if (jumpscare_timer != null){
+        if (jumpscare_timer.get_time() <= 1.5) {
+            jumpscare_sound()
+        }
+        else {
+            mygame.set_scene('static')
+            //jumpscare_timer = null
+        }
     }
 }
 

@@ -104,22 +104,31 @@ class OhNoes extends Animatronic {
     }
     update() {
         if (this.sound_timer.get_time() > this.stl && this.room == 'Kitchen') {
-            if (game_state.viewed_room == 'Kitchen') {
-                music.setVolume(200)
+            if (game_state.viewed_room == 'Kitchen' && game_state.monitor_on) {
+                let num = Math.randomRange(0, 1)
+                switch (num) {
+                    case 0: {
+                        music.baDing.play(200)
+                        break
+                    }
+                    case 1: {
+                        music.knock.play(200)
+                    }
+                }
             }
             else {
-                music.setVolume(50)
-            }
-            let num = Math.randomRange(0, 1)
-            switch (num) {
-                case 0: {
-                    music.baDing.play()
-                    break
+                let num = Math.randomRange(0, 1)
+                switch (num) {
+                    case 0: {
+                        music.baDing.play(50)
+                        break
+                    }
+                    case 1: {
+                        music.knock.play(50)
+                    }
                 }
-                case 1: {
-                    music.knock.play()
-                }
             }
+            
             this.sound_timer.reset()
             this.stl = Math.randomRange(1.0, 5)
         }
@@ -179,53 +188,53 @@ class OhNoes extends Animatronic {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
             switch (room) {
                 case 'Show Stage': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 74
+                    this.monitor_sprite.left = 39
                     break
                 }
                 case 'Dining Area': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 76
+                    this.monitor_sprite.left = 80
                     break
                 }
                 case 'South Hall': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = -10
+                    this.monitor_sprite.left = -60
                     break
                 }
                 case 'Spare Room': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 59
+                    this.monitor_sprite.left = 42
                     break
                 }
                 case 'Bathrooms': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 67
+                    this.monitor_sprite.left = 22
                     break
                 }
                 case 'East Hall 1': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 63
+                    this.monitor_sprite.left = 14
                     break
                 }
                 case 'East Hall 2': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 26
+                    this.monitor_sprite.left = 41
                     break
                 }
                 case 'East Hall 3': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 52
+                    this.monitor_sprite.left = 7
                     break
                 }
                 case 'Laser Tag Prep': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 30
+                    this.monitor_sprite.left = 47
                     break
                 }
                 case 'Changing Rooms': {
-                    this.monitor_sprite.bottom = 114
-                    this.monitor_sprite.left = 50
+                    this.monitor_sprite.top = 63
+                    this.monitor_sprite.left = 14
                     break
                 }
                 default: {
@@ -239,6 +248,56 @@ class OhNoes extends Animatronic {
             || room == 'East Hall 3' || room == 'Laser Tag Prep' || room == 'Changing Rooms') {
                 hide_sprite(this.monitor_sprite)
             }
+        }
+    }
+    load(mode: number) {
+        let im: Image = null
+        if (mode == 0) {
+            im = createImage('ohnoes')
+            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) //mouth
+            this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        }
+        if (mode == 1) {
+            im = createImage('ohnoes')
+            im.replace(1, 15) //replacing white on eyes with black
+            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) //mouth
+            this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        }
+        if (mode == 2) {
+            im = createImage('ohnoes')
+            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) //mouth
+            im.replace(1, 15) //replacing all non-body color with black
+            im.replace(13, 15)
+            this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        }
+        if (mode == 3) {
+            im = createImage('ohnoes')
+            im.drawLine(15, 18, 26, 18, 15) //closing eyelids halfway
+            im.drawLine(35, 18, 46, 18, 15)
+            im.fillRect(16, 13, 10, 7, 15)
+            im.fillRect(36, 13, 10, 7, 15)
+            im.blit(19, 32, 25, 16, createImage('ohnoesMouth').rotated(180), 0, 0, 25, 16, false, false) //upside down mouth
+            this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        }
+        if (mode == 4) {
+            im = createImage('ohnoes')
+            im.fillRect(19, 17, 3, 4, 1) //removing pupils
+            im.fillRect(39, 17, 3, 4, 1)
+            im.fillRect(23, 17, 2, 4, 15) //re-adding pupils in different location
+            im.fillRect(43, 17, 2, 4, 15)
+            im.drawLine(25, 18, 25, 19, 15)
+            im.drawLine(45, 18, 45, 19, 15)
+            im.fillRect(16, 13, 10, 4, 15) // closing eyelids partially
+            im.fillRect(36, 13, 10, 4, 15)
+            im.blit(14, 31, 25, 16, createImage('ohnoesMouth').rotated(180), 0, 0, 25, 16, false, false) //upside down mouth a bit to the left
+            this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        }
+        if (mode == 5) {
+            im = createImage('ohnoes')
+            im.fillRect(16, 13, 10, 4, 15) // closing eyelids partially
+            im.fillRect(36, 13, 10, 4, 15)
+            im.blit(19, 29, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) //mouth
+            this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         }
     }
 }

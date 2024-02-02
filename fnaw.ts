@@ -16,15 +16,13 @@ class Fnaw {
         this.office_left_handler.A = function () {
             if (!game_state.doors_broken[0]) {
                 game_state.doors[0] = !game_state.doors[0]
-                music.setVolume(20)
-                music.buzzer.play()
+                music.buzzer.play(20)
             }
         }
         this.office_left_handler.B = function () {
             if (!game_state.doors_broken[0]) {
                 game_state.lights[0] = !game_state.lights[0]
-                music.setVolume(150)
-                music.footstep.play()
+                music.footstep.play(150)
             }
         }
         this.office_left_handler.right = function () {
@@ -33,8 +31,7 @@ class Fnaw {
             mygame.set_scene('office_right')
         }
         this.office_left_handler.up = function () {
-            music.setVolume(150)
-            music.footstep.play()
+            music.footstep.play(150)
             mygame.set_scene('monitor')
         }
         this.office_left_handler.down = function () {
@@ -46,15 +43,13 @@ class Fnaw {
         this.office_right_handler.A = function () {
             if (!game_state.doors_broken[1]) {
                 game_state.doors[1] = !game_state.doors[1]
-                music.setVolume(20)
-                music.buzzer.play()
+                music.buzzer.play(20)
             }
         }
         this.office_right_handler.B = function () {
             if (!game_state.doors_broken[1]) {
                 game_state.lights[1] = !game_state.lights[1]
-                music.setVolume(150)
-                music.footstep.play()
+                music.footstep.play(150)
             }
         }
         this.office_right_handler.left = function () {
@@ -63,8 +58,7 @@ class Fnaw {
             mygame.set_scene('office_left')
         }
         this.office_right_handler.up = function () {
-            music.setVolume(150)
-            music.footstep.play()
+            music.footstep.play(150)
             mygame.set_scene('monitor')
         }
         this.office_right_handler.down = function () {
@@ -80,8 +74,7 @@ class Fnaw {
         }
         this.office_back_handler.up = function () {
             game_state.back_door_closed = false
-            music.setVolume(150)
-            music.footstep.play()
+            music.footstep.play(150)
             mygame.set_scene('monitor')
         }
 
@@ -107,8 +100,7 @@ class Fnaw {
             }
         }
         this.monitor_handler.B = function () {
-            music.setVolume(150)
-            music.footstep.play()
+            music.footstep.play(150)
             if (game_state.side == 'left') { mygame.set_scene('office_left') }
             if (game_state.side == 'right') { mygame.set_scene('office_right') }
         }
@@ -116,6 +108,9 @@ class Fnaw {
         // menu
         this.menu_handler = new EventHandler
         this.menu_handler.A = function () {
+            music.stopAllSounds()
+            music.buzzer.play(20)
+            music.bigCrash.play(55)
             switch (menu_pos) {
                 case 0: {
                     night = 1
@@ -201,19 +196,16 @@ class Fnaw {
                         back_door_sprite.setImage(createImage('backDoorClosed'))
                         back_door_sprite.left = 66
                         back_door_sprite.top = 36
-                        music.setVolume(140)
-                        music.thump.play()
+                        music.thump.play(140)
                     }
                     else if (!controller.A.isPressed() && game_state.back_door_closed){
                         game_state.back_door_closed = false
                         back_door_sprite.setImage(createImage('backDoorOpen'))
                         back_door_sprite.left = 56
                         back_door_sprite.top = 26
-                        music.setVolume(100)
-                        music.play(music.createSoundEffect(WaveShape.Noise, 3165, 5000, 217, 255, 200, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
+                        music.play(music.createSoundEffect(WaveShape.Noise, 3165, 5000, 117, 155, 200, SoundExpressionEffect.Vibrato, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
                         timer.after(200, function() {
-                            music.setVolume(100)
-                            music.play(music.createSoundEffect(WaveShape.Noise, 5000, 4178, 210, 49, 100, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
+                            music.play(music.createSoundEffect(WaveShape.Noise, 5000, 4178, 110, 9, 100, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
                         })
                         
                     }
@@ -229,6 +221,7 @@ class Fnaw {
                 game_state.lights = [false, false]
                 game_state.monitor_on = true
                 load_scene('monitor')
+                
                 if (monitor_anim_timer == null) {
                     monitor_anim_timer = new Timer
                 }
@@ -249,6 +242,7 @@ class Fnaw {
                     }
                     if (game_state.cams_broken || game_state.viewed_room == 'Kitchen' || game_state.viewed_room == game_state.hal_meddled_room) {
                         scene.setBackgroundImage(null)
+                        scene.setBackgroundColor(15)
                     }  
                     update_decals(game_state.viewed_room)                  
                     let keys = Object.keys(ani)
@@ -270,7 +264,6 @@ class Fnaw {
                     else if (monitor_anim_timer.get_time() > 3) {
                         monitor_anim_timer.reset()
                     }
-
                     handle_power()
                     handle_time()
                 }
@@ -284,7 +277,6 @@ class Fnaw {
                 let animator = make_lerp(six_am_slide.top, six_am_slide.top + six_am_slide.height / 2)
                 let win_seq = new Sequence([
                     0.5, function (a: number) {
-                        scene.setBackgroundImage(null)
                     },
                     3, function (a: number) {
                         six_am_slide.top = animator(a)
@@ -327,9 +319,36 @@ class Fnaw {
                     menu_option_texts[0].setText('New Game')
                 }
                 if (blockSettings.readNumber('everything') == 0) { hide_sprite(menu_option_texts[2]) }
-
+                let menu_sound_seq = new Sequence([
+                    0, function (a: number) {
+                        static_sound_menu.play(10)
+                        music.thump.play(110)
+                    },
+                    0.75, function (a: number) { },
+                    0, function (a: number) {
+                        music.thump.play(110)
+                    },
+                    0.30, function (a: number) { },
+                    0, function (a: number) {
+                        music.knock.play(110)
+                    },
+                    1.25, function (a: number) { },
+                    0, function (a: number) {
+                        music.thump.play(110)
+                    },
+                    0.5, function (a: number) { },
+                    0, function (a: number) {
+                        music.thump.play(110)
+                    },
+                    0.30, function (a: number) { },
+                    0, function (a: number) {
+                        music.knock.play(110)
+                    },
+                    1, function (a: number) { }
+                ])
                 the_update_handler = function () {
                     menu_selector.top = 52 + menu_pos * 12
+                    menu_sound_seq.loop(spf)
                 }
                 break
             }
@@ -337,9 +356,7 @@ class Fnaw {
                 install_handler(this.night_display_handler)
                 load_scene('night_display')
                 let night_seq = new Sequence([
-                    3, function (a: number) {
-                        scene.setBackgroundImage(null)
-                    },
+                    3, function (a: number) { },
                     0, function (a: number) {
                         game_timer.start()
                         ani = {
@@ -390,6 +407,7 @@ class Fnaw {
                 install_handler(this.jumpscare_handler)
                 jumpscare_sprite.destroy()
                 load_scene('static')
+                static_sound.play(10)
                 let static_seq = new Sequence([
                     5, function (a: number) { },
                     0, function (a: number) {

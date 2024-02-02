@@ -76,8 +76,11 @@ let static_anim: Image[] = null
 let static_anim_sprite: Sprite = null
 //other random stuffis
 let hal_sounds: SoundBuffer[]
+const win_sound_a = new music.Melody("@10,0,255,170 ~2 !450,170^365")
+const win_sound_b = new music.Melody("@10,0,255,150 ~2 !800,150^680")
+const static_sound = new music.Melody("@10,0,100,10 ~5 !500,5000")
+const static_sound_menu = new music.Melody("@10,0,100,10 ~5 !500,4100")
 
-scene.setBackgroundColor(15)
 
 class Animatronic {
     level: number = 0
@@ -108,19 +111,14 @@ class Animatronic {
     update() { }
     pause() { }
     play() { }
-    load() {
-        if (this.monitor_images != null) {
-            this.monitor_sprite = sprites.create(createImage(this.monitor_images['generic']), SpriteKind.inram)
-        }
-    }
+    load(mode: number) { }
     display(room: string) { }
 }
 
 function jumpscare_sound() {
-    music.setVolume(255)
-    music.bigCrash.play()
-    music.smallCrash.play()
-    music.knock.play()
+    music.bigCrash.play(255)
+    music.smallCrash.play(255)
+    music.knock.play(255)
 }
 
 //Globals
@@ -197,132 +195,3 @@ let stats = null//textsprite.create("")
 
 let mygame = new Fnaw
 mygame.set_scene('menu')
-/*
-GOLDEN WINSTON
-
-GWT: new Timer(),
-        startGame: function() {
-            this.GWTT = false; // Golden Winston Toggle Thing
-            this.GW = false; // Golden Winston
-            this.GWwC = random(5) < 1; // Golden Winston will Come
-            this.GWCT = random(516); // Golden Winston Come Time
-            this.GWD = random(10, 20); // Golden Winston Death
-            this.GWDe = false; // Golden Winston Dead
-            this.GWT.stop();
-            this.GWT.start();
------------------------<update>----------------------------------
-var ttttt = true;
-            for(var i in ani) {
-                if(ani.room === "office") {
-                    ttttt = false;
-                }
-            }
-if(this.GWT.getTime() > this.GWCT && this.GWwC && !this.GWTT && this.camRot === 0 && !powerOut) {
-                this.GWTT = true;
-            }                                
-            if(this.GWTT && this.camRot > 0 && !this.GW && this.GWwC && this.aniIn === "" && ttttt && !powerOut) {
-                this.GWTT = false;                              
-                this.GW = true;
-                this.GWT.reset();
-            }
-            if(this.GW && this.camRot === 0) {
-                this.GW = false;
-                this.GWwC = false;
-            }
-            if(this.GW && this.camRot > 0 && this.GWT.getTime() > this.GWD) {
-                this.GWDe = true;
-            }
-
---------------<Other Uses>-----------------------------
-if(this.runPos >= 100 && scenes.game.aniIn === "" && !scenes.game.GW) {
-                scenes.game.aniIn = "pant";
-            } else {
-
-if(this.runPos >= 200 && !scenes.game.GW) {
-                if(scenes.game.rightWall.door === false || scenes.game.rightWall.doorY < 300 && !powerOut) {
-                    if(scenes.game.aniIn === "" || scenes.game.aniIn === "squid") {
-                        scenes.game.squidJumpscare = true;
-                    }
-
-if(!this.GW) {
-                    this.backButton.update();
-                    BACK = this.backButton.choice;
-                } else {
-                    this.backButton.choice = false;
-                    BACK = false;
-if(this.GWDe) {
-                        goldenWinston(300, 300, 800);
-                        throw{message: "Golden Winston crashed this program!"};
-                    }
-                    if(this.GW) {
-                        goldenWinston(300, 400, 400);
-                    }
-                } else {
-*/
-
-
-
-/*
-switch () {
-    case 'Show Stage': {
-        break
-    }
-    case 'Backstage': {
-        break
-    }
-    case 'Dining Area': {
-        break
-    }
-    case 'Supply Closet': {
-        break
-    }
-    case 'North Hall': {
-        break
-    }
-    case 'West Hall': {
-        break
-    }
-    case 'Furnace Room': {
-        break
-    }
-    case 'South Hall': {
-        break
-    }
-    case 'Kitchen': {
-        break
-    }
-    case 'Kitchen Tools': {
-        break
-    }
-    case 'Arcade': {
-        break
-    }
-    case 'Spare Room': {
-        break
-    }
-    case 'Bathrooms': {
-        break
-    }
-    case 'East Hall 1': {
-        break
-    }
-    case 'East Hall 2': {
-        break
-    }
-    case 'East Hall 3': {
-        break
-    }
-    case 'Laser Tag Prep': {
-        break
-    }
-    case 'Changing Rooms': {
-        break
-    }
-    case 'Squid Reef': {
-        break
-    }
-    default: {
-        break
-    }
-}
-*/

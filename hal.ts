@@ -256,10 +256,6 @@ class Hal extends Animatronic {
                 hal_sounds[0].play()
             },
             0.4, function (a: number) { },
-            //0, function (a: number) {
-            //    hal_sounds[1].play()
-            //    //this.song_timer.reset()
-            //},
             0, thefunc,
             0.123, function (a: number) {
                 // do nothing!
@@ -286,6 +282,9 @@ class Hal extends Animatronic {
             }
             this.enter_time = (this.wait * 0.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
             this.leave_time = (this.wait * 1.5 + Math.randomRange(0.0, 20 - this.level / 5)) / (2.5 - this.level / 50)
+        }
+        if (this.room == 'Kitchen') {
+            this.sound_seq.reset()
         }
         if (game_state.viewed_room == this.room && !game_state.cams_broken && game_state.viewed_room != 'Kitchen' && game_state.monitor_on) {
             game_state.disable_cams()
@@ -314,7 +313,7 @@ class Hal extends Animatronic {
         game_state.hal_meddled_room = this.meddled_room
         if (this.room == 'Kitchen') {
             if (this.song_timer.get_time() > 3.2 * 2) {
-                if (game_state.viewed_room == 'Kitchen') {
+                if (game_state.viewed_room == 'Kitchen' && game_state.monitor_on) {
                     hal_sounds = [
                         soundEffects.createSound(1, 400, 262, 262, 255, 255),
                         soundEffects.createSound(1, 400, 523, 523, 255, 255),
@@ -458,63 +457,76 @@ class Hal extends Animatronic {
         if (this.room == room && !game_state.cams_broken && room != 'Kitchen' && room != game_state.hal_meddled_room) {
             switch (room) {
                 case 'Dining Area': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.top = 36
+                    this.monitor_sprite.left = 57
                     break
                 }
                 case 'North Hall': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.top = 46
+                    this.monitor_sprite.left = 147
                     break
                 }
                 case 'West Hall': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    if(ani['hopps'].room != room && ani['sam'].room != room){
+                        this.monitor_sprite.top = 23
+                        this.monitor_sprite.left = -68
+                    }
+                    else {
+                        this.monitor_sprite.top = 26
+                        this.monitor_sprite.left = -60
+                    }
                     break
                 }
                 case 'Furnace Room': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.top = 31
+                    this.monitor_sprite.left = 30
                     break
                 }
                 case 'South Hall': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    if (ani['win'].room != room && ani['ohnoes'].room != room && ani['fuzz'].room != room) {
+                        this.monitor_sprite.top = 23
+                        this.monitor_sprite.right = 241
+                    }
+                    else {
+                        this.monitor_sprite.top = 26
+                        this.monitor_sprite.left = 60
+                    }
                     break
+                    this.monitor_sprite.setPosition(0, 0)
                 }
                 case 'Arcade': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.top = 68
+                    this.monitor_sprite.left = -14
                     break
                 }
                 case 'Bathrooms': {
                     this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.left = 122
                     break
                 }
                 case 'East Hall 1': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.bottom = 32
+                    this.monitor_sprite.left = 10
                     break
                 }
                 case 'East Hall 2': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.top = 18
+                    this.monitor_sprite.left = 62
                     break
                 }
                 case 'East Hall 3': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.top = -2
+                    this.monitor_sprite.left = 60
                     break
                 }
                 case 'Laser Tag Prep': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.top = -5
+                    this.monitor_sprite.left = -8
                     break
                 }
                 case 'Changing Rooms': {
-                    this.monitor_sprite.top = 51
-                    this.monitor_sprite.left = 105
+                    this.monitor_sprite.top = 31
+                    this.monitor_sprite.left = 36
                     break
                 }
                 default: {
@@ -529,5 +541,61 @@ class Hal extends Animatronic {
                 hide_sprite(this.monitor_sprite)
             }
         }
+    }
+    load(mode: number) {
+        let main: Image = null
+        let flipped: Image = null
+        let padding: Image = null
+
+        if (mode == 0 || mode == 1) {
+            main = image.create(54, 74)
+            main.blit(11, 0, 16, 74, createImage('halBody'), 0, 0, 16, 74, true, false)
+            main.blit(0, 17, 21, 39, createImage('halArm'), 0, 0, 21, 39, true, false)
+            main.blit(12, 16, 15, 17, createImage('halChest'), 0, 0, 15, 17, true, false)
+            flipped = main.clone()
+            flipped.flipX()
+            main.blit(0, 0, 54, 74, flipped, 0, 0, 54, 74, true, false)
+        }
+        if(mode == 1) {
+            main.setPixel(25, 7, 1)
+            main.setPixel(28, 7, 1)
+        }
+        if (mode == 2 || mode == 3) {
+            main = image.create(94, 74)
+            padding = image.create(39, 39)
+            main.blit(31, 0, 16, 74, createImage('halBody'), 0, 0, 16, 74, true, false)
+            padding.blit(0, 0, 21, 39, createImage('halArm'), 0, 0, 21, 39, true, false)
+            padding.replace(9, 8)
+            main.blit(0, 2, 39, 39, padding.rotated(90), 0, 0, 39, 39, true, false)
+            main.blit(32, 16, 15, 17, createImage('halChest'), 0, 0, 15, 17, true, false)
+            flipped = main.clone()
+            flipped.flipX()
+            main.blit(0, 0, 94, 74, flipped, 0, 0, 94, 74, true, false)
+        }
+        if (mode == 3) {
+            main.setPixel(45, 7, 1)
+            main.setPixel(48, 7, 1)
+        }
+        if (mode == 4) {
+            main = image.create(4, 1)
+            main.setPixel(0, 0, 1)
+            main.setPixel(3, 0, 1)
+        }
+        if (mode == 5) {
+            main = image.create(76, 43)
+            padding = image.create(33, 33)
+            main.blit(22, 0, 16, 41, createImage('halBody'), 0, 0, 16, 41, true, false)
+            padding.blit(0, 0, 16, 33, createImage('halBody'), 0, 41, 16, 33, true, false)
+            padding.replace(15, 13)
+            main.blit(0, 27, 33, 33, padding.rotated(90), 0, 0, 33, 33, true, false)
+            main.blit(23, 16, 15, 17, createImage('halChest'), 0, 0, 15, 17, true, false)
+            flipped = main.clone()
+            flipped.flipX()
+            main.blit(0, 0, 94, 74, flipped, 0, 0, 94, 74, true, false)
+        }
+        this.monitor_sprite = sprites.create(main, SpriteKind.inram)
+        main = null
+        flipped = null
+        padding = null
     }
 }

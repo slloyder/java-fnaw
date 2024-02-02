@@ -99,4 +99,7 @@ class Fuzzy extends Animatronic {
             }
         }
     }
+    load(mode: number) {
+        this.monitor_sprite = sprites.create(createImage(this.monitor_images['generic']), SpriteKind.inram)
+    }
 }

@@ -25,13 +25,10 @@ function init_palette(palette: string) {
             break
         }
         case 'monitor': {
-            color.setColor(3, color.rgb(211, 177, 74)) //hopper
-            color.setColor(4, color.rgb(141, 173, 132)) //ohnoes
+            color.setColor(10, color.rgb(0, 146, 213)) //sam
             color.setColor(6, color.rgb(146, 133, 0)) //hal yellow, winston yellow
             color.setColor(8, color.rgb(59, 59, 64)) // hal
-            color.setColor(9, color.rgb(84, 88, 96)) //hal light
-            color.setColor(10, color.rgb(0, 146, 213)) //sam
-            //color.setColor(13, color.rgb(0, 255, 0)) //monitor map
+            color.setColor(9, color.rgb(74, 78, 95)) //hal light
             color.setColor(13, color.rgb(125, 6, 15)) //dark red
             break
         }
@@ -47,7 +44,8 @@ function init_palette(palette: string) {
             color.setColor(3, color.rgb(184, 184, 0))//y2
             color.setColor(4, color.rgb(150, 150, 0))//y3
             color.setColor(5, color.rgb(107, 107, 0))//y4
-            color.setColor(6, color.rgb(209, 209, 209))//eye1
+            //color.setColor(6, color.rgb(209, 209, 209))//eye1
+            color.setColor(6, color.rgb(150, 150, 0))//TEMP BODY
             color.setColor(7, color.rgb(161, 161, 161))//eye2
             color.setColor(8, color.rgb(174, 174, 0))//outline1
             color.setColor(9, color.rgb(140, 140, 0))//outline2
@@ -140,6 +138,19 @@ function init_palette(palette: string) {
             color.setColor(2, color.rgb(209, 63, 37)) // face
             color.setColor(7, color.rgb(100, 100, 100)) //spikes
             color.setColor(5, color.rgb(185, 24, 26)) //eye rings
+            color.setColor(13, color.rgb(0, 0, 0))
+            color.setColor(14, color.rgb(48, 48, 48)) //main wall
+            break
+        }
+        case 'golden_winston': {
+            color.setColor(6, color.rgb(72, 72, 72)) //side wall
+            color.setColor(3, color.rgb(48, 48, 48)) //main wall
+            color.setColor(4, color.rgb(20, 20, 20)) //roof
+            color.setColor(8, color.rgb(65, 45, 20)) //floor
+            color.setColor(9, color.rgb(227, 179, 21)) //body
+            color.setColor(10, color.rgb(168, 120, 5)) //mouth ring
+            color.setColor(11, color.rgb(122, 96, 27)) //teeth
+            color.setColor(12, color.rgb(24, 85, 255)) //blue wire
             color.setColor(13, color.rgb(0, 0, 0))
             color.setColor(14, color.rgb(48, 48, 48)) //main wall
             break

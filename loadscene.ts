@@ -6,7 +6,14 @@ function load_scene(specified_scene: string) {
     switch (specified_scene) {
         case 'office_left': {
             init_palette('office')
-            scene.setBackgroundImage(createImage('officeLeft'))
+            let im = image.create(160, 120)
+            im.fillRect(0, 0, 76, 120, 3)
+            im.fillRect(76, 0, 84, 120, 4)
+            im.fillPolygon4(9, 13, 40, 20, 40, 104, 9, 115, 15)
+            im.fillPolygon4(48, 22, 70, 27, 70, 54, 48, 58, 15)
+            im.fillTriangle(-1, 119, 76, 92, 160, 119, 8)
+            im.fillTriangle(-1, 0, 75, 19, 160, 0, 6)
+            scene.setBackgroundImage(im)
             door_light_sprites[0] = sprites.create(createImage('leftDoorLight'), SpriteKind.inram)
             window_light_sprites[0] = sprites.create(createImage('leftLight'), SpriteKind.inram)
             left_door_ani_sprites['hopps'] = sprites.create(createImage('hopperDoor'), SpriteKind.inram)
@@ -25,7 +32,15 @@ function load_scene(specified_scene: string) {
         }
         case 'office_right': {
             init_palette('office')
-            scene.setBackgroundImage(createImage('officeRight'))
+            let im = image.create(160, 120)
+            im.fillRect(0, 0, 76, 120, 3)
+            im.fillRect(76, 0, 84, 120, 4)
+            im.fillPolygon4(9, 13, 40, 20, 40, 104, 9, 115, 15)
+            im.fillPolygon4(48, 22, 70, 27, 70, 54, 48, 58, 15)
+            im.fillTriangle(-1, 119, 76, 92, 160, 119, 8)
+            im.fillTriangle(-1, 0, 75, 19, 160, 0, 6)
+            im.flipX()
+            scene.setBackgroundImage(im)
             door_light_sprites[1] = sprites.create(createImage('rightDoorLight'), SpriteKind.inram)
             window_light_sprites[1] = sprites.create(createImage('rightLight'), SpriteKind.inram)
             right_door_ani_sprites['ohnoes'] = sprites.create(createImage('ohnoesDoor'), SpriteKind.inram)
@@ -64,8 +79,8 @@ function load_scene(specified_scene: string) {
             load_monitor_room_background(game_state.viewed_room)
             load_monitor_room(game_state.viewed_room)
             monitor_map_sprite = sprites.create(createImage('monitorMap'), SpriteKind.inram)
-            monitor_map_sprite.top = 0
-            monitor_map_sprite.left = 0
+            monitor_map_sprite.top = 10
+            monitor_map_sprite.left = 26
             monitor_anim_sprite = sprites.create(assets.image`monitorRecordIndicator`, SpriteKind.inram)
             monitor_room_text = textsprite.create('')
             monitor_room_text.top = 1
@@ -89,6 +104,7 @@ function load_scene(specified_scene: string) {
         case 'win': {
             init_palette('')
             scene.setBackgroundImage(null)
+            scene.setBackgroundColor(15)
             six_am_slide = sprites.create(createImage('6AMSlide'), SpriteKind.inram)
             six_am_slide.bottom = 66
             six_am_slide.left = 52
@@ -100,7 +116,16 @@ function load_scene(specified_scene: string) {
         case 'menu': {
             init_palette('menu')
             scene.setBackgroundImage(null)
-            menu_winston = sprites.create(createImage('menuWinston'), SpriteKind.inram)
+            scene.setBackgroundColor(15)
+            let im: Image = image.create(61, 61)
+            im.fillCircle(30, 30, 30, 6)
+            im.fillCircle(30, 41, 11, 13)
+            im.fillRect(18, 15, 7, 5, 15)
+            im.fillRect(37, 15, 7, 5, 15)
+            im.fillRect(19, 14, 5, 7, 15)
+            im.fillRect(38, 14, 5, 7, 15)
+            //menu_winston = sprites.create(createImage('menuWinston'), SpriteKind.inram)
+            menu_winston = sprites.create(im, SpriteKind.inram)
             menu_winston.bottom = 110
             menu_winston.right = 150
             menu_title = [
@@ -133,6 +158,7 @@ function load_scene(specified_scene: string) {
         case 'night_display': {
             init_palette('')
             scene.setBackgroundImage(null)
+            scene.setBackgroundColor(15)
             twelve_am_text = textsprite.create('12:00 AM')
             twelve_am_text.setPosition(80, 55)
             night_text = textsprite.create('')
@@ -145,12 +171,18 @@ function load_scene(specified_scene: string) {
             switch (game_state.ani_in) {
                 case 'win': {
                     scene.setBackgroundImage(createImage('officeMid'))
-                    jumpscare_sprite = sprites.create(createImage('winstonJumpscarePic'), SpriteKind.inram)
+                    let im = image.create(160, 120)
+                    im.fillCircle(81, 55, 84, 2)
+                    im.fillCircle(51, 20, 11, 15)
+                    im.fillCircle(110, 29, 11, 15)
+                    im.blit(34, 41, 85, 79, createImage('winstonJumpscarePic'), 0, 0, 85, 79, true, false)
+                    jumpscare_sprite = sprites.create(im, SpriteKind.inram)
+                    im = null
                     break
                 }
                 case 'hopps': {
                     scene.setBackgroundImage(createImage('officeMid'))
-                    jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
+                        jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
                     break
                 }
                 case 'ohnoes': {

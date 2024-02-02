@@ -20,9 +20,6 @@ function load_monitor_room_background(room: string) {
             scene.setBackgroundImage(im)
             break
         }
-        case 'Supply Closet': {
-            break
-        }
         case 'North Hall': {
             scene.setBackgroundImage(createImage('cornerHall'))
             break
@@ -109,7 +106,7 @@ function load_monitor_room_background(room: string) {
         case 'Squid Reef': {
             im = image.create(160, 120)
             im.fill(3)
-            im.fillPolygon4(0, 93, 160, 77, 0, 120, 160, 120, 4)
+            im.fillPolygon4(0, 93, 160, 77, 0, 120, 160, 120, 14)
             scene.setBackgroundImage(im)
             
             break

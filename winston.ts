@@ -2,6 +2,7 @@ class Winston extends Animatronic {
     enter_timer: Timer = new Timer
     old_room: string
     will_move: boolean
+    song: WinstonMusic = new WinstonMusic
     constructor() {
         super('Show Stage')
         super.reset()
@@ -66,6 +67,9 @@ class Winston extends Animatronic {
         if (this.room == 'South Hall') {
             this.enter_time = this.wait * (1 - (this.level - 5) / 15)
         }
+        if (this.room == 'Kitchen') {
+            this.song.reset()
+        }
         if (this.will_move) {
             this.move_noise()
         }
@@ -93,9 +97,16 @@ class Winston extends Animatronic {
         else {
             this.enter_timer.reset()
         }
+        if (this.room == 'Kitchen') {
+            if (game_state.viewed_room == 'Kitchen' && game_state.monitor_on) {
+                this.song.play(90)
+            }
+            else {
+                this.song.play(30)
+            }
+        }
     }
     move_noise () {
-        music.setVolume(200)
         music.play(music.createSoundEffect(
             WaveShape.Noise,
             1750,
@@ -118,7 +129,6 @@ class Winston extends Animatronic {
                     InterpolationCurve.Curve
             ), music.PlaybackMode.InBackground)
         })
-        music.setVolume(200)
         timer.after(500, function () {
             music.play(music.createSoundEffect(
                 WaveShape.Noise,
@@ -154,106 +164,46 @@ class Winston extends Animatronic {
                     ), music.PlaybackMode.InBackground)
                 })
             })
-        })
-        /*music.setVolume(3)
-        music.play(music.createSoundEffect(WaveShape.Noise, 1700, 1750, 50, 200, 60, SoundExpressionEffect.None, InterpolationCurve.Logarithmic), music.PlaybackMode.UntilDone)
-        music.play(music.createSoundEffect(
-            WaveShape.Noise,
-            1800,
-            1900,
-            200,
-            255,
-            100,
-            SoundExpressionEffect.Vibrato,
-            InterpolationCurve.Logarithmic
-        ), music.PlaybackMode.UntilDone)
-        music.play(music.createSoundEffect(
-            WaveShape.Noise,
-            1900,
-            1500,
-            255,
-            115,
-            90,
-            SoundExpressionEffect.Vibrato,
-            InterpolationCurve.Curve
-        ), music.PlaybackMode.UntilDone)
-                timer.after(500, function() {
-                    music.setVolume(3)
-                    music.play(music.createSoundEffect(
-                        WaveShape.Noise,
-                        1700,
-                        1750,
-                        50,
-                        200,
-                        60,
-                        SoundExpressionEffect.None,
-                        InterpolationCurve.Logarithmic
-                    ), music.PlaybackMode.UntilDone)
-                    music.play(music.createSoundEffect(
-                        WaveShape.Noise,
-                        1800,
-                        1900,
-                        200,
-                        255,
-                        100,
-                        SoundExpressionEffect.Vibrato,
-                        InterpolationCurve.Logarithmic
-                    ), music.PlaybackMode.UntilDone)
-                    music.play(music.createSoundEffect(
-                        WaveShape.Noise,
-                        1900,
-                        1500,
-                        255,
-                        115,
-                        90,
-                        SoundExpressionEffect.Vibrato,
-                        InterpolationCurve.Curve
-                    ), music.PlaybackMode.UntilDone)
-                    music.play(music.createSoundEffect(
-                        WaveShape.Noise,
-                        1500,
-                        1500,
-                        115,
-                        90,
-                        50,
-                        SoundExpressionEffect.Vibrato,
-                        InterpolationCurve.Curve
-                    ), music.PlaybackMode.InBackground)
-                })*/
-                
+        })              
         
     }
     display(room: string) {
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
             switch (room) {
                 case 'Show Stage': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 126
+                    this.monitor_sprite.top = 70
+                    this.monitor_sprite.left = 107
                     break
                 }
                 case 'Dining Area': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 126
+                    this.monitor_sprite.top = 44
+                    this.monitor_sprite.left = 123
                     break
                 }
                 case 'South Hall': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 126
+                    if(ani['ohnoes'].room == 'South Hall') {
+                        this.monitor_sprite.top = 73
+                        this.monitor_sprite.left = 49
+                    }
+                    else {
+                        this.monitor_sprite.top = -20
+                        this.monitor_sprite.left = -35
+                    }
                     break
                 }
                 case 'East Hall 1': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 126
+                    this.monitor_sprite.top = 49
+                    this.monitor_sprite.left = 44
                     break
                 }
                 case 'East Hall 2': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 126
+                    this.monitor_sprite.top = 23
+                    this.monitor_sprite.left = 46
                     break
                 }
                 case 'East Hall 3': {
-                    this.monitor_sprite.bottom = 118
-                    this.monitor_sprite.left = 126
+                    this.monitor_sprite.top = 32
+                    this.monitor_sprite.left = 103
                     break
                 }    
                 default: {
@@ -268,12 +218,78 @@ class Winston extends Animatronic {
             }
         }
     }
+    load(mode: number) {
+        let im: Image = null
+        if(mode == 0){
+            im = image.create(61, 61)
+            im.fillCircle(30, 30, 30, 6)
+            im.fillCircle(35, 41, 11, 13)
+            im.fillRect(23, 15, 7, 5, 15)
+            im.fillRect(40, 15, 7, 5, 15)
+            im.fillRect(24, 14, 5, 7, 15)
+            im.fillRect(41, 14, 5, 7, 15)
+        }
+        if (mode == 1) {
+            im = image.create(71, 71)
+            im.fillCircle(35, 35, 35, 6)
+            im.fillCircle(35, 49, 10, 13)
+            im.fillRect(18, 18, 9, 7, 15)
+            im.fillRect(44, 18, 9, 7, 15)
+            im.fillRect(19, 17, 7, 9, 15)
+            im.fillRect(45, 17, 7, 9, 15)
+            im.setPixel(22, 21, 1)
+            im.setPixel(48, 21, 1)
+        }
+        if (mode == 2) {
+            im = image.create(7, 1)
+            im.setPixel(0, 0, 1)
+            im.setPixel(6, 0, 1)
+        }
+        if (mode == 3) {
+            im = image.create(61, 61)
+            im.fillCircle(30, 30, 30, 3)
+        }
+        this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        im = null
+    }
 }
 
 class WinstonMusic {
     volume: number
+    sounds: music.Melody[]
+    sound_seq: Sequence
     constructor() {
-
+        this.sound_seq = new Sequence([
+            0.75, function (a: number) { },
+            0, function (a: number) {
+                win_sound_a.play(this.volume)
+            },
+            0.75, function (a: number) { },
+            0, function (a: number) {
+                win_sound_b.play(this.volume)
+            },
+            0.75, function (a: number) { },
+            0, function (a: number) {
+                win_sound_a.play(this.volume)
+            },
+            0.55, function (a: number) { },
+            0, function (a: number) {
+                win_sound_b.play(this.volume)
+            },
+            0.23, function (a: number) { },
+            0, function (a: number) {
+                win_sound_b.play(this.volume)
+            }
+        ])
     }
+    
+    play(volume: number) { //TEMP
+        this.volume = volume
+        this.sound_seq.loop(spf)
+    }
+    reset() {
+        this.sound_seq.reset()
+    }
+    
     
 }

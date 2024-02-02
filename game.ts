@@ -62,14 +62,11 @@ class Game {
         this.cams_broken_limit = Math.randomRange(3.0, 5)
         this.fake_squidical_level = ani['squid'].danger
         load_scene('monitor')
-        music.setVolume(64)
-        music.thump.play()
+        music.thump.play(64)
         timer.after(200, function () {
-            music.setVolume(64)
-            music.thump.play()
+            music.thump.play(64)
             timer.after(200, function () {
-                music.setVolume(64)
-                music.thump.play()
+                music.thump.play(64)
             })
         })
     }
