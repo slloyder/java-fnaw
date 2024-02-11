@@ -61,6 +61,7 @@ let squid_reef_door_decal: Sprite = null
 let dining_area_chair_decal1: Sprite = null
 let dining_area_chair_decal2: Sprite = null
 //transitions
+let texts: TextSprite[] = null
 let six_am_slit: Sprite = null
 let six_am_slide: Sprite = null
 let twelve_am_text: TextSprite = null

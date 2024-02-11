@@ -59,8 +59,7 @@ function load_monitor_room(room: string) {
             dining_area_chair_decal2 = sprites.create(im, SpriteKind.inram)
             scaling.scaleToPixels(dining_area_chair_decal2, 118, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
             ani['win'].load(2)
-            //ani['hal'].load(3)
-            ani['hal'].load(1)
+            ani['hal'].load(3)
             dining_area_chair_decal1 = sprites.create(im, SpriteKind.inram)
             ani['ohnoes'].load(2)
             ani['hopps'].load(3)
@@ -91,6 +90,7 @@ function load_monitor_room(room: string) {
             color.setColor(3, color.rgb(117, 97, 37)) //hopper
             color.setColor(4, color.rgb(90, 90, 90)) //wall
             //color.setColor(6, color.rgb(105, 105, 105)) //light tiles1
+            color.setColor(8, color.rgb(59, 59, 64)) // sam glasses
             color.setColor(11, color.rgb(35, 35, 35)) //light tiles2
             color.setColor(12, color.rgb(70, 70, 70)) //door outline
             color.setColor(14, color.rgb(102, 90, 62)) //door
@@ -105,20 +105,24 @@ function load_monitor_room(room: string) {
             color.setColor(3, color.rgb(51, 42, 18)) //hopper
             color.setColor(6, color.rgb(116, 100, 0)) //hal yellow
             color.setColor(9, color.rgb(68, 70, 71)) //hal light
+            color.setColor(8, color.rgb(27, 27, 27)) //sam glasses
+            color.setColor(12, color.rgb(0, 66, 96)) //sam body
+            color.setColor(10, color.rgb(0, 16, 23)) //sam hair
             color.setColor(13, color.rgb(94, 6, 8)) //dark red
             color.setColor(14, color.rgb(85, 85, 85)) //wall
             ani['hal'].load(1)
             if (ani['hopps'].room != room && ani['sam'].room != room) {
-                color.setColor(8, color.rgb(38, 34, 34)) // hal dark
+                color.setColor(8, color.rgb(46, 40, 40)) // hal dark
                 scaling.scaleToPercent(ani['hal'].monitor_sprite, 700, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             }
             else {
-                color.setColor(8, color.rgb(34, 34, 34)) // hal dark
+                color.setColor(8, color.rgb(40, 40, 40)) // hal dark
                 scaling.scaleToPercent(ani['hal'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             }
             ani['hopps'].load(0)
             scaling.scaleToPercent(ani['hopps'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             ani['sam'].load(0)
+            scaling.scaleToPercent(ani['sam'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             break
         }
         case 'Furnace Room': {
@@ -140,8 +144,12 @@ function load_monitor_room(room: string) {
             break
         }
         case 'South Hall': {
+            color.setColor(3, color.rgb(112, 33, 19)) //fuzzy body
             color.setColor(6, color.rgb(126, 108, 0)) //hal yellow
             color.setColor(9, color.rgb(89, 95, 99)) //hal light
+            color.setColor(10, color.rgb(60, 60, 60)) //fuzzy spikes
+            color.setColor(11, color.rgb(255, 255, 255)) //fuzzy eyes
+            color.setColor(12, color.rgb(105, 86, 0)) //winston
             color.setColor(13, color.rgb(114, 6, 8)) //dark red
             color.setColor(4, color.rgb(64, 79, 60)) //ohnoes
             color.setColor(14, color.rgb(85, 85, 85)) //wall
@@ -157,6 +165,7 @@ function load_monitor_room(room: string) {
             ani['win'].load(1)
             ani['ohnoes'].load(0)
             ani['fuzz'].load(0)
+            scaling.scaleToPercent(ani['fuzz'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             scaling.scaleToPercent(ani['ohnoes'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             scaling.scaleToPercent(ani['win'].monitor_sprite, 220, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             break
@@ -166,10 +175,15 @@ function load_monitor_room(room: string) {
         }
         case 'Kitchen Tools': {
             ani['fuzz'].load(0)
+            scaling.scaleToPercent(ani['fuzz'].monitor_sprite, 150, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             if (ani['fuzz'].room != 'Lab'){
-                color.setColor(3, color.rgb(40, 40, 40)) // outer wall
-                color.setColor(4, color.rgb(10, 10, 10)) // wall edges
+                color.setColor(8, color.rgb(40, 40, 40)) //outer wall
+                color.setColor(4, color.rgb(10, 10, 10)) //wall edges
                 color.setColor(6, color.rgb(80, 80, 80)) //light
+                color.setColor(3, color.rgb(0, 0, 0)) //fuzzy inside
+                color.setColor(10, color.rgb(0, 0, 0)) //fuzzy outside
+                color.setColor(11, color.rgb(0, 0, 0)) //fuzzy eyes
+                color.setColor(13, color.rgb(0, 0, 0)) //fuzzy eye rings
                 color.setColor(12, color.rgb(84, 74, 51)) //door
                 color.setColor(14, color.rgb(84, 74, 51)) //door
                 door_decal1 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
@@ -177,7 +191,7 @@ function load_monitor_room(room: string) {
                 scaling.scaleToPixels(door_decal1, 57, ScaleDirection.Horizontally, ScaleAnchor.Middle, false)
             }
             else {
-                color.setColor(3, color.rgb(15, 15, 15)) // outer wall
+                color.setColor(8, color.rgb(15, 15, 15)) // outer wall
                 color.setColor(4, color.rgb(90, 90, 90)) // cracks of light
                 color.setColor(6, color.rgb(0, 0, 0)) //closed door
             }
@@ -197,8 +211,7 @@ function load_monitor_room(room: string) {
             color.setColor(14, color.rgb(41, 56, 158)) //blue button
             arcade_decal1 = sprites.create(createImage('arcadeDecal'), SpriteKind.inram)
             arcade_decal2 = sprites.create(createImage('arcadeDecal'), SpriteKind.inram)
-            ani['hal'].load(0)
-            //ani['hal'].load(5)
+            ani['hal'].load(5)
             scaling.scaleToPercent(ani['hal'].monitor_sprite, 130, ScaleDirection.Uniformly, ScaleAnchor.Middle)
             break
         }
@@ -308,8 +321,7 @@ function load_monitor_room(room: string) {
             color.setColor(14, color.rgb(102, 90, 62)) //door
             door_decal1 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
             door_decal2 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
-            //ani['hal'].load(2)
-            ani['hal'].load(0)
+            ani['hal'].load(2)
             ani['ohnoes'].load(0)
             break
         }

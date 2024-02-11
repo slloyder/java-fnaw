@@ -14,6 +14,7 @@ function load_scene(specified_scene: string) {
             im.fillTriangle(-1, 119, 76, 92, 160, 119, 8)
             im.fillTriangle(-1, 0, 75, 19, 160, 0, 6)
             scene.setBackgroundImage(im)
+            im = null
             door_light_sprites[0] = sprites.create(createImage('leftDoorLight'), SpriteKind.inram)
             window_light_sprites[0] = sprites.create(createImage('leftLight'), SpriteKind.inram)
             left_door_ani_sprites['hopps'] = sprites.create(createImage('hopperDoor'), SpriteKind.inram)
@@ -41,6 +42,7 @@ function load_scene(specified_scene: string) {
             im.fillTriangle(-1, 0, 75, 19, 160, 0, 6)
             im.flipX()
             scene.setBackgroundImage(im)
+            im = null
             door_light_sprites[1] = sprites.create(createImage('rightDoorLight'), SpriteKind.inram)
             window_light_sprites[1] = sprites.create(createImage('rightLight'), SpriteKind.inram)
             right_door_ani_sprites['ohnoes'] = sprites.create(createImage('ohnoesDoor'), SpriteKind.inram)
@@ -59,7 +61,15 @@ function load_scene(specified_scene: string) {
         }
         case 'office_back': {
             init_palette('office_back')
-            scene.setBackgroundImage(createImage('officeMid'))
+            let im = image.create(160, 120)
+            im.fill(3)
+            im.fillRect(65, 35, 31, 66, 15)
+            im.fillRect(0, 0, 15, 120, 6)
+            im.fillRect(144, 0, 16, 120, 6)
+            im.fillPolygon4(-23, 0, 181, 0, 143, 15, 15, 15, 4)
+            im.fillPolygon4(15, 101, 143, 101, 177, 119, -17, 119, 8)
+            scene.setBackgroundImage(im)
+            im = null
             back_door_sprite = sprites.create(createImage('backDoorOpen'), SpriteKind.inram)
             back_door_sprite.left = 56
             back_door_sprite.top = 26
@@ -117,7 +127,7 @@ function load_scene(specified_scene: string) {
             init_palette('menu')
             scene.setBackgroundImage(null)
             scene.setBackgroundColor(15)
-            let im: Image = image.create(61, 61)
+            let im = image.create(61, 61)
             im.fillCircle(30, 30, 30, 6)
             im.fillCircle(30, 41, 11, 13)
             im.fillRect(18, 15, 7, 5, 15)
@@ -155,6 +165,11 @@ function load_scene(specified_scene: string) {
             }
             break            
         }
+        case 'newspaper': {
+            init_palette('newspaper')
+            
+            break
+        }
         case 'night_display': {
             init_palette('')
             scene.setBackgroundImage(null)
@@ -168,52 +183,68 @@ function load_scene(specified_scene: string) {
         }
         case 'jumpscare': {
             init_palette(game_state.ani_in)
+            let im = image.create(160, 120)
+            im.fill(3)
+            im.fillRect(0, 0, 15, 120, 6)
+            im.fillRect(144, 0, 16, 120, 6)
+            im.fillPolygon4(0, 24, 9, 27, 9, 57, 0, 60, 13)
+            im.fillPolygon4(150, 27, 159, 24, 159, 60, 150, 57, 13)
+            im.fillPolygon4(-23, 0, 181, 0, 143, 15, 15, 15, 4)
+            im.fillPolygon4(15, 101, 143, 101, 177, 119, -17, 119, 8)
             switch (game_state.ani_in) {
                 case 'win': {
-                    scene.setBackgroundImage(createImage('officeMid'))
-                    let im = image.create(160, 120)
+                    scene.setBackgroundImage(im)
+                    im = image.create(160, 120)
                     im.fillCircle(81, 55, 84, 2)
                     im.fillCircle(51, 20, 11, 15)
                     im.fillCircle(110, 29, 11, 15)
                     im.blit(34, 41, 85, 79, createImage('winstonJumpscarePic'), 0, 0, 85, 79, true, false)
                     jumpscare_sprite = sprites.create(im, SpriteKind.inram)
-                    im = null
                     break
                 }
                 case 'hopps': {
-                    scene.setBackgroundImage(createImage('officeMid'))
+                    scene.setBackgroundImage(im)
                         jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
                     break
                 }
                 case 'ohnoes': {
-                    scene.setBackgroundImage(createImage('officeMid'))
+                    scene.setBackgroundImage(im)
                     jumpscare_sprite = sprites.create(createImage('ohnoesJumpscarePic1'), SpriteKind.inram)
                     break
                 }
                 case 'squid': {
                     jumpscare_sprite = sprites.create(createImage('squidJumpPic'), SpriteKind.inram)
-                    scene.setBackgroundImage(createImage('officeRight'))
+                    im = image.create(160, 120)
+                    im.fillRect(0, 0, 76, 120, 3)
+                    im.fillRect(76, 0, 84, 120, 4)
+                    im.fillPolygon4(9, 13, 40, 20, 40, 104, 9, 115, 15)
+                    im.fillPolygon4(48, 22, 70, 27, 70, 54, 48, 58, 15)
+                    im.fillTriangle(-1, 119, 76, 92, 160, 119, 8)
+                    im.fillTriangle(-1, 0, 75, 19, 160, 0, 6)
+                    im.flipX()
+                    scene.setBackgroundImage(im)
                     jumpscare_sprite.right = 151
                     jumpscare_sprite.bottom = 100
                     break
                 }
                 case 'pant': {
-                    scene.setBackgroundImage(createImage('officeMid'))
+                    scene.setBackgroundImage(im)
                     jumpscare_sprite = sprites.create(createImage('panteaterJumpscarePic'), SpriteKind.inram)
                     break
                 }
                 case 'sam': {
-                    scene.setBackgroundImage(createImage('officeMid'))
+                    scene.setBackgroundImage(im)
                     jumpscare_sprite = sprites.create(createImage('samJumpscarePic'), SpriteKind.inram)
                     break
                 }
                 case 'fuzz': {
-                    scene.setBackgroundImage(createImage('officeMid'))
+                    scene.setBackgroundImage(im)
                     jumpscare_sprite = sprites.create(createImage('fuzzyJumpscarePic'), SpriteKind.inram)
                     break
                 }
             }
             break
+            im = null
         }
         case 'static': {
             init_palette('static')

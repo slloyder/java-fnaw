@@ -472,8 +472,8 @@ class Hal extends Animatronic {
                         this.monitor_sprite.left = -68
                     }
                     else {
-                        this.monitor_sprite.top = 26
-                        this.monitor_sprite.left = -60
+                        this.monitor_sprite.top = 16
+                        this.monitor_sprite.left = -42
                     }
                     break
                 }
@@ -566,7 +566,7 @@ class Hal extends Animatronic {
             main.blit(31, 0, 16, 74, createImage('halBody'), 0, 0, 16, 74, true, false)
             padding.blit(0, 0, 21, 39, createImage('halArm'), 0, 0, 21, 39, true, false)
             padding.replace(9, 8)
-            main.blit(0, 2, 39, 39, padding.rotated(90), 0, 0, 39, 39, true, false)
+            main.blit(0, 2, 39, 39, test_ext.rotated(padding, 90), 0, 0, 39, 39, true, false)
             main.blit(32, 16, 15, 17, createImage('halChest'), 0, 0, 15, 17, true, false)
             flipped = main.clone()
             flipped.flipX()
@@ -587,7 +587,7 @@ class Hal extends Animatronic {
             main.blit(22, 0, 16, 41, createImage('halBody'), 0, 0, 16, 41, true, false)
             padding.blit(0, 0, 16, 33, createImage('halBody'), 0, 41, 16, 33, true, false)
             padding.replace(15, 13)
-            main.blit(0, 27, 33, 33, padding.rotated(90), 0, 0, 33, 33, true, false)
+            main.blit(0, 27, 33, 33, test_ext.rotated(padding, 90), 0, 0, 33, 33, true, false)
             main.blit(23, 16, 15, 17, createImage('halChest'), 0, 0, 15, 17, true, false)
             flipped = main.clone()
             flipped.flipX()

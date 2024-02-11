@@ -55,6 +55,14 @@ function init_palette(palette: string) {
             color.setColor(13, color.rgb(171, 0, 40))//mid2
             break
         }
+        case 'newspaper': {
+            color.setColor(2, color.rgb(65, 65, 65)) //winston mouth
+            color.setColor(4, color.rgb(190, 190, 190)) //winston mouth outline
+            color.setColor(5, color.rgb(215, 215, 215)) //winston body
+            color.setColor(6, color.rgb(80, 80, 80)) //winston background top
+            color.setColor(8, color.rgb(115, 115, 115)) //winston background bottom
+            break
+        }
         case 'win': {
             color.setColor(6, color.rgb(72, 72, 72)) //side wall
             color.setColor(3, color.rgb(72, 63, 48)) //winston teeth        
@@ -64,7 +72,6 @@ function init_palette(palette: string) {
             color.setColor(7, color.rgb(122, 0, 0)) // mouth
             color.setColor(5, color.rgb(118, 118, 6)) // mouth outline
             color.setColor(13, color.rgb(0, 0, 0))
-            color.setColor(14, color.rgb(48, 48, 48)) //main wall
             break
         } 
         case 'hopps': {
@@ -78,7 +85,6 @@ function init_palette(palette: string) {
             color.setColor(9, color.rgb(205, 169, 71)) // jaw, lower arm
             color.setColor(10, color.rgb(166, 166, 166)) // connectors
             color.setColor(13, color.rgb(0, 0, 0))
-            color.setColor(14, color.rgb(48, 48, 48)) //main wall
             break
         }
         case 'ohnoes': {
@@ -92,7 +98,6 @@ function init_palette(palette: string) {
             color.setColor(9, color.rgb(118, 150, 110)) //eyebrows, mouth outline
             color.setColor(10, color.rgb(190, 190, 190)) //teeth, eye glint
             color.setColor(13, color.rgb(0, 0, 0))
-            color.setColor(14, color.rgb(48, 48, 48)) //main wall
             break
         }
         case 'squid': {
@@ -113,7 +118,6 @@ function init_palette(palette: string) {
             color.setColor(8, color.rgb(65, 45, 20)) //floor
             color.setColor(9, color.rgb(62, 170, 150)) //arms
             color.setColor(13, color.rgb(48, 48, 48)) //side wall
-            color.setColor(14, color.rgb(0, 0, 0))
             break
         }
         case 'sam': {
@@ -127,7 +131,6 @@ function init_palette(palette: string) {
             color.setColor(9, color.rgb(255, 50, 0)) //eyes
             color.setColor(10, color.rgb(200, 0, 25)) //mouth
             color.setColor(13, color.rgb(0, 0, 0))
-            color.setColor(14, color.rgb(48, 48, 48)) //main wall
             break
         }
         case 'fuzz': {
@@ -139,7 +142,6 @@ function init_palette(palette: string) {
             color.setColor(7, color.rgb(100, 100, 100)) //spikes
             color.setColor(5, color.rgb(185, 24, 26)) //eye rings
             color.setColor(13, color.rgb(0, 0, 0))
-            color.setColor(14, color.rgb(48, 48, 48)) //main wall
             break
         }
         case 'golden_winston': {
@@ -152,7 +154,6 @@ function init_palette(palette: string) {
             color.setColor(11, color.rgb(122, 96, 27)) //teeth
             color.setColor(12, color.rgb(24, 85, 255)) //blue wire
             color.setColor(13, color.rgb(0, 0, 0))
-            color.setColor(14, color.rgb(48, 48, 48)) //main wall
             break
         }
         default:

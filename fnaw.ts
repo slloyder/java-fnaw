@@ -6,6 +6,7 @@ class Fnaw {
     monitor_handler: EventHandler
     win_handler: EventHandler
     menu_handler: EventHandler
+    newspaper_handler: EventHandler
     night_display_handler: EventHandler
     setup_handler: EventHandler
     jumpscare_handler: EventHandler
@@ -148,6 +149,7 @@ class Fnaw {
         }
 
         // blank handlers
+        this.newspaper_handler = new EventHandler
         this.night_display_handler = new EventHandler
         this.win_handler = new EventHandler
         this.setup_handler = new EventHandler
@@ -352,6 +354,20 @@ class Fnaw {
                 }
                 break
             }
+            case 'newspaper': {
+                install_handler(this.newspaper_handler)
+                load_scene('newspaper')
+                let newspaper_seq = new Sequence([
+                    0.5, function (a: number) { },
+                    0, function (a: number) {
+                        mygame.set_scene('night_display')
+                    }
+                ])
+                the_update_handler = function () {
+                    newspaper_seq.run_once(spf)
+                }
+                break
+            } 
             case 'night_display': {
                 install_handler(this.night_display_handler)
                 load_scene('night_display')
@@ -383,7 +399,12 @@ class Fnaw {
                 game_timer.reset()
                 game_timer.start()
                 init_palette('')
-                mygame.set_scene('night_display')
+                if(menu_pos == 0) {
+                    mygame.set_scene('newspaper')
+                }
+                else {
+                    mygame.set_scene('night_display')
+                }
                 break
             }
             case 'jumpscare': {

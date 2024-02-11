@@ -9,7 +9,8 @@
         "sound effects": "github:klausw3/pxt-sound-effects#v1.2.0",
         "controller": "*",
         "Timers": "github:microsoft/arcade-timers#v1.1.0",
-        "sprite-scaling": "*"
+        "sprite-scaling": "*",
+        "test_ext": "github:dblloyd/test_ext#v0.0.3"
     },
     "files": [
         "main.ts",

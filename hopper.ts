@@ -184,7 +184,7 @@ class Hopper extends Animatronic {
                 }
                 case 'West Hall': {
                     this.monitor_sprite.top = 12
-                    this.monitor_sprite.left = 16
+                    this.monitor_sprite.left = 22
                     break
                 }
                 case 'Spare Room': {

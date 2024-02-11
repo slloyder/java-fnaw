@@ -48,7 +48,7 @@ function load_monitor_room_background(room: string) {
         }
         case 'Kitchen Tools': {
             im = image.create(160, 120)
-            im.fill(3)
+            im.fill(8)
             im.drawLine(46, 0, 46, 120, 4)
             im.drawLine(116, 0, 116, 120, 4)
             im.fillRect(47, 0, 69, 120, 6)

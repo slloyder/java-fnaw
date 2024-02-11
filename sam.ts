@@ -71,23 +71,34 @@ class Sam extends Animatronic {
         this.move_timer.play()
     }
     display(room: string) {
-        
         if (!game_state.cams_broken && room == this.room && room != 'Kitchen' && room != game_state.hal_meddled_room) {
             switch (room) {
                 case 'North Hall': {
                     if (this.pos == 0) {
-                        this.monitor_sprite.bottom = 104
-                        this.monitor_sprite.left = 85
+                        this.monitor_sprite.top = 32
+                        this.monitor_sprite.left = 127
+                        color.setColor(8, color.rgb(5, 5, 5)) //glasses
+                        color.setColor(13, color.rgb(0, 16, 22)) //body
+                        color.setColor(10, color.rgb(0, 0, 15)) //hair
                     }
                     else if (this.pos == 1) {
-                        this.monitor_sprite.bottom = 117
-                        this.monitor_sprite.left = 25
+                        this.monitor_sprite.bottom = 114
+                        this.monitor_sprite.left = 44
+                        color.setColor(8, color.rgb(27, 27, 27)) //glasses
+                        color.setColor(13, color.rgb(0, 66, 96)) //body
+                        color.setColor(10, color.rgb(0, 16, 23)) //hair
                     }
                     break
                 }
                 case 'West Hall': {
-                    this.monitor_sprite.bottom = 104
-                    this.monitor_sprite.left = 85
+                    if (ani['hopps'].room != room && ani['hal'].room != room) {
+                        this.monitor_sprite.top = -26
+                        this.monitor_sprite.left = -38
+                    }
+                    else {
+                        this.monitor_sprite.top = 57
+                        this.monitor_sprite.left = -13
+                    }
                     break
                 }
                 default: {
@@ -102,6 +113,15 @@ class Sam extends Animatronic {
         }
     }
     load(mode: number) {
-        this.monitor_sprite = sprites.create(createImage(this.monitor_images['generic']), SpriteKind.inram)
+        let im = image.create(53, 61)
+        if(this.room == 'North Hall'){
+            im.fillCircle(26, 34, 27, 13)
+        }
+        else{
+            im.fillCircle(26, 34, 27, 12)
+        }
+        im.blit(10, 0, 32, 21, createImage('samHair'), 0, 0, 32, 21, true, false)
+        im.blit(10, 27, 33, 13, createImage('samEyes1'), 0, 0, 33, 13, true, false) //temp
+        this.monitor_sprite = sprites.create(im, SpriteKind.inram)
     }
 }

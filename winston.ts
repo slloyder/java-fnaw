@@ -231,7 +231,7 @@ class Winston extends Animatronic {
         }
         if (mode == 1) {
             im = image.create(71, 71)
-            im.fillCircle(35, 35, 35, 6)
+            im.fillCircle(35, 35, 35, 12)
             im.fillCircle(35, 49, 10, 13)
             im.fillRect(18, 18, 9, 7, 15)
             im.fillRect(44, 18, 9, 7, 15)
