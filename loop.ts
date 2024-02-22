@@ -1,15 +1,19 @@
 game.onUpdate(function () {
-    //console.log(control.gcStats())
+    volume = music.volume()
+    if(mygame.scene == 'jumpscare'){
+        light.setBrightness(255)
+    }
+    else{
+        light.setBrightness(15)
+    }
     spf = (game.runtime() - last_game_runtime) / 1000
     last_game_runtime = game.runtime()
     game_state.time += Math.constrain(spf * 1000, 0, 200)
-    if (!game_timer.paused) {
-        let keys = Object.keys(ani)
-        for (let i = 0; i < keys.length; i++) {
-            ani[keys[i]].update()
+    if (!game_timer.paused && ani != null) {
+        for (let i = 0; i < ani_keys.length; i++) {
+            ani[ani_keys[i]].update()
         }
         if (game_state.cams_broken) {
-            //game_state.cams_broken_sound_seq.run_once(spf)
             if (game_state.cams_broken_timer.get_time() >= game_state.cams_broken_limit) {
                 game_state.cams_broken = false
                 if (game_state.monitor_on){ load_monitor_room_background(game_state.viewed_room) }
@@ -54,7 +58,6 @@ game.onUpdate(function () {
             }
         }
         else {
-            // if (game_state.ani_in in ['hopps', 'ohnoes', 'squid', 'win', 'sam', 'fuzz'])
             if (game_state.ani_in == 'hopps' ||
                 game_state.ani_in == 'ohnoes' ||
                 game_state.ani_in == 'squid' ||

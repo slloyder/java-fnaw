@@ -1,7 +1,6 @@
 class Squidical extends Animatronic {
     anger: number = 0
     power_drain: number = 0
-    run: boolean = false
     run_pos: number = 0
     east_hall_color: number = 0
     careful: number = 0
@@ -10,17 +9,33 @@ class Squidical extends Animatronic {
         super('Squid Reef')
         super.reset()
         this.reset()
+        this.run = false
         this.knock_seq = new Sequence([
             0, function (a: number) {
                 music.knock.play(200)
+                if (volume == 0) { light.setAll(light.rgb(255, 83, 0)) }
             },
-            0.5, function (a: number) { },
+            0.3, function (a: number) { },
+            0, function (a: number) {
+                light.setAll(0)
+            },
+            0.2, function (a: number) { },
             0, function (a: number) {
                 music.knock.play(200)
+                if (volume == 0) { light.setAll(light.rgb(255, 83, 0)) }
             },
-            0.5, function (a: number) { },
+            0.3, function (a: number) { },
+            0, function (a: number) {
+                light.setAll(0)
+            },
+            0.2, function (a: number) { },
             0, function (a: number) {
                 music.knock.play(200)
+                if(volume == 0){light.setAll(light.rgb(255, 83, 0))}
+            },
+            0.3, function (a: number) { },
+            0, function (a: number) {
+                light.setAll(0)
                 game_state.power -= this.power_drain
                 this.normal_reset()
             }

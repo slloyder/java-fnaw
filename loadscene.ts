@@ -134,7 +134,6 @@ function load_scene(specified_scene: string) {
             im.fillRect(37, 15, 7, 5, 15)
             im.fillRect(19, 14, 5, 7, 15)
             im.fillRect(38, 14, 5, 7, 15)
-            //menu_winston = sprites.create(createImage('menuWinston'), SpriteKind.inram)
             menu_winston = sprites.create(im, SpriteKind.inram)
             menu_winston.bottom = 110
             menu_winston.right = 150
@@ -146,7 +145,8 @@ function load_scene(specified_scene: string) {
             menu_option_texts = [
                 textsprite.create('Play'),
                 textsprite.create('Continue'),
-                textsprite.create('6th Night')
+                textsprite.create('6th Night'),
+                textsprite.create('Custom Night')
             ]
             menu_selector = sprites.create(assets.image`menuSelector`, SpriteKind.inram)
             menu_selector.right = 13
@@ -164,6 +164,51 @@ function load_scene(specified_scene: string) {
                 menu_option_texts[i].top = 50 + i * 12
             }
             break            
+        }
+        case 'customize_night': {
+            init_palette('menu')
+            scene.setBackgroundImage(null)
+            scene.setBackgroundColor(15)
+            menu_title = [
+                textsprite.create('Custom Night')
+            ]
+            menu_option_texts = [
+                textsprite.create('Winston:'),
+                textsprite.create('Hopper:'),
+                textsprite.create('Oh Noes:'),
+                textsprite.create('Squidical:'),
+                textsprite.create('Hal:'),
+                textsprite.create('Mr. Pant:'),
+                textsprite.create('Sam:'),
+                textsprite.create('Fuzzy:'),
+                textsprite.create('START'),
+                textsprite.create('Randomize'),
+                textsprite.create('Rnd start')
+            ]
+            customize_night_numbers = [
+                textsprite.create(''),
+                textsprite.create(''),
+                textsprite.create(''),
+                textsprite.create(''),
+                textsprite.create(''),
+                textsprite.create(''),
+                textsprite.create(''),
+                textsprite.create('')
+            ]
+            menu_selector = sprites.create(assets.image`menuSelector`, SpriteKind.inram)
+            menu_selector.right = 13
+            menu_title[0].scale = 2
+            menu_title[0].top = 1
+            menu_title[0].left = 8
+            for (let i = 0; i < menu_option_texts.length; i++) {
+                menu_option_texts[i].left = i < 8 ? 16 : 103
+                menu_option_texts[i].top = 20 + (i % 8) * 12
+            }
+            for (let i = 0; i < customize_night_numbers.length; i++) {
+                customize_night_numbers[i].left = 77
+                customize_night_numbers[i].top = 20 + i * 12
+            }
+            break
         }
         case 'newspaper': {
             init_palette('newspaper')
@@ -234,7 +279,12 @@ function load_scene(specified_scene: string) {
                 }
                 case 'sam': {
                     scene.setBackgroundImage(im)
+                    ani['sam'].load(0)
+                    scaling.scaleToPercent(ani['sam'].monitor_sprite, 150, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+                    ani['sam'].monitor_sprite.top = 30
+                    ani['sam'].monitor_sprite.left = 40
                     jumpscare_sprite = sprites.create(createImage('samJumpscarePic'), SpriteKind.inram)
+                    hide_sprite(jumpscare_sprite)
                     break
                 }
                 case 'fuzz': {

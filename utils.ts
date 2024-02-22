@@ -133,6 +133,10 @@ class JumpscareReady {
         this.seq = new Sequence([
             0, function (a: number) {
                 music.buzzer.play(10)
+                if (volume == 0) { light.setAll(light.rgb(100, 100, 100)) }
+                timer.after(300, function() {
+                    light.setAll(0)
+                })
             }
         ])
     }
@@ -176,63 +180,9 @@ function choose(prob_map: { [key: string]: () => number }) {
     }
     return keys[keys.length - 1]
 }
-
-function make_animator(v0: number, v1: number, duration: number) {
-    let t = 0
-    return function (dt: number) {
-        t += dt
-        return v0 + (v1 - v0) * Math.min(t / duration, 1)
-    }
-}
-
 function make_lerp(v0: number, v1: number) {
     return function (alpha: number) {
         return v0 + (v1 - v0) * alpha
-    }
-}
-
-function make_pause(duration: number, animator: (dt: number) => number) {
-    let t = 0
-    return function (dt: number) {
-        t += dt
-        if (t < duration)
-            dt = 0
-        return animator(dt)
-    }
-}
-
-function make_seq(table: any[]) {
-    let i: number = 0 // current entry
-    let t = 0 // current time
-    let ti0 = 0 // time when current entry starts    
-    let ti1 = ti0 + table[2 * i + 0] // time when current entry ends
-    return function (dt: number) {
-        let tn = t + dt
-        while (tn >= ti1) {
-            if (2 * i >= table.length)
-                return false
-
-            // last call on this entry
-            table[2 * i + 1](1)
-
-            // start next entry
-            i += 1
-            ti0 = ti1
-            if (2 * i < table.length)
-                ti1 += table[2 * i + 0]
-        }
-        if (tn < ti1)
-            table[2 * i + 1]((tn - ti0) / (ti1 - ti0))
-        t = tn
-        return true
-    }
-}
-
-function toggle_sprite(s: Sprite) {
-    if (s.left < 500) {
-        s.left += 500
-    } else {
-        s.left -= 500
     }
 }
 function hide_sprite(s: Sprite) {
@@ -250,7 +200,6 @@ function hide_all() {
     hide_sprite(power_text)
     hide_sprite(time_text)
     hide_sprite(night_text)
-    //hide_sprite_array(kitchen_texts)
     hide_sprite(cam_select)
     hide_sprite(monitor_room_text)
     hide_sprite_array(menu_title)
@@ -299,12 +248,14 @@ function null_sprites() {
     menu_selector = null
     menu_title = null
     menu_option_texts = null
+    customize_night_numbers = null
     jumpscare_sprite = null
     jumpscare_timer = null
     static_anim_sprite = null
-    let keys = Object.keys(ani)
-    for (let i = 0; i < keys.length; i++) {
-        ani[keys[i]].monitor_sprite = null
+    if (ani != null) {
+        for (let i = 0; i < ani_keys.length; i++) {
+            ani[ani_keys[i]].monitor_sprite = null
+        }
     }
     //decals
     show_stage_decal = null

@@ -114,14 +114,20 @@ class Sam extends Animatronic {
     }
     load(mode: number) {
         let im = image.create(53, 61)
+        let temp_eyes = createImage('samEyes1')
         if(this.room == 'North Hall'){
             im.fillCircle(26, 34, 27, 13)
+        }
+        else if (mygame.scene == 'jumpscare'){
+            temp_eyes.replace(8, 5)
+            im.fillCircle(26, 34, 27, 2)
         }
         else{
             im.fillCircle(26, 34, 27, 12)
         }
         im.blit(10, 0, 32, 21, createImage('samHair'), 0, 0, 32, 21, true, false)
-        im.blit(10, 27, 33, 13, createImage('samEyes1'), 0, 0, 33, 13, true, false) //temp
+        im.blit(10, 27, 33, 13, temp_eyes, 0, 0, 33, 13, true, false) //temp
         this.monitor_sprite = sprites.create(im, SpriteKind.inram)
+        temp_eyes = null
     }
 }

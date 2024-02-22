@@ -3,11 +3,9 @@ class OhNoes extends Animatronic {
     stl: number
     constructor() {
         super('Show Stage')
-        //super('Kitchen')
-        //super('Right Door')
         super.reset()
         this.reset()
-        this.stl = Math.randomRange(1.0, 5) //SoundTimerLimit
+        this.stl = Math.randomRange(1.0, 5) 
         this.move_table = {
             'Show Stage': {
                 'Dining Area': () => 1
@@ -128,7 +126,12 @@ class OhNoes extends Animatronic {
                     }
                 }
             }
-            
+            if(volume == 0){
+                light.setAll(light.rgb(5, 185, 19))
+                timer.after(500, function() {
+                    light.setAll(0)
+                })
+            }
             this.sound_timer.reset()
             this.stl = Math.randomRange(1.0, 5)
         }
@@ -254,49 +257,49 @@ class OhNoes extends Animatronic {
         let im: Image = null
         if (mode == 0) {
             im = createImage('ohnoes')
-            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) //mouth
+            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) 
             this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         }
         if (mode == 1) {
             im = createImage('ohnoes')
-            im.replace(1, 15) //replacing white on eyes with black
-            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) //mouth
+            im.replace(1, 15) 
+            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) 
             this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         }
         if (mode == 2) {
             im = createImage('ohnoes')
-            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) //mouth
-            im.replace(1, 15) //replacing all non-body color with black
+            im.blit(19, 30, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) 
+            im.replace(1, 15) 
             im.replace(13, 15)
             this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         }
         if (mode == 3) {
             im = createImage('ohnoes')
-            im.drawLine(15, 18, 26, 18, 15) //closing eyelids halfway
+            im.drawLine(15, 18, 26, 18, 15) 
             im.drawLine(35, 18, 46, 18, 15)
             im.fillRect(16, 13, 10, 7, 15)
             im.fillRect(36, 13, 10, 7, 15)
-            im.blit(19, 32, 25, 16, createImage('ohnoesMouth').rotated(180), 0, 0, 25, 16, false, false) //upside down mouth
+            im.blit(19, 32, 25, 16, createImage('ohnoesMouth').rotated(180), 0, 0, 25, 16, false, false) 
             this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         }
         if (mode == 4) {
             im = createImage('ohnoes')
-            im.fillRect(19, 17, 3, 4, 1) //removing pupils
+            im.fillRect(19, 17, 3, 4, 1) 
             im.fillRect(39, 17, 3, 4, 1)
-            im.fillRect(23, 17, 2, 4, 15) //re-adding pupils in different location
+            im.fillRect(23, 17, 2, 4, 15) 
             im.fillRect(43, 17, 2, 4, 15)
             im.drawLine(25, 18, 25, 19, 15)
             im.drawLine(45, 18, 45, 19, 15)
-            im.fillRect(16, 13, 10, 4, 15) // closing eyelids partially
+            im.fillRect(16, 13, 10, 4, 15) 
             im.fillRect(36, 13, 10, 4, 15)
-            im.blit(14, 31, 25, 16, createImage('ohnoesMouth').rotated(180), 0, 0, 25, 16, false, false) //upside down mouth a bit to the left
+            im.blit(14, 31, 25, 16, createImage('ohnoesMouth').rotated(180), 0, 0, 25, 16, false, false) 
             this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         }
         if (mode == 5) {
             im = createImage('ohnoes')
-            im.fillRect(16, 13, 10, 4, 15) // closing eyelids partially
+            im.fillRect(16, 13, 10, 4, 15) 
             im.fillRect(36, 13, 10, 4, 15)
-            im.blit(19, 29, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) //mouth
+            im.blit(19, 29, 25, 16, createImage('ohnoesMouth'), 0, 0, 25, 16, false, false) 
             this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         }
     }

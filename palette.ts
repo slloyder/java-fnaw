@@ -25,7 +25,6 @@ function init_palette(palette: string) {
             break
         }
         case 'monitor': {
-            color.setColor(10, color.rgb(0, 146, 213)) //sam
             color.setColor(6, color.rgb(146, 133, 0)) //hal yellow, winston yellow
             color.setColor(8, color.rgb(59, 59, 64)) // hal
             color.setColor(9, color.rgb(74, 78, 95)) //hal light
@@ -127,9 +126,10 @@ function init_palette(palette: string) {
             color.setColor(8, color.rgb(65, 45, 20)) //floor
             color.setColor(2, color.rgb(0, 146, 213)) // body
             color.setColor(7, color.rgb(0, 50, 74)) //hair
+            color.setColor(10, color.rgb(0, 50, 74)) //hair, eyebrows
             color.setColor(5, color.rgb(50, 50, 50)) //glasses
             color.setColor(9, color.rgb(255, 50, 0)) //eyes
-            color.setColor(10, color.rgb(200, 0, 25)) //mouth
+            color.setColor(11, color.rgb(200, 0, 25)) //mouth
             color.setColor(13, color.rgb(0, 0, 0))
             break
         }

@@ -6,6 +6,7 @@ class Fnaw {
     monitor_handler: EventHandler
     win_handler: EventHandler
     menu_handler: EventHandler
+    customize_night_handler: EventHandler
     newspaper_handler: EventHandler
     night_display_handler: EventHandler
     setup_handler: EventHandler
@@ -110,8 +111,10 @@ class Fnaw {
         this.menu_handler = new EventHandler
         this.menu_handler.A = function () {
             music.stopAllSounds()
-            music.buzzer.play(20)
-            music.bigCrash.play(55)
+            if(menu_pos != 3){
+                music.buzzer.play(20)
+                music.bigCrash.play(55)
+            }
             switch (menu_pos) {
                 case 0: {
                     night = 1
@@ -133,19 +136,66 @@ class Fnaw {
                     mygame.set_scene('setup')
                     break
                 }
+                case 3: {
+                    mygame.set_scene('customize_night')
+                }
             }
         }
         this.menu_handler.up = function () {
             menu_pos -= 1
-            if (menu_pos == 1 && !blockSettings.exists('night')) { menu_pos -= 1 }
+            if (menu_pos == 3 && blockSettings.readNumber('everything') == 0) { menu_pos -= 1 }
             if (menu_pos == 2 && blockSettings.readNumber('everything') == 0) { menu_pos -= 1 }
-            if (menu_pos < 1) { menu_pos = 0 }
+            if (menu_pos == 1 && !blockSettings.exists('night')) { menu_pos -= 1 }
+            if (menu_pos < 0) { menu_pos = 0 }
         }
         this.menu_handler.down = function () {
             menu_pos += 1
             if (menu_pos == 1 && !blockSettings.exists('night')) { menu_pos += 1 }
             if (menu_pos == 2 && blockSettings.readNumber('everything') == 0) { menu_pos += 1 }
-            if (menu_pos > 2) { menu_pos = 0 }
+            if (menu_pos == 3 && blockSettings.readNumber('everything') == 0) { menu_pos += 1 }
+            if (menu_pos > 3) { menu_pos = 3 }
+        }
+        this.customize_night_handler = new EventHandler
+        this.customize_night_handler.A = function () {
+            music.buzzer.play(20)
+            music.bigCrash.play(55)
+            switch (menu_pos) {
+                case 8: {
+                    night = 7
+                    mygame.set_scene('setup')
+                    break
+                }
+                case 9: {
+                    for (let i = 0; i < ani_keys.length; i++) {
+                        ani_AI[ani_keys[i]][6] = Math.randomRange(0, 20)
+                    }
+                    break
+                }
+                case 10: {
+                    for (let i = 0; i < ani_keys.length; i++) {
+                        ani_AI[ani_keys[i]][6] = Math.randomRange(0, 20)
+                    }
+                    night = 7
+                    mygame.set_scene('setup')
+                    break
+                }
+            }
+        }
+        this.customize_night_handler.left = function () {
+            ani_AI[ani_keys[menu_pos]][6] -= 1
+            if (ani_AI[ani_keys[menu_pos]][6] < 0) { ani_AI[ani_keys[menu_pos]][6] = 0}
+        }
+        this.customize_night_handler.right = function () {
+            ani_AI[ani_keys[menu_pos]][6] += 1
+            if (ani_AI[ani_keys[menu_pos]][6] > 20) { ani_AI[ani_keys[menu_pos]][6] = 20 }
+        }
+        this.customize_night_handler.up = function () {
+            menu_pos -= 1
+            if (menu_pos < 0) { menu_pos = 10 }
+        }
+        this.customize_night_handler.down = function () {
+            menu_pos += 1
+            if (menu_pos > 10) { menu_pos = 0 }
         }
 
         // blank handlers
@@ -247,9 +297,8 @@ class Fnaw {
                         scene.setBackgroundColor(15)
                     }  
                     update_decals(game_state.viewed_room)                  
-                    let keys = Object.keys(ani)
-                    for (let i = 0; i < keys.length; i++) {
-                        ani[keys[i]].display(game_state.viewed_room)
+                    for (let i = 0; i < ani_keys.length; i++) {
+                        ani[ani_keys[i]].display(game_state.viewed_room)
                     }
 
                     cam_select.left = cam_positions[game_state.selected_room][0]
@@ -297,9 +346,8 @@ class Fnaw {
                         }
                     }
                 ])
-                let keys = Object.keys(ani)
-                for (let i = 0; i < keys.length; i++) {
-                    ani[keys[i]].reset()
+                for (let i = 0; i < ani_keys.length; i++) {
+                    ani[ani_keys[i]].reset()
                 }
                 the_update_handler = function () {
                     win_seq.run_once(spf)
@@ -308,6 +356,7 @@ class Fnaw {
             }
             case 'menu': {
                 install_handler(this.menu_handler)
+                menu_pos = 0
                 load_scene('menu')
                 if (!blockSettings.exists('everything')) {
                     blockSettings.writeNumber('everything', 0)
@@ -320,7 +369,10 @@ class Fnaw {
                 else {
                     menu_option_texts[0].setText('New Game')
                 }
-                if (blockSettings.readNumber('everything') == 0) { hide_sprite(menu_option_texts[2]) }
+                if (blockSettings.readNumber('everything') == 0) {
+                    hide_sprite(menu_option_texts[2])
+                    hide_sprite(menu_option_texts[3])
+                }
                 let menu_sound_seq = new Sequence([
                     0, function (a: number) {
                         static_sound_menu.play(10)
@@ -351,6 +403,19 @@ class Fnaw {
                 the_update_handler = function () {
                     menu_selector.top = 52 + menu_pos * 12
                     menu_sound_seq.loop(spf)
+                }
+                break
+            }
+            case 'customize_night': {
+                install_handler(this.customize_night_handler)
+                menu_pos = 0
+                load_scene('customize_night')
+                the_update_handler = function () {
+                    menu_selector.top = 22 + (menu_pos % 8) * 12
+                    menu_selector.right = menu_pos < 8 ? 13 : 100
+                    for (let i = 0; i < ani_keys.length; i++) {
+                        customize_night_numbers[i].setText(ani_AI[ani_keys[i]][6].toString())
+                    }
                 }
                 break
             }
@@ -414,11 +479,9 @@ class Fnaw {
                 jumpscare_timer = new Timer
                 jumpscare_timer.reset()
                 blockSettings.writeNumber('night', night)
-                let keys = Object.keys(ani)
-                for (let i = 0; i < keys.length; i++) {
-                    ani[keys[i]].reset()
+                for (let i = 0; i < ani_keys.length; i++) {
+                    ani[ani_keys[i]].reset()
                 }
-                
                 the_update_handler = function () {
                     handle_jumpscare()
                 }
@@ -428,6 +491,7 @@ class Fnaw {
                 install_handler(this.jumpscare_handler)
                 jumpscare_sprite.destroy()
                 load_scene('static')
+                light.setAll(0)
                 static_sound.play(10)
                 let static_seq = new Sequence([
                     5, function (a: number) { },

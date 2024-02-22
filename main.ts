@@ -1,18 +1,5 @@
-/*
 
-TODO:
- - add Papa's new stuff
- - add Golden Winston
- - add custom night
- - add Sam chilling in office before jumpscare
- - add winston music (sound engine overhaul)
- - add power out scene
- - add sam glitch
-*/
-
-//temp
 blockSettings.writeNumber('everything', 1)
-
 let power_usage_sprites: Sprite[] = null
 let power_text: TextSprite = null
 let time_text: TextSprite = null
@@ -70,6 +57,7 @@ let menu_winston: Sprite = null
 let menu_selector: Sprite = null
 let menu_title: TextSprite[] = null
 let menu_option_texts: TextSprite[] = null
+let customize_night_numbers: TextSprite[] = null
 //jumpscare
 let jumpscare_sprite: Sprite = null
 let jumpscare_timer: Timer = null
@@ -85,6 +73,7 @@ const static_sound_menu = new music.Melody("@10,0,100,10 ~5 !500,4100")
 
 class Animatronic {
     level: number = 0
+    run: boolean
     start_room: string
     room: string
     wait: number
@@ -120,15 +109,21 @@ function jumpscare_sound() {
     music.bigCrash.play(255)
     music.smallCrash.play(255)
     music.knock.play(255)
+    if(volume == 0){
+        light.setAll(light.hsv(Math.randomRange(0, 255), 255, 255))
+    }
+
 }
+
 
 //Globals
 let game_state = new Game
 game_state.reset()
 let time = 0
 let night = 1
+let volume: number = null
 let game_timer = new Timer
-let menu_pos = 0
+let menu_pos: number = null
 let cams: { [key: string]: string[] } = {
     //              Left            Right           Down        Up
     'Show Stage': ['Backstage', 'East Hall 1', 'Dining Area', 'Show Stage'],
@@ -174,25 +169,24 @@ let cam_positions: { [key: string]: number[] } = {
     'Squid Reef': [112, 45],
     'DIE': [125, 92]
 }
-let ani_AI = {
-    'win':    [0, 0, 3,  8,  13, 15, 0],
-    'hopps':  [3, 6, 10, 12, 14, 15, 0],
-    'ohnoes': [3, 6, 10, 12, 14, 15, 0],
-    'squid':  [0, 6, 8,  10, 12, 15, 0],
-    'hal':    [0, 1, 4,  7,  12, 15, 0],
-    'pant':   [0, 0, 3,  6,  9,  15, 0],
-    'sam':    [0, 0, 1,  6,  10, 15, 0],
-    'fuzz':   [0, 0, 0,  1,  9,  15, 0]
+let ani_AI: { [key: string]: number[] } = {
+    'win':    [0, 0, 3,  8,  13, 15, 10],
+    'hopps':  [3, 6, 10, 12, 14, 15, 10],
+    'ohnoes': [3, 6, 10, 12, 14, 15, 10],
+    'squid':  [0, 6, 8,  10, 12, 15, 10],
+    'hal':    [0, 1, 4,  7,  12, 15, 10],
+    'pant':   [0, 0, 3,  6,  9,  15, 10],
+    'sam':    [0, 0, 1,  6,  10, 15, 10],
+    'fuzz':   [0, 0, 0,  1,  9,  15, 10]
 }
 
-let ani: { [key: string]: Animatronic }
+let ani: { [key: string]: Animatronic } = null
+let ani_keys = Object.keys(ani_AI)
 
 let the_update_handler: () => void = null
 let last_game_runtime: number = 0
 let spf: number
-let stats = null//textsprite.create("")
-//stats.x = 0
-//stats.y = 10
 
 let mygame = new Fnaw
 mygame.set_scene('menu')
+light.setAll(0)

@@ -9,16 +9,15 @@ function handle_lights() {
         }
         else { hide_sprite(door_light_sprites[0]) }
         // ani
-        let keys = Object.keys(ani)
-        for (let l = 0; l < keys.length; l++) {
-            if (keys[l] == 'hopps') {
+        for (let l = 0; l < ani_keys.length; l++) {
+            if (ani_keys[l] == 'hopps') {
                 if (ani['hopps'].room == 'Left Door') {
                     left_door_ani_sprites['hopps'].top = 12
                     left_door_ani_sprites['hopps'].right = 69
                 }
                 else { hide_sprite(left_door_ani_sprites['hopps']) }
             }
-            if (keys[l] == 'hal') {
+            if (ani_keys[l] == 'hal') {
                 if (ani['hal'].room == 'Left Door') {
                     left_door_ani_sprites['hal'].top = 22
                     left_door_ani_sprites['hal'].left = 49
@@ -26,9 +25,15 @@ function handle_lights() {
                 else { hide_sprite(left_door_ani_sprites['hal']) }
             }
             // surprise
-            if (ani[keys[l]].surprise == true && ani[keys[l]].room == 'Left Door') {
+            if (ani[ani_keys[l]].surprise == true && ani[ani_keys[l]].room == 'Left Door') {
                 music.smallCrash.play(150)
-                ani[keys[l]].surprise = false
+                if(volume == 0){
+                    light.setAll(light.rgb(255, 255, 255))
+                    timer.after(150, function() {
+                        light.setAll(0)
+                    })
+                }
+                ani[ani_keys[l]].surprise = false
             }
         }
     }
@@ -49,16 +54,15 @@ function handle_lights() {
         }
         else { hide_sprite(door_light_sprites[1]) }
         // ani
-        let keys = Object.keys(ani)
-        for (let l = 0; l < keys.length; l++) {
-            if (keys[l] == 'ohnoes') {
+        for (let l = 0; l < ani_keys.length; l++) {
+            if (ani_keys[l] == 'ohnoes') {
                 if (ani['ohnoes'].room == 'Right Door') {
                     right_door_ani_sprites['ohnoes'].top = 23
                     right_door_ani_sprites['ohnoes'].left = 90
                 }
                 else { hide_sprite(right_door_ani_sprites['ohnoes']) }
             }
-            if (keys[l] == 'hal') {
+            if (ani_keys[l] == 'hal') {
                 if (ani['hal'].room == 'Right Door') {
                     right_door_ani_sprites['hal'].top = 14
                     right_door_ani_sprites['hal'].left = 91
@@ -66,9 +70,15 @@ function handle_lights() {
                 else { hide_sprite(right_door_ani_sprites['hal']) }
             }
             // surprise
-            if (ani[keys[l]].surprise == true && ani[keys[l]].room == 'Right Door') {
+            if (ani[ani_keys[l]].surprise == true && ani[ani_keys[l]].room == 'Right Door') {
                 music.smallCrash.play(150)
-                ani[keys[l]].surprise = false
+                if (volume == 0) {
+                    light.setAll(light.rgb(255, 255, 255))
+                    timer.after(150, function () {
+                        light.setAll(0)
+                    })
+                }
+                ani[ani_keys[l]].surprise = false
             }
         }
     }
@@ -140,50 +150,30 @@ function handle_time() {
         mygame.set_scene('win')
     }
 }
-//unused
-function init_jumpscare (animatronic: string) {
-
-    init_palette(animatronic)
-    switch (animatronic) {
-        case 'win': {
-            scene.setBackgroundImage(createImage('officeMid'))
-            jumpscare_sprite = sprites.create(createImage('winstonJumpscarePic'), SpriteKind.inram)
-            break
-        }
-        case 'hopps': {
-            scene.setBackgroundImage(createImage('officeMid'))
-            jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
-            break
-        }
-        case 'ohnoes': {
-            scene.setBackgroundImage(createImage('officeMid'))
-            jumpscare_sprite = sprites.create(createImage('ohnoesJumpscarePic1'), SpriteKind.inram)
-            break
-        }
-        case 'squid': {
-            jumpscare_sprite = sprites.create(createImage('squidJumpPic'), SpriteKind.inram)
-            scene.setBackgroundImage(createImage('officeRight'))
-            jumpscare_sprite.right = 151
-            jumpscare_sprite.bottom = 100
-            break
-        }
-        case 'pant': {
-            scene.setBackgroundImage(createImage('officeBack'))
-            jumpscare_sprite = sprites.create(createImage('panteaterJumpscarePic'), SpriteKind.inram)
-            break
-        }
-    }
-
-}
 
 function handle_jumpscare() {
     if (jumpscare_timer != null){
-        if (jumpscare_timer.get_time() <= 1.5) {
-            jumpscare_sound()
+        if(game_state.ani_in == 'sam'){
+            let ran = Math.randomRange(3.0, 5.0)
+            if (jumpscare_timer.get_time() <= ran + 1.5 && jumpscare_timer.get_time() >= ran) {
+                hide_sprite(ani['sam'].monitor_sprite)
+                jumpscare_sprite.top = 0
+                jumpscare_sprite.left = 0
+                jumpscare_sound()
+            }
+            if(jumpscare_timer.get_time() > ran + 1.5){
+                mygame.set_scene('static')
+                jumpscare_timer = null
+            }
         }
         else {
-            mygame.set_scene('static')
-            //jumpscare_timer = null
+            if (jumpscare_timer.get_time() <= 1.5) {
+                jumpscare_sound()
+            }
+            else {
+                mygame.set_scene('static')
+                jumpscare_timer = null
+            }
         }
     }
 }

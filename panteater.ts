@@ -1,12 +1,12 @@
 class Panteater extends Animatronic {
     run_pos: number = -400
-    run: boolean = false
     timer: Timer = new Timer
     limit: number = 0
     constructor() {
         super('Bowling Alley')
         super.reset()
         this.reset()
+        this.run = false
     }
     set_limit() {
         return (Math.map(Math.pow(1-this.level/20, 3), 1, 0, 200, 15) + Math.pow(1-this.level/20, 10)*350)+Math.randomRange(0.0, 200/this.level)
@@ -26,6 +26,12 @@ class Panteater extends Animatronic {
                 if (game_state.back_door_closed) {
                     music.knock.play(220)
                     music.thump.play(220)
+                    if (volume == 0) {
+                        light.setAll(light.rgb(0, 90, 255))
+                        timer.after(450, function() {
+                            light.setAll(0)
+                        })
+                    }
                     this.reset()
                 }
                 //changeme bc of no door anim, in real pant enters at runpos >= 100
@@ -38,6 +44,10 @@ class Panteater extends Animatronic {
                 if (this.timer.get_time() > 0.1) {
                     this.timer.reset()
                     music.footstep.play(150)
+                    if(volume == 0){light.setAll(light.rgb(0, 37, 60))}
+                }
+                if (this.timer.get_time() > 0.04) {
+                if(volume == 0){light.setAll(0)}
                 }
             }
         }
