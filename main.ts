@@ -1,5 +1,14 @@
+/*  TODO
+ - add power out scene
+ - add 3D office
+ - add Golden Winston
+ - add sam glitch
+*/
+// If you expirence a crash on the hardware that you don't expirence on the simulator,
+// it's probably something stupid with light.setAll(0)
 
 blockSettings.writeNumber('everything', 1)
+
 let power_usage_sprites: Sprite[] = null
 let power_text: TextSprite = null
 let time_text: TextSprite = null
@@ -60,6 +69,7 @@ let menu_option_texts: TextSprite[] = null
 let customize_night_numbers: TextSprite[] = null
 //jumpscare
 let jumpscare_sprite: Sprite = null
+let jumpscare_background_sprite: Sprite = null
 let jumpscare_timer: Timer = null
 let static_anim: Image[] = null
 let static_anim_sprite: Sprite = null
@@ -109,7 +119,7 @@ function jumpscare_sound() {
     music.bigCrash.play(255)
     music.smallCrash.play(255)
     music.knock.play(255)
-    if(volume == 0){
+    if(visual_audio){
         light.setAll(light.hsv(Math.randomRange(0, 255), 255, 255))
     }
 
@@ -122,6 +132,7 @@ game_state.reset()
 let time = 0
 let night = 1
 let volume: number = null
+let visual_audio: boolean = false
 let game_timer = new Timer
 let menu_pos: number = null
 let cams: { [key: string]: string[] } = {
@@ -187,6 +198,11 @@ let the_update_handler: () => void = null
 let last_game_runtime: number = 0
 let spf: number
 
+music.setVolume(blockSettings.readNumber('volume'))
+screen.setBrightness(blockSettings.readNumber('brightness'))
+if (blockSettings.readNumber('visual_audio')) { visual_audio = true } else { visual_audio = false }
+
 let mygame = new Fnaw
 mygame.set_scene('menu')
+//    vvvv         this must be here or it will crash ＼（〇_ｏ）／
 light.setAll(0)

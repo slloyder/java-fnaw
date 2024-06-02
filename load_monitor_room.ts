@@ -1,5 +1,3 @@
-
-
 function load_monitor_room(room: string) {
     let im: Image = null
     switch (room) {

@@ -126,7 +126,7 @@ class OhNoes extends Animatronic {
                     }
                 }
             }
-            if(volume == 0){
+            if(visual_audio){
                 light.setAll(light.rgb(5, 185, 19))
                 timer.after(500, function() {
                     light.setAll(0)

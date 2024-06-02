@@ -228,6 +228,8 @@ function load_scene(specified_scene: string) {
         }
         case 'jumpscare': {
             init_palette(game_state.ani_in)
+            scene.setBackgroundImage(null)
+            scene.setBackgroundColor(0)
             let im = image.create(160, 120)
             im.fill(3)
             im.fillRect(0, 0, 15, 120, 6)
@@ -238,7 +240,7 @@ function load_scene(specified_scene: string) {
             im.fillPolygon4(15, 101, 143, 101, 177, 119, -17, 119, 8)
             switch (game_state.ani_in) {
                 case 'win': {
-                    scene.setBackgroundImage(im)
+                    jumpscare_background_sprite = sprites.create(im, SpriteKind.inram)
                     im = image.create(160, 120)
                     im.fillCircle(81, 55, 84, 2)
                     im.fillCircle(51, 20, 11, 15)
@@ -248,12 +250,12 @@ function load_scene(specified_scene: string) {
                     break
                 }
                 case 'hopps': {
-                    scene.setBackgroundImage(im)
-                        jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
+                    jumpscare_background_sprite = sprites.create(im, SpriteKind.inram)
+                    jumpscare_sprite = sprites.create(createImage('hopperJumpscarePic1'), SpriteKind.inram)
                     break
                 }
                 case 'ohnoes': {
-                    scene.setBackgroundImage(im)
+                    jumpscare_background_sprite = sprites.create(im, SpriteKind.inram)
                     jumpscare_sprite = sprites.create(createImage('ohnoesJumpscarePic1'), SpriteKind.inram)
                     break
                 }
@@ -273,12 +275,12 @@ function load_scene(specified_scene: string) {
                     break
                 }
                 case 'pant': {
-                    scene.setBackgroundImage(im)
+                    jumpscare_background_sprite = sprites.create(im, SpriteKind.inram)
                     jumpscare_sprite = sprites.create(createImage('panteaterJumpscarePic'), SpriteKind.inram)
                     break
                 }
                 case 'sam': {
-                    scene.setBackgroundImage(im)
+                    jumpscare_background_sprite = sprites.create(im, SpriteKind.inram)
                     ani['sam'].load(0)
                     scaling.scaleToPercent(ani['sam'].monitor_sprite, 150, ScaleDirection.Uniformly, ScaleAnchor.Middle)
                     ani['sam'].monitor_sprite.top = 30
@@ -288,7 +290,7 @@ function load_scene(specified_scene: string) {
                     break
                 }
                 case 'fuzz': {
-                    scene.setBackgroundImage(im)
+                    jumpscare_background_sprite = sprites.create(im, SpriteKind.inram)
                     jumpscare_sprite = sprites.create(createImage('fuzzyJumpscarePic'), SpriteKind.inram)
                     break
                 }
@@ -299,7 +301,39 @@ function load_scene(specified_scene: string) {
         case 'static': {
             init_palette('static')
             scene.setBackgroundColor(15)
-            scene.setBackgroundImage(null)//createImage('staticPic1'))
+            scene.setBackgroundImage(null)
+            break
+        }
+        case 'paused': {
+            init_palette('menu')
+            scene.setBackgroundImage(null)
+            scene.setBackgroundColor(15)
+            menu_title = [
+                textsprite.create('PAUSED')
+            ]
+            menu_option_texts = [
+                textsprite.create('Volume:'),
+                textsprite.create('Brightness:'),
+                textsprite.create('Visual Sound:')
+            ]
+            customize_night_numbers = [
+                textsprite.create(''),
+                textsprite.create(''),
+                textsprite.create('')
+            ]
+            menu_selector = sprites.create(assets.image`menuSelector`, SpriteKind.inram)
+            menu_selector.right = 13
+            menu_title[0].scale = 2
+            menu_title[0].top = 1
+            menu_title[0].left = 45
+            for (let i = 0; i < menu_option_texts.length; i++) {
+                menu_option_texts[i].left = i < 8 ? 16 : 103
+                menu_option_texts[i].top = 20 + (i % 8) * 12
+            }
+            for (let i = 0; i < customize_night_numbers.length; i++) {
+                customize_night_numbers[i].left = 100
+                customize_night_numbers[i].top = 20 + i * 12
+            }
             break
         }
     }

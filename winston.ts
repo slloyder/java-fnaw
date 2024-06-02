@@ -53,7 +53,7 @@ class Winston extends Animatronic {
         this.enter_timer.start()
     }
     move () {
-        if (this.room == 'Kitchen' && volume == 0) { light.setAll(0) }
+        if (this.room == 'Kitchen' && visual_audio) { light.setAll(0) }
         this.wait = Math.map(20 - Math.pow(1 - this.level / 20, 3) * 20, 0, 20, 100, 5) + Math.randomRange(0.0, 10 / (this.level + 1))
         this.will_move = true
         this.old_room = this.room
@@ -82,7 +82,7 @@ class Winston extends Animatronic {
         if (this.mode_timer.get_time() > 25 && (game_state.viewed_room != this.room || game_state.cams_broken || !game_state.monitor_on)) {
             this.mode = Math.randomRange(0.0, 3.0)
             this.mode_timer.reset()
-            this.mode_limit = Math.randomRange(20.0, 35) //possibly unused, consider changing/removing           
+            this.mode_limit = Math.randomRange(20.0, 35) 
         }
         if (this.move_timer.get_time() > this.wait && (game_state.viewed_room != this.room || !game_state.monitor_on)) {
             if (this.room != 'Show Stage' || (ani['hopps'].room != 'Show Stage' && ani['ohnoes'].room != 'Show Stage')) {
@@ -118,7 +118,7 @@ class Winston extends Animatronic {
             SoundExpressionEffect.None,
             InterpolationCurve.Logarithmic
         ), music.PlaybackMode.InBackground)
-        if (volume == 0) { light.setAll(light.rgb(255, 215, 0)) }
+        if (visual_audio) { light.setAll(light.rgb(255, 215, 0)) }
         timer.after(50, function () {
             music.play(music.createSoundEffect(
                     WaveShape.Noise,
@@ -130,7 +130,7 @@ class Winston extends Animatronic {
                     SoundExpressionEffect.Vibrato,
                     InterpolationCurve.Curve
             ), music.PlaybackMode.InBackground)
-            if (volume == 0) { light.setAll(light.rgb(255, 0, 0)) }
+            if (visual_audio) { light.setAll(light.rgb(255, 0, 0)) }
         })
         timer.after(500, function () {
             music.play(music.createSoundEffect(
@@ -143,7 +143,7 @@ class Winston extends Animatronic {
                 SoundExpressionEffect.None,
                 InterpolationCurve.Logarithmic
             ), music.PlaybackMode.InBackground)
-            if (volume == 0) { light.setAll(light.rgb(255, 215, 0)) }
+            if (visual_audio) { light.setAll(light.rgb(255, 215, 0)) }
             timer.after(50, function () {
                 music.play(music.createSoundEffect(
                         WaveShape.Noise,
@@ -155,7 +155,7 @@ class Winston extends Animatronic {
                         SoundExpressionEffect.Vibrato,
                         InterpolationCurve.Curve
                 ), music.PlaybackMode.InBackground)
-                if (volume == 0) { light.setAll(light.rgb(255, 0, 0)) }
+                if (visual_audio) { light.setAll(light.rgb(255, 0, 0)) }
                 timer.after(80, function () {
                     music.play(music.createSoundEffect(
                             WaveShape.Noise,
@@ -258,6 +258,18 @@ class Winston extends Animatronic {
         this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         im = null
     }
+    pause () {
+        this.paused = true
+        this.move_timer.pause()
+        this.mode_timer.pause()
+        this.enter_timer.pause()
+    }
+    play() {
+        this.paused = false
+        this.move_timer.play()
+        this.mode_timer.play()
+        this.enter_timer.play()
+    }
 }
 
 class WinstonMusic {
@@ -269,7 +281,7 @@ class WinstonMusic {
             0.75, function (a: number) { },
             0, function (a: number) {
                 win_sound_a.play(this.volume)
-                if(volume == 0){light.setAll(light.rgb(255, 215, 0))}
+                if(visual_audio){light.setAll(light.rgb(255, 215, 0))}
             },
             0.75, function (a: number) { },
             0, function (a: number) {
@@ -279,7 +291,7 @@ class WinstonMusic {
             0.75, function (a: number) { },
             0, function (a: number) {
                 win_sound_a.play(this.volume)
-                if (volume == 0) { light.setAll(light.rgb(255, 215, 0)) }
+                if (visual_audio) { light.setAll(light.rgb(255, 215, 0)) }
             },
             0.55, function (a: number) { },
             0, function (a: number) {
@@ -293,13 +305,11 @@ class WinstonMusic {
         ])
     }
     
-    play(volume: number) { //TEMP
+    play(volume: number) { 
         this.volume = volume
         this.sound_seq.loop(spf)
     }
     reset() {
         this.sound_seq.reset()
     }
-    
-    
 }

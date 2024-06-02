@@ -1,4 +1,6 @@
 game.onUpdate(function () {
+    console.log('poge')
+    console.log('tor was [here')
     volume = music.volume()
     if(mygame.scene == 'jumpscare'){
         light.setBrightness(255)
@@ -9,6 +11,7 @@ game.onUpdate(function () {
     spf = (game.runtime() - last_game_runtime) / 1000
     last_game_runtime = game.runtime()
     game_state.time += Math.constrain(spf * 1000, 0, 200)
+    if (mygame.old_scene != mygame.scene && mygame.scene != 'paused') { mygame.old_scene = mygame.scene }
     if (!game_timer.paused && ani != null) {
         for (let i = 0; i < ani_keys.length; i++) {
             ani[ani_keys[i]].update()
@@ -41,7 +44,7 @@ game.onUpdate(function () {
                 game_state.jumpscare_ready.stop()
                 game_state.jumpscare_wait_timer.stop()
             }
-            //changeme
+            
             let cond = (ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam') && !game_timer.paused)
             if (cond) {
                 if (ani['hopps'].room == 'Left Door' && game_state.doors_broken[0]) {

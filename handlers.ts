@@ -3,11 +3,8 @@ function handle_lights() {
     if (game_state.side == 'left' && game_state.lights[0]) {
         window_light_sprites[0].top = 22
         window_light_sprites[0].left = 48
-        if (!game_state.doors[0]) {
-            door_light_sprites[0].top = 13
-            door_light_sprites[0].left = 9
-        }
-        else { hide_sprite(door_light_sprites[0]) }
+        door_light_sprites[0].top = 13
+        door_light_sprites[0].left = 9
         // ani
         for (let l = 0; l < ani_keys.length; l++) {
             if (ani_keys[l] == 'hopps') {
@@ -27,7 +24,7 @@ function handle_lights() {
             // surprise
             if (ani[ani_keys[l]].surprise == true && ani[ani_keys[l]].room == 'Left Door') {
                 music.smallCrash.play(150)
-                if(volume == 0){
+                if(visual_audio){
                     light.setAll(light.rgb(255, 255, 255))
                     timer.after(150, function() {
                         light.setAll(0)
@@ -48,11 +45,8 @@ function handle_lights() {
     else if (game_state.side == 'right' && game_state.lights[1]) {
         window_light_sprites[1].top = 22
         window_light_sprites[1].left = 89
-        if (!game_state.doors[1]) {
-            door_light_sprites[1].top = 13
-            door_light_sprites[1].left = 119
-        }
-        else { hide_sprite(door_light_sprites[1]) }
+        door_light_sprites[1].top = 13
+        door_light_sprites[1].left = 119
         // ani
         for (let l = 0; l < ani_keys.length; l++) {
             if (ani_keys[l] == 'ohnoes') {
@@ -72,7 +66,7 @@ function handle_lights() {
             // surprise
             if (ani[ani_keys[l]].surprise == true && ani[ani_keys[l]].room == 'Right Door') {
                 music.smallCrash.play(150)
-                if (volume == 0) {
+                if (visual_audio) {
                     light.setAll(light.rgb(255, 255, 255))
                     timer.after(150, function () {
                         light.setAll(0)
@@ -160,6 +154,7 @@ function handle_jumpscare() {
                 jumpscare_sprite.top = 0
                 jumpscare_sprite.left = 0
                 jumpscare_sound()
+                scene.cameraShake(10, 2000)
             }
             if(jumpscare_timer.get_time() > ran + 1.5){
                 mygame.set_scene('static')

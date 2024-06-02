@@ -5,6 +5,7 @@ class EventHandler {
     down: () => void
     left: () => void
     right: () => void
+    menu: () => void
 }
 function install_handler(handler: EventHandler) {
     controller.A.onEvent(ControllerButtonEvent.Pressed, handler.A ? handler.A : function () { })
@@ -13,6 +14,7 @@ function install_handler(handler: EventHandler) {
     controller.down.onEvent(ControllerButtonEvent.Pressed, handler.down ? handler.down : function () { })
     controller.left.onEvent(ControllerButtonEvent.Pressed, handler.left ? handler.left : function () { })
     controller.right.onEvent(ControllerButtonEvent.Pressed, handler.right ? handler.right : function () { })
+    controller.menu.onEvent(ControllerButtonEvent.Pressed, handler.menu ? handler.menu : function () { mygame.set_scene('paused') })
 }
 namespace SpriteKind {
     export const inram = SpriteKind.create()
@@ -133,7 +135,7 @@ class JumpscareReady {
         this.seq = new Sequence([
             0, function (a: number) {
                 music.buzzer.play(10)
-                if (volume == 0) { light.setAll(light.rgb(100, 100, 100)) }
+                if (visual_audio) { light.setAll(light.rgb(100, 100, 100)) }
                 timer.after(300, function() {
                     light.setAll(0)
                 })
@@ -157,6 +159,25 @@ class JumpscareReady {
             this.seq.run_once(spf)
         }
     }
+}
+//doors cams jumpscare
+function pause_game() {
+    if (ani != null){
+        for (let i = 0; i < ani_keys.length; i++) {
+            ani[ani_keys[i]].pause()
+        }
+    }
+    game_state.pause()
+    game_timer.pause()
+}
+function unpause_game() {
+    if (ani != null) {
+        for (let i = 0; i < ani_keys.length; i++) {
+            ani[ani_keys[i]].play()
+        }
+    }
+    game_state.unpause()
+    game_timer.play()
 }
 
 function proj_lerp(x0: number, x1: number, s1: number, a: number) {
@@ -250,6 +271,7 @@ function null_sprites() {
     menu_option_texts = null
     customize_night_numbers = null
     jumpscare_sprite = null
+    jumpscare_background_sprite = null
     jumpscare_timer = null
     static_anim_sprite = null
     if (ani != null) {

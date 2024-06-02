@@ -77,16 +77,16 @@ class Sam extends Animatronic {
                     if (this.pos == 0) {
                         this.monitor_sprite.top = 32
                         this.monitor_sprite.left = 127
-                        color.setColor(8, color.rgb(5, 5, 5)) //glasses
-                        color.setColor(13, color.rgb(0, 16, 22)) //body
-                        color.setColor(10, color.rgb(0, 0, 15)) //hair
+                        color.setColor(8, color.rgb(5, 5, 5)) 
+                        color.setColor(13, color.rgb(0, 16, 22)) 
+                        color.setColor(10, color.rgb(0, 0, 15)) 
                     }
                     else if (this.pos == 1) {
                         this.monitor_sprite.bottom = 114
                         this.monitor_sprite.left = 44
-                        color.setColor(8, color.rgb(27, 27, 27)) //glasses
-                        color.setColor(13, color.rgb(0, 66, 96)) //body
-                        color.setColor(10, color.rgb(0, 16, 23)) //hair
+                        color.setColor(8, color.rgb(27, 27, 27)) 
+                        color.setColor(13, color.rgb(0, 66, 96)) 
+                        color.setColor(10, color.rgb(0, 16, 23)) 
                     }
                     break
                 }
@@ -126,7 +126,7 @@ class Sam extends Animatronic {
             im.fillCircle(26, 34, 27, 12)
         }
         im.blit(10, 0, 32, 21, createImage('samHair'), 0, 0, 32, 21, true, false)
-        im.blit(10, 27, 33, 13, temp_eyes, 0, 0, 33, 13, true, false) //temp
+        im.blit(10, 27, 33, 13, temp_eyes, 0, 0, 33, 13, true, false) 
         this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         temp_eyes = null
     }
