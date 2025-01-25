@@ -221,7 +221,7 @@ class Hal extends Animatronic {
         this.sound_seq = new Sequence([
             0, function (a: number) {
                 hal_sounds[0].play()
-                if(volume == 0) {light.setAll(light.rgb(255, 0, 110))}
+                if(visual_audio) {light.setAll(light.rgb(255, 0, 110))}
             },
             0.4, function (a: number) { },
             0, function (a: number) {
@@ -231,7 +231,7 @@ class Hal extends Animatronic {
             0.4, function (a: number) { },
             0, function (a: number) {
                 hal_sounds[0].play()
-                if(volume == 0) {light.setAll(light.rgb(255, 0, 110))}
+                if(visual_audio) {light.setAll(light.rgb(255, 0, 110))}
             },
             0.4, function (a: number) { },
             0, function (a: number) {
@@ -241,7 +241,7 @@ class Hal extends Animatronic {
             0.4, function (a: number) { },
             0, function (a: number) {
                 hal_sounds[2].play()
-                if (volume == 0) { light.setAll(light.rgb(255, 0, 110)) }
+                if (visual_audio) { light.setAll(light.rgb(255, 0, 110)) }
             },
             0.2, function (a: number) { },
             0, function (a: number) {
@@ -251,7 +251,7 @@ class Hal extends Animatronic {
             0.2, function (a: number) { },
             0, function (a: number) {
                 hal_sounds[2].play()
-                if (volume == 0) { light.setAll(light.rgb(255, 0, 110)) }
+                if (visual_audio) { light.setAll(light.rgb(255, 0, 110)) }
             },
             0.2, function (a: number) { },
             0, function (a: number) {
@@ -261,17 +261,17 @@ class Hal extends Animatronic {
             0.2, function (a: number) { },
             0, function (a: number) {
                 hal_sounds[0].play()
-                if (volume == 0) { light.setAll(light.rgb(255, 0, 110)) }
+                if (visual_audio) { light.setAll(light.rgb(255, 0, 110)) }
             },
             0.4, function (a: number) { },
             0, thefunc,
             0.123, function (a: number) {
-                // do nothing!
+                
             }
         ])
     }
     move() {
-        if(this.room == 'Kitchen' && volume == 0){light.setAll(0)}
+        if(this.room == 'Kitchen' && visual_audio){light.setAll(0)}
         this.activated = true
         this.move_timer.reset()
         this.wait = Math.map(this.level, 0, 20, 30, 5) + Math.randomRange(0.0, 10 / (this.level + 1))

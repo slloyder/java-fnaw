@@ -26,7 +26,7 @@ class Panteater extends Animatronic {
                 if (game_state.back_door_closed) {
                     music.knock.play(220)
                     music.thump.play(220)
-                    if (volume == 0) {
+                    if (visual_audio) {
                         light.setAll(light.rgb(0, 90, 255))
                         timer.after(450, function() {
                             light.setAll(0)
@@ -34,8 +34,8 @@ class Panteater extends Animatronic {
                     }
                     this.reset()
                 }
-                //changeme bc of no door anim, in real pant enters at runpos >= 100
-                else {
+                //in real pant enters at runpos >= 100
+                else if(!game_state.golden_winston) {
                     game_state.ani_in = 'pant'
                     mygame.set_scene('jumpscare')    
                 }
@@ -44,10 +44,10 @@ class Panteater extends Animatronic {
                 if (this.timer.get_time() > 0.1) {
                     this.timer.reset()
                     music.footstep.play(150)
-                    if(volume == 0){light.setAll(light.rgb(0, 37, 60))}
+                    if(visual_audio){light.setAll(light.rgb(0, 37, 60))}
                 }
                 if (this.timer.get_time() > 0.04) {
-                if(volume == 0){light.setAll(0)}
+                if(visual_audio){light.setAll(0)}
                 }
             }
         }
@@ -57,5 +57,13 @@ class Panteater extends Animatronic {
                 this.run = true
             }
         }
+    }
+    pause () {
+        this.paused = true
+        this.timer.pause()
+    }
+    play() {
+        this.paused = false
+        this.timer.play()
     }
 }

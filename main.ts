@@ -1,5 +1,13 @@
+/*  TODO
+ - add 3D office
+ - add sam glitch
+*/
+// If you expirence a 989 crash on the hardware that you don't expirence on the simulator,
+// it's probably something stupid with light.setAll(0)
 
 blockSettings.writeNumber('everything', 1)
+//blockSettings.remove('night')
+
 let power_usage_sprites: Sprite[] = null
 let power_text: TextSprite = null
 let time_text: TextSprite = null
@@ -21,7 +29,10 @@ let right_door_ani_sprites: { [key: string]: Sprite } = {
     'ohnoes':  null,
     'hal': null
 }
+let power_out_winston_sprite: Sprite = null
+let golden_winston_sprite: Sprite = null
 //monitor
+let background_sprite: Sprite = null
 let monitor_room_text: TextSprite = null
 let monitor_map_sprite: Sprite = null
 let monitor_anim_timer: Timer = null
@@ -35,7 +46,6 @@ let left_furnace_room_decal: Sprite = null
 let right_furnace_room_decal: Sprite = null
 let door_decal1: Sprite = null
 let door_decal2: Sprite = null
-let supply_closet_background_decal: Sprite = null
 let supply_closet_decal: Sprite = null
 let arcade_decal1: Sprite = null
 let arcade_decal2: Sprite = null
@@ -49,8 +59,10 @@ let dining_area_chair_decal1: Sprite = null
 let dining_area_chair_decal2: Sprite = null
 //transitions
 let texts: TextSprite[] = null
+let six_am_still: TextSprite = null
+let six_am_slide_top: TextSprite = null
+let six_am_slide_bottom: TextSprite = null
 let six_am_slit: Sprite = null
-let six_am_slide: Sprite = null
 let twelve_am_text: TextSprite = null
 //menu
 let menu_winston: Sprite = null
@@ -60,6 +72,7 @@ let menu_option_texts: TextSprite[] = null
 let customize_night_numbers: TextSprite[] = null
 //jumpscare
 let jumpscare_sprite: Sprite = null
+let jumpscare_background_sprite: Sprite = null
 let jumpscare_timer: Timer = null
 let static_anim: Image[] = null
 let static_anim_sprite: Sprite = null
@@ -67,6 +80,7 @@ let static_anim_sprite: Sprite = null
 let hal_sounds: SoundBuffer[]
 const win_sound_a = new music.Melody("@10,0,255,170 ~2 !450,170^365")
 const win_sound_b = new music.Melody("@10,0,255,150 ~2 !800,150^680")
+let power_out_winston_music = new WinstonMusic
 const static_sound = new music.Melody("@10,0,100,10 ~5 !500,5000")
 const static_sound_menu = new music.Melody("@10,0,100,10 ~5 !500,4100")
 
@@ -109,7 +123,7 @@ function jumpscare_sound() {
     music.bigCrash.play(255)
     music.smallCrash.play(255)
     music.knock.play(255)
-    if(volume == 0){
+    if(visual_audio){
         light.setAll(light.hsv(Math.randomRange(0, 255), 255, 255))
     }
 
@@ -122,6 +136,8 @@ game_state.reset()
 let time = 0
 let night = 1
 let volume: number = null
+let visual_audio: boolean = false
+let unlimited_power: boolean = false
 let game_timer = new Timer
 let menu_pos: number = null
 let cams: { [key: string]: string[] } = {
@@ -187,6 +203,11 @@ let the_update_handler: () => void = null
 let last_game_runtime: number = 0
 let spf: number
 
+music.setVolume(blockSettings.readNumber('volume'))
+screen.setBrightness(blockSettings.readNumber('brightness'))
+if (blockSettings.readNumber('visual_audio')) { visual_audio = true } else { visual_audio = false }
+
 let mygame = new Fnaw
 mygame.set_scene('menu')
+//    vvvv         this must be here or it will crash ＼（〇_ｏ）／
 light.setAll(0)

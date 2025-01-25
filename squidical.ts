@@ -13,7 +13,7 @@ class Squidical extends Animatronic {
         this.knock_seq = new Sequence([
             0, function (a: number) {
                 music.knock.play(200)
-                if (volume == 0) { light.setAll(light.rgb(255, 83, 0)) }
+                if (visual_audio) { light.setAll(light.rgb(255, 83, 0)) }
             },
             0.3, function (a: number) { },
             0, function (a: number) {
@@ -22,7 +22,7 @@ class Squidical extends Animatronic {
             0.2, function (a: number) { },
             0, function (a: number) {
                 music.knock.play(200)
-                if (volume == 0) { light.setAll(light.rgb(255, 83, 0)) }
+                if (visual_audio) { light.setAll(light.rgb(255, 83, 0)) }
             },
             0.3, function (a: number) { },
             0, function (a: number) {
@@ -31,7 +31,7 @@ class Squidical extends Animatronic {
             0.2, function (a: number) { },
             0, function (a: number) {
                 music.knock.play(200)
-                if(volume == 0){light.setAll(light.rgb(255, 83, 0))}
+                if(visual_audio){light.setAll(light.rgb(255, 83, 0))}
             },
             0.3, function (a: number) { },
             0, function (a: number) {
@@ -66,51 +66,53 @@ class Squidical extends Animatronic {
         this.level = ani_AI['squid'][night - 1]
     }
     update() {
-        if (!this.run) {
-            this.careful -= spf * Math.map(this.level, 0, 20, 0.07, 0.5)
-            if (game_state.viewed_room == 'Squid Reef') {
-                this.careful += spf * Math.map(this.level, 0, 20, 0.07, 0.5) * 5
-            }
-            if (Math.abs(this.careful) > 4) {
-                this.anger += spf * Math.map(this.level, 0, 20, 0.017, 0.1)
-            }
-            this.careful = Math.constrain(this.careful, -4, 4)
-            this.danger = Math.floor(this.anger)
-            if (this.danger >= 4) {
-                if (game_state.viewed_room == 'Squid Reef' && game_state.monitor_on && !game_state.cams_broken) {
-                    game_state.disable_cams()
+        if (!this.paused) {
+            if (!this.run) {
+                this.careful -= spf * Math.map(this.level, 0, 20, 0.07, 0.5)
+                if (game_state.viewed_room == 'Squid Reef') {
+                    this.careful += spf * Math.map(this.level, 0, 20, 0.07, 0.5) * 5
                 }
-                this.run = true
-            }
-        }
-        else {
-            this.run_pos += spf * 15
-            this.run_pos = Math.min(this.run_pos, 200)
-            if (ani['ohnoes'].room == 'East Hall 2') {
-                ani['ohnoes'].move()
-            }
-            if (ani['hal'].room == 'East Hall 2') {
-                ani['hal'].move()
-            }
-            if (this.run_pos >= 100 && this.run_pos <= 175) {
-                this.room = 'East Hall 2'
-                if(this.run_pos < 130) {
-                    this.east_hall_color = Math.map(this.run_pos, 100, 130, 0, 1)
+                if (Math.abs(this.careful) > 4) {
+                    this.anger += spf * Math.map(this.level, 0, 20, 0.017, 0.1)
+                }
+                this.careful = Math.constrain(this.careful, -4, 4)
+                this.danger = Math.floor(this.anger)
+                if (this.danger >= 4) {
+                    if (game_state.viewed_room == 'Squid Reef' && game_state.monitor_on && !game_state.cams_broken) {
+                        game_state.disable_cams()
+                    }
+                    this.run = true
                 }
             }
             else {
-                this.room = 'running'
-            }
-            //changeme
-            if (this.run_pos >= 200 /*&& !GW*/) {
-                if (!game_state.doors[1] && game_state.power >= 0) {
-                    if (game_state.ani_in == '') {
-                        game_state.ani_in = 'squid'
-                        mygame.set_scene('jumpscare')
+                this.run_pos += spf * 15
+                this.run_pos = Math.min(this.run_pos, 200)
+                if (ani['ohnoes'].room == 'East Hall 2') {
+                    ani['ohnoes'].move()
+                }
+                if (ani['hal'].room == 'East Hall 2') {
+                    ani['hal'].move()
+                }
+                if (this.run_pos >= 100 && this.run_pos <= 175) {
+                    this.room = 'East Hall 2'
+                    if(this.run_pos < 130) {
+                        this.east_hall_color = Math.map(this.run_pos, 100, 130, 0, 1)
                     }
                 }
                 else {
-                    this.knock_seq.loop(spf)
+                    this.room = 'running'
+                }
+                
+                if (this.run_pos >= 200 && !game_state.golden_winston) {
+                    if (!game_state.doors[1] && !game_state.power_out) {
+                        if (game_state.ani_in == '') {
+                            game_state.ani_in = 'squid'
+                            mygame.set_scene('jumpscare')
+                        }
+                    }
+                    else {
+                        this.knock_seq.loop(spf)
+                    }
                 }
             }
         }
@@ -119,10 +121,10 @@ class Squidical extends Animatronic {
         if (this.room == room && room != 'Kitchen' && room != game_state.hal_meddled_room && !game_state.cams_broken) {
             switch (room) {
                 case 'East Hall 2': {
-                    color.setColor(4, color.rgb(87 * this.east_hall_color, 65 * this.east_hall_color, 11 * this.east_hall_color)) //squidical eye outline
-                    color.setColor(6, color.rgb(112 * this.east_hall_color, 67 * this.east_hall_color, 15 * this.east_hall_color)) //squidical main
-                    color.setColor(8, color.rgb(89 * this.east_hall_color, 45 * this.east_hall_color, 16 * this.east_hall_color)) //squidical dark
-                    color.setColor(9, color.rgb(68 * this.east_hall_color, 68 * this.east_hall_color, 68 * this.east_hall_color)) //squidical joints
+                    color.setColor(4, color.rgb(87 * this.east_hall_color, 65 * this.east_hall_color, 11 * this.east_hall_color)) 
+                    color.setColor(6, color.rgb(112 * this.east_hall_color, 67 * this.east_hall_color, 15 * this.east_hall_color)) 
+                    color.setColor(8, color.rgb(89 * this.east_hall_color, 45 * this.east_hall_color, 16 * this.east_hall_color)) 
+                    color.setColor(9, color.rgb(68 * this.east_hall_color, 68 * this.east_hall_color, 68 * this.east_hall_color)) 
                     let alpha = Math.map(this.run_pos, 100, 175, 0, 1)
                     let end_scale = 4
                     let center = proj_lerp(66, 74, end_scale, alpha)
@@ -195,5 +197,11 @@ class Squidical extends Animatronic {
         }
         this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         im = null
+    }
+    pause () {
+        this.paused = true
+    }
+    play () {
+        this.paused = false
     }
 }

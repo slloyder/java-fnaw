@@ -1,17 +1,31 @@
-
-
+function checkered_floor () {        
+    let im: Image = image.create(40, 30)
+    for(let i = 0; i < 5; i++) {
+        im.blit(i*8, 21, 8, 9, createImage('checkeredGround'), 0, 0, 8, 9, false, false)
+    }
+    return im
+}
+function create_door () {
+    let im: Image = image.create(50, 94)
+    im.fill(14)
+    im.drawRect(0, 0, 50, 94, 12)
+    im.drawRect(1, 1, 48, 92, 12)
+    im.fillRect(4, 45, 5, 3, 12)
+    im.fillRect(5, 44, 3, 5, 12)
+    return im
+}
 function load_monitor_room(room: string) {
-    let im: Image = null
+    let im = null//: Image = null
     switch (room) {
         case 'Show Stage': {
             color.setColor(3, color.rgb(117, 97, 37)) 
             color.setColor(4, color.rgb(91, 112, 85)) 
             color.setColor(14, color.rgb(57, 70, 81)) 
-            color.setColor(8, color.rgb(114, 114, 120)) 
-            color.setColor(10, color.rgb(65, 45, 20)) 
+            color.setColor(8, color.rgb(140, 140, 148)) 
+            color.setColor(9, color.rgb(85, 85, 85))
+            color.setColor(10, color.rgb(65, 45, 20))
             color.setColor(11, color.rgb(38, 46, 52)) 
             color.setColor(12, color.rgb(29, 35, 40)) 
-            color.setColor(9, color.rgb(90, 90, 90)) 
             show_stage_decal = sprites.create(createImage('showStageDecal'), SpriteKind.inram)
             ani['ohnoes'].load(1)
             ani['hopps'].load(1)
@@ -34,7 +48,10 @@ function load_monitor_room(room: string) {
                 sprites.create(createImage('winstonBackstageDecal3'), SpriteKind.inram)
             ]
             oh_noes_backstage_decal = sprites.create(createImage('ohNoesBackstageDecal'), SpriteKind.inram)
-            squidical_backstage_decal = sprites.create(createImage('squidicalBackstageDecal'), SpriteKind.inram)
+            im = image.create(31, 31)
+            im.fillCircle(15, 15, 16, 12)
+            im.fillCircle(15, 15, 10, 15)
+            squidical_backstage_decal = sprites.create(im, SpriteKind.inram)
             hopper_backstage_decal = sprites.create(createImage('hopperBackstageDecal'), SpriteKind.inram)
             ani['hopps'].load(2)
             break
@@ -49,10 +66,10 @@ function load_monitor_room(room: string) {
             im = image.create(134, 24)
             for (let i = 0; i < 6; i++) {
                 if (i >= 3) {
-                    im.blit((i * 21) + 8, 0, 21, 24, createImage('diningAreaChairDecal'), 0, 0, 21, 24, false, false)
+                    im.blit((i * 21) + 8, 0, 21, 24, createImage('diningAreaChairDecal'), 0, 0, 21, 24, true, false)
                 }
                 else {
-                    im.blit(i * 21, 0, 21, 24, createImage('diningAreaChairDecal'), 0, 0, 21, 24, false, false)
+                    im.blit(i * 21, 0, 21, 24, createImage('diningAreaChairDecal'), 0, 0, 21, 24, true, false)
                 }
             }
             dining_area_chair_decal2 = sprites.create(im, SpriteKind.inram)
@@ -62,8 +79,8 @@ function load_monitor_room(room: string) {
             dining_area_chair_decal1 = sprites.create(im, SpriteKind.inram)
             ani['ohnoes'].load(2)
             ani['hopps'].load(3)
-            scaling.scaleToPercent(ani['hal'].monitor_sprite, 80, ScaleDirection.Uniformly, ScaleAnchor.Middle)
-            scaling.scaleToPercent(ani['hopps'].monitor_sprite, 200, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['hal'].monitor_sprite, 80)
+            scaling.scaleToPercent(ani['hopps'].monitor_sprite, 200)
             break
         }
         case 'Supply Closet': {
@@ -76,24 +93,32 @@ function load_monitor_room(room: string) {
             color.setColor(11, color.rgb(20, 20, 20)) 
             color.setColor(12, color.rgb(25, 25, 25)) 
             color.setColor(14, color.rgb(255, 236, 193)) 
-            supply_closet_background_decal = sprites.create(assets.image`supplyClosetBackground`, SpriteKind.inram)
-            scaling.scaleToPixels(supply_closet_background_decal, 161, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
+            background_sprite = sprites.create(assets.image`supplyClosetBackground`, SpriteKind.inram)
+            scaling.scaleToPixels(background_sprite, 161, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
             ani['hopps'].load(0)
             im = ani['hopps'].monitor_sprite.image.rotated(180)
             ani['hopps'].monitor_sprite.setImage(im)
-            scaling.scaleToPercent(ani['hopps'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
-            supply_closet_decal = sprites.create(createImage('supplyClosetDecal'), SpriteKind.inram)
+            scaling.scaleToPercent(ani['hopps'].monitor_sprite, 300)
+            im = image.create(53, 71)
+            im.drawLine(22, 12, 29, 2, 15)
+            im.drawRect(30, 0, 2, 2, 15)
+            im.fillCircle(27, 34, 25, 14)
+            im.blit(0, 33, 29, 38, createImage('supplyClosetDecal'), 0, 0, 29, 38, true, false)
+            supply_closet_decal = sprites.create(im, SpriteKind.inram)
             break
         }
         case 'North Hall': {
             color.setColor(3, color.rgb(117, 97, 37)) 
             color.setColor(4, color.rgb(90, 90, 90)) 
-            
             color.setColor(8, color.rgb(59, 59, 64)) 
             color.setColor(11, color.rgb(35, 35, 35)) 
             color.setColor(12, color.rgb(70, 70, 70)) 
-            color.setColor(14, color.rgb(102, 90, 62)) 
-            door_decal1 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
+            color.setColor(14, color.rgb(102, 90, 62))
+            im = checkered_floor()
+            im.fillRect(0, 0, 26, 25, 4)
+            background_sprite = sprites.create(im, SpriteKind.inram)
+            scaling.scaleToPixels(background_sprite, 161, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
+            door_decal1 = sprites.create(create_door(), SpriteKind.inram)
             scaling.scaleToPixels(door_decal1, 82, ScaleDirection.Vertically, ScaleAnchor.Middle, true)
             ani['hal'].load(4)
             ani['sam'].load(0)
@@ -112,16 +137,16 @@ function load_monitor_room(room: string) {
             ani['hal'].load(1)
             if (ani['hopps'].room != room && ani['sam'].room != room) {
                 color.setColor(8, color.rgb(46, 40, 40)) 
-                scaling.scaleToPercent(ani['hal'].monitor_sprite, 700, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+                scaling.scaleToPercent(ani['hal'].monitor_sprite, 700)
             }
             else {
                 color.setColor(8, color.rgb(40, 40, 40)) 
-                scaling.scaleToPercent(ani['hal'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+                scaling.scaleToPercent(ani['hal'].monitor_sprite, 300)
             }
             ani['hopps'].load(0)
-            scaling.scaleToPercent(ani['hopps'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['hopps'].monitor_sprite, 300)
             ani['sam'].load(0)
-            scaling.scaleToPercent(ani['sam'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['sam'].monitor_sprite, 300)
             break
         }
         case 'Furnace Room': {
@@ -136,8 +161,19 @@ function load_monitor_room(room: string) {
             color.setColor(11, color.rgb(200, 81, 20)) 
             color.setColor(12, color.rgb(145, 59, 15)) 
             color.setColor(14, color.rgb(40, 35, 32)) 
-            left_furnace_room_decal = sprites.create(createImage('leftFurnaceRoomDecal'), SpriteKind.inram)
-            right_furnace_room_decal = sprites.create(createImage('rightFurnaceRoomDecal'), SpriteKind.inram)
+            im = image.create(53, 101)
+            im.fillRect(0, 18, 53, 101, 10)
+            im.fillRect(3, 0, 26, 18, 15)
+            im.fillRect(20, 57, 27, 11, 12)
+            im.fillRect(20, 69, 27, 19, 11)
+            im.drawRect(19, 60, 29, 5, 10)
+            im.drawRect(19, 72, 29, 5, 10)
+            im.drawRect(19, 80, 29, 5, 10)
+            im.blit(0, 57, 11, 35, im, 20, 57, 11, 35, false, false)
+            let im2 = im.clone()
+            im2.flipX()
+            left_furnace_room_decal = sprites.create(im, SpriteKind.inram)
+            right_furnace_room_decal = sprites.create(im2, SpriteKind.inram)
             ani['hal'].load(1)
             ani['hopps'].load(0)
             break
@@ -155,18 +191,18 @@ function load_monitor_room(room: string) {
             ani['hal'].load(1)
             if (ani['win'].room != room && ani['ohnoes'].room != room && ani['fuzz'].room != room) {
                 color.setColor(8, color.rgb(46, 40, 40)) 
-                scaling.scaleToPercent(ani['hal'].monitor_sprite, 700, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+                scaling.scaleToPercent(ani['hal'].monitor_sprite, 700)
             }
             else {
                 color.setColor(8, color.rgb(40, 40, 40)) 
-                scaling.scaleToPercent(ani['hal'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+                scaling.scaleToPercent(ani['hal'].monitor_sprite, 300)
             }
             ani['win'].load(1)
             ani['ohnoes'].load(0)
             ani['fuzz'].load(0)
-            scaling.scaleToPercent(ani['fuzz'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
-            scaling.scaleToPercent(ani['ohnoes'].monitor_sprite, 300, ScaleDirection.Uniformly, ScaleAnchor.Middle)
-            scaling.scaleToPercent(ani['win'].monitor_sprite, 220, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['fuzz'].monitor_sprite, 300)
+            scaling.scaleToPercent(ani['ohnoes'].monitor_sprite, 300)
+            scaling.scaleToPercent(ani['win'].monitor_sprite, 220)
             break
         }
         case 'Kitchen': {
@@ -174,7 +210,7 @@ function load_monitor_room(room: string) {
         }
         case 'Kitchen Tools': {
             ani['fuzz'].load(0)
-            scaling.scaleToPercent(ani['fuzz'].monitor_sprite, 150, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['fuzz'].monitor_sprite, 150)
             if (ani['fuzz'].room != 'Lab'){
                 color.setColor(8, color.rgb(40, 40, 40)) 
                 color.setColor(4, color.rgb(10, 10, 10)) 
@@ -185,9 +221,9 @@ function load_monitor_room(room: string) {
                 color.setColor(13, color.rgb(0, 0, 0)) 
                 color.setColor(12, color.rgb(84, 74, 51)) 
                 color.setColor(14, color.rgb(84, 74, 51)) 
-                door_decal1 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
-                scaling.scaleToPixels(door_decal1, 126, ScaleDirection.Vertically, ScaleAnchor.Middle, false)
-                scaling.scaleToPixels(door_decal1, 57, ScaleDirection.Horizontally, ScaleAnchor.Middle, false)
+                door_decal1 = sprites.create(create_door(), SpriteKind.inram)
+                scaling.scaleToPixels(door_decal1, 126, ScaleDirection.Vertically)
+                scaling.scaleToPixels(door_decal1, 57, ScaleDirection.Horizontally)
             }
             else {
                 color.setColor(8, color.rgb(15, 15, 15)) 
@@ -208,10 +244,14 @@ function load_monitor_room(room: string) {
             color.setColor(11, color.rgb(35, 35, 35)) 
             color.setColor(12, color.rgb(70, 70, 70)) 
             color.setColor(14, color.rgb(41, 56, 158)) 
+            im = checkered_floor()
+            im.fillRect(0, 0, 27, 25, 4)
+            background_sprite = sprites.create(im, SpriteKind.inram)
+            scaling.scaleToPixels(background_sprite, 161, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
             arcade_decal1 = sprites.create(createImage('arcadeDecal'), SpriteKind.inram)
             arcade_decal2 = sprites.create(createImage('arcadeDecal'), SpriteKind.inram)
             ani['hal'].load(5)
-            scaling.scaleToPercent(ani['hal'].monitor_sprite, 130, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['hal'].monitor_sprite, 130)
             break
         }
         case 'Spare Room': {
@@ -227,9 +267,13 @@ function load_monitor_room(room: string) {
         case 'Bathrooms': {
             color.setColor(3, color.rgb(90, 90, 90)) 
             color.setColor(4, color.rgb(64, 79, 60)) 
-            
             color.setColor(11, color.rgb(35, 35, 35)) 
             color.setColor(12, color.rgb(70, 70, 70)) 
+            im = checkered_floor()
+            im.fillRect(0, 0, 40, 3, 3)
+            im.fillRect(11, 3, 7, 25, 3)
+            background_sprite = sprites.create(im, SpriteKind.inram)
+            scaling.scaleToPixels(background_sprite, 161, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
             ani['hal'].load(4)
             ani['ohnoes'].load(5)
             break
@@ -249,7 +293,7 @@ function load_monitor_room(room: string) {
             ani['hal'].load(0)
             im = ani['hal'].monitor_sprite.image.rotated(180)
             ani['hal'].monitor_sprite.setImage(im)
-            scaling.scaleToPercent(ani['hal'].monitor_sprite, 200, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['hal'].monitor_sprite, 200)
             ani['win'].load(3)
             break
         }
@@ -284,7 +328,7 @@ function load_monitor_room(room: string) {
             color.setColor(14, color.rgb(60, 60, 60)) 
             ani['hal'].load(1)
             ani['ohnoes'].load(3)
-            scaling.scaleToPercent(ani['hal'].monitor_sprite, 80, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['hal'].monitor_sprite, 80)
             ani['win'].load(2)
             break
         }
@@ -298,14 +342,14 @@ function load_monitor_room(room: string) {
             color.setColor(10, color.rgb(65, 65, 65)) 
             color.setColor(12, color.rgb(80, 80, 80)) 
             color.setColor(14, color.rgb(109, 97, 67)) 
-            door_decal1 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
-            door_decal2 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
+            door_decal1 = sprites.create(create_door(), SpriteKind.inram)
+            door_decal2 = sprites.create(create_door(), SpriteKind.inram)
             scaling.scaleToPixels(door_decal1, 126, ScaleDirection.Vertically, ScaleAnchor.Middle, true)
             scaling.scaleToPixels(door_decal2, 126, ScaleDirection.Vertically, ScaleAnchor.Middle, true)
             ani['hal'].load(0)
-            scaling.scaleToPercent(ani['hal'].monitor_sprite, 200, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['hal'].monitor_sprite, 200)
             ani['ohnoes'].load(4)
-            scaling.scaleToPercent(ani['ohnoes'].monitor_sprite, 200, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+            scaling.scaleToPercent(ani['ohnoes'].monitor_sprite, 200)
             break
         }
         case 'Changing Rooms': {
@@ -315,11 +359,14 @@ function load_monitor_room(room: string) {
             color.setColor(8, color.rgb(42, 42, 48)) 
             color.setColor(9, color.rgb(70, 80, 80)) 
             color.setColor(13, color.rgb(114, 6, 8)) 
-            
             color.setColor(12, color.rgb(70, 70, 70)) 
             color.setColor(14, color.rgb(102, 90, 62)) 
-            door_decal1 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
-            door_decal2 = sprites.create(createImage('doorDecal'), SpriteKind.inram)
+            im = checkered_floor()
+            im.fillRect(0, 0, 40, 26, 3)
+            background_sprite = sprites.create(im, SpriteKind.inram)
+            scaling.scaleToPixels(background_sprite, 161, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
+            door_decal1 = sprites.create(create_door(), SpriteKind.inram)
+            door_decal2 = sprites.create(create_door(), SpriteKind.inram)
             ani['hal'].load(2)
             ani['ohnoes'].load(0)
             break
@@ -333,7 +380,7 @@ function load_monitor_room(room: string) {
             color.setColor(12, color.rgb(20, 20, 20)) 
             color.setColor(11, color.rgb(81, 78, 78)) 
             color.setColor(10, color.rgb(54, 54, 54)) 
-            color.setColor(14, color.rgb(35, 35, 45)) 
+            color.setColor(14, color.rgb(35, 35, 45))
             if (game_state.fake_squidical_level == 3) {
                 im = image.create(31, 60)
                 im.fill(10)
@@ -355,7 +402,7 @@ function load_monitor_room(room: string) {
                 squid_reef_door_decal = sprites.create(im, SpriteKind.inram)
                 if (game_state.fake_squidical_level == 0 || game_state.fake_squidical_level == 1){
                     ani['squid'].load(3)
-                    scaling.scaleToPercent(ani['squid'].monitor_sprite, 200, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+                    scaling.scaleToPercent(ani['squid'].monitor_sprite, 200)
                 }
                 if (game_state.fake_squidical_level == 2) {
                     ani['squid'].load(1)

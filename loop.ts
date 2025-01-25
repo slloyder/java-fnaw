@@ -9,14 +9,20 @@ game.onUpdate(function () {
     spf = (game.runtime() - last_game_runtime) / 1000
     last_game_runtime = game.runtime()
     game_state.time += Math.constrain(spf * 1000, 0, 200)
-    if (!game_timer.paused && ani != null) {
+    if (mygame.old_scene != mygame.scene && mygame.scene != 'paused') { mygame.old_scene = mygame.scene }
+    if (!game_timer.paused && ani != null && !game_state.power_out) {
         for (let i = 0; i < ani_keys.length; i++) {
             ani[ani_keys[i]].update()
         }
         if (game_state.cams_broken) {
             if (game_state.cams_broken_timer.get_time() >= game_state.cams_broken_limit) {
                 game_state.cams_broken = false
-                if (game_state.monitor_on){ load_monitor_room_background(game_state.viewed_room) }
+                if (game_state.monitor_on){
+                    load_monitor_room_background(game_state.viewed_room) 
+                    if(ani['sam'].room == 'North Hall') {
+                        load_scene('monitor')
+                    }
+                }
             }
         }
         for (let i = 0; i < game_state.doors.length; i++) {
@@ -41,8 +47,8 @@ game.onUpdate(function () {
                 game_state.jumpscare_ready.stop()
                 game_state.jumpscare_wait_timer.stop()
             }
-            //changeme
-            let cond = (ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam') && !game_timer.paused)
+            
+            let cond = (ani != null && (game_state.ani_in == '' || game_state.ani_in == 'sam') && !game_state.paused)
             if (cond) {
                 if (ani['hopps'].room == 'Left Door' && game_state.doors_broken[0]) {
                     ani['hopps'].room = 'office'

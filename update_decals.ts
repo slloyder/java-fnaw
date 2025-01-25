@@ -1,7 +1,8 @@
-function update_decals(room: string) {        
+function update_decals(room: string) {   
+    let cam_working = !game_state.cams_broken && game_state.hal_meddled_room != room
     switch(room) {    
         case 'Show Stage': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+            if (cam_working) {
                 show_stage_decal.top = 36
                 show_stage_decal.left = 0
             }
@@ -11,7 +12,7 @@ function update_decals(room: string) {
             break
         }
         case 'Backstage': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+            if (cam_working) {
                 winston_backstage_decals[0].top = 36
                 winston_backstage_decals[0].left = 66
                 winston_backstage_decals[1].top = 48
@@ -35,7 +36,7 @@ function update_decals(room: string) {
             break
         }
         case 'Dining Area': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+            if (cam_working) {
                 dining_area_chair_decal1.top = 79
                 dining_area_chair_decal1.left = 13
                 dining_area_chair_decal2.top = 56
@@ -48,33 +49,33 @@ function update_decals(room: string) {
             break
         }
         case 'Supply Closet': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
-                supply_closet_background_decal.top = 0
-                supply_closet_background_decal.left = 0
+            if (cam_working) {
+                background_sprite.top = 0
+                background_sprite.left = 0
                 supply_closet_decal.bottom = 120
                 supply_closet_decal.left = 0
             }
             else {
-                hide_sprite(supply_closet_background_decal)
+                hide_sprite(background_sprite)
                 hide_sprite(supply_closet_decal)
             }
             break
         }
         case 'North Hall': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
-                door_decal1.top = 17
+            if (cam_working) {
+                background_sprite.top = 0
+                background_sprite.left = 0
+                door_decal1.top = 19
                 door_decal1.right = 39
             }
             else {
                 hide_sprite(door_decal1)
+                hide_sprite(background_sprite)
             }
             break
         }
-        case 'West Hall': {
-            break
-        }
         case 'Furnace Room': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+            if (cam_working) {
                 left_furnace_room_decal.top = 0
                 left_furnace_room_decal.left = 0
                 right_furnace_room_decal.top = 0
@@ -86,15 +87,9 @@ function update_decals(room: string) {
             }
             break
         }
-        case 'South Hall': {
-            break
-        }
-        case 'Kitchen': {
-            break
-        }
         case 'Kitchen Tools': {
             if(ani['fuzz'].room != 'Lab') {    
-                if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+                if (cam_working) {
                     door_decal1.top = -3
                     door_decal1.right = 117
                 }
@@ -105,35 +100,33 @@ function update_decals(room: string) {
             break
         }
         case 'Arcade': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+            if (cam_working) {
+                background_sprite.top = 0
+                background_sprite.left = 0
                 arcade_decal1.bottom = 111
-                arcade_decal1.right = 42
+                arcade_decal1.right = 45
                 arcade_decal2.bottom = 111
-                arcade_decal2.left = 50
+                arcade_decal2.left = 53
             }
             else {
                 hide_sprite(arcade_decal1)
                 hide_sprite(arcade_decal2)
+                hide_sprite(background_sprite)
             }
             break
         }
-        case 'Spare Room': {
-            break
-        }
         case 'Bathrooms': {
-            break
-        }
-        case 'East Hall 1': {
-            break
-        }
-        case 'East Hall 2': {
-            break
-        }
-        case 'East Hall 3': {
+            if(cam_working) {
+                background_sprite.top = 0
+                background_sprite.left = 0
+            }
+            else {
+                hide_sprite(background_sprite)
+            }
             break
         }
         case 'Laser Tag Prep': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+            if (cam_working) {
                 door_decal1.top = -3
                 door_decal1.right = 42
                 door_decal2.top = -3
@@ -146,20 +139,23 @@ function update_decals(room: string) {
             break
         }
         case 'Changing Rooms': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
-                door_decal1.top = 9
+            if (cam_working) {
+                background_sprite.top = 0
+                background_sprite.left = 0
+                door_decal1.top = 10
                 door_decal1.left = 10
-                door_decal2.top = 9
+                door_decal2.top = 10
                 door_decal2.left = 117
             }
             else {
                 hide_sprite(door_decal1)
                 hide_sprite(door_decal2)
+                hide_sprite(background_sprite)
             }
             break
         }
         case 'Squid Reef': {
-            if (!game_state.cams_broken && game_state.hal_meddled_room != room) {
+            if (cam_working) {
                 if (game_state.fake_squidical_level == 4) {
                     squid_reef_door_decal.top = 10
                     squid_reef_door_decal.left = 53

@@ -24,6 +24,17 @@ function init_palette(palette: string) {
             color.setColor(14, color.rgb(0, 0, 0))
             break
         }
+        case 'power_out': {
+            color.setColor(3, color.rgb(40, 40, 40)) //door wall
+            color.setColor(4, color.rgb(27, 27, 27)) //main wall, lights
+            color.setColor(6, color.rgb(11, 11, 11)) //roof
+            color.setColor(8, color.rgb(36, 25, 11)) //floor
+            color.setColor(2, color.rgb(117, 110, 0)) //winston yellow
+            color.setColor(5, color.rgb(100, 92, 5)) // winston mouth ring
+            color.setColor(7, color.rgb(108, 6, 12)) //dark red
+            color.setColor(13, color.rgb(59, 59, 64))
+            break
+        }
         case 'monitor': {
             color.setColor(6, color.rgb(146, 133, 0)) //hal yellow, winston yellow
             color.setColor(8, color.rgb(59, 59, 64)) // hal
@@ -154,6 +165,13 @@ function init_palette(palette: string) {
             color.setColor(11, color.rgb(122, 96, 27)) //teeth
             color.setColor(12, color.rgb(24, 85, 255)) //blue wire
             color.setColor(13, color.rgb(0, 0, 0))
+            break
+        }
+        case 'power_out_winston': {
+            color.setColor(3, color.rgb(87, 76, 59)) //winston teeth        
+            color.setColor(2, color.rgb(167, 167, 0)) //body
+            color.setColor(7, color.rgb(157, 0, 0)) // mouth
+            color.setColor(5, color.rgb(152, 152, 8)) // mouth outline
             break
         }
         default:

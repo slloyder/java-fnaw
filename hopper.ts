@@ -1,7 +1,7 @@
 class Hopper extends Animatronic {
     constructor() {
         super('Show Stage')
-        //super('Left Door')
+        
         super.reset()
         this.reset()
         this.move_table = {
@@ -69,7 +69,7 @@ class Hopper extends Animatronic {
         super.reset()
         this.room = this.start_room
         this.level = ani_AI['hopps'][night - 1]
-        //this.level = 20
+        
         this.wait = Math.map(Math.pow(this.level / 20, 0.25) * 20, 0, 20, Math.randomRange(90.0, 160), 1) + Math.randomRange(-(20 - this.level) + 5.0, (10 / ((this.level + 1) / 5)))
         this.move_timer.start()
         this.mode_timer.start()
@@ -217,13 +217,13 @@ class Hopper extends Animatronic {
         }
         if (mode == 1 || mode == 3) {
             im = createImage('hopper')
-            im.fillRect(20, 11, 3, 2, 15) // make eyes black
+            im.fillRect(20, 11, 3, 2, 15) 
             im.fillRect(29, 11, 3, 2, 15)
             this.monitor_sprite = sprites.create(im, SpriteKind.inram)
         }
         if (mode == 2) {
             im = createImage('hopper')
-            im.fillRect(20, 11, 3, 1, 15) //make eyelids partially closed
+            im.fillRect(20, 11, 3, 1, 15) 
             im.fillRect(29, 11, 3, 1, 15)
             im.setPixel(21, 12, 15)
             im.setPixel(30, 12, 15)

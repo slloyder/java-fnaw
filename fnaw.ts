@@ -1,8 +1,11 @@
 class Fnaw {
     scene: string = 'menu'
+    old_scene: string = null
     office_left_handler: EventHandler
     office_right_handler: EventHandler
     office_back_handler: EventHandler
+    power_out_handler: EventHandler
+    golden_winston_handler: EventHandler
     monitor_handler: EventHandler
     win_handler: EventHandler
     menu_handler: EventHandler
@@ -11,9 +14,10 @@ class Fnaw {
     night_display_handler: EventHandler
     setup_handler: EventHandler
     jumpscare_handler: EventHandler
+    paused_handler: EventHandler
 
     constructor() {
-        // office left
+        
         this.office_left_handler = new EventHandler
         this.office_left_handler.A = function () {
             if (!game_state.doors_broken[0]) {
@@ -40,7 +44,7 @@ class Fnaw {
             mygame.set_scene('office_back')
         }
 
-        // office right
+        
         this.office_right_handler = new EventHandler
         this.office_right_handler.A = function () {
             if (!game_state.doors_broken[1]) {
@@ -67,20 +71,45 @@ class Fnaw {
             mygame.set_scene('office_back')
         }
         
-        //office back
+        
         this.office_back_handler = new EventHandler
         this.office_back_handler.B = function () {
+            mygame.scene = '' //this is here bc handle golden winston needs to know if we're out of this scene without actually changing it
+            handle_golden_winston()
             game_state.back_door_closed = false
-            if (game_state.side == 'left') { mygame.set_scene('office_left') }
-            if (game_state.side == 'right') { mygame.set_scene('office_right') }
+            if (!game_state.golden_winston) {
+                if (game_state.side == 'left') { mygame.set_scene('office_left') }
+                if (game_state.side == 'right') { mygame.set_scene('office_right') }
+            }
+            else {
+                mygame.set_scene('golden_winston')
+            }
         }
         this.office_back_handler.up = function () {
             game_state.back_door_closed = false
             music.footstep.play(150)
             mygame.set_scene('monitor')
         }
+        this.power_out_handler = new EventHandler
+        this.power_out_handler.left = function () {
+            game_state.side = 'left'
+            if (game_state.power_out_mode < 2) { scene.setBackgroundImage(draw_office(game_state.side))}
+        }
+        this.power_out_handler.right = function () {
+            game_state.side = 'right'
+            if (game_state.power_out_mode < 2) { scene.setBackgroundImage(draw_office(game_state.side)) }
+        }
+        this.golden_winston_handler = new EventHandler
+        this.golden_winston_handler.up = function () {
+            if(!game_state.golden_winston_attack){
+                game_state.golden_winston = false
+                game_state.golden_winston_will_come = false
+                music.footstep.play(150)
+                mygame.set_scene('monitor')
+            }
+        }
+        this.golden_winston_handler.menu = function () { console.log('o') }
 
-        // monitor
         this.monitor_handler = new EventHandler
         this.monitor_handler.left = function () {
             game_state.selected_room = cams[game_state.selected_room][0]
@@ -97,17 +126,26 @@ class Fnaw {
         this.monitor_handler.A = function () {
             if (game_state.selected_room == 'DIE') {
                 game_state.ani_in = 'hopps'
+                //game_state.power_out = true
                 mygame.set_scene('jumpscare')
                 return
             }
         }
         this.monitor_handler.B = function () {
             music.footstep.play(150)
-            if (game_state.side == 'left') { mygame.set_scene('office_left') }
-            if (game_state.side == 'right') { mygame.set_scene('office_right') }
+            game_state.monitor_on = false
+            game_state.viewed_room = null
+            handle_golden_winston()
+            if(!game_state.golden_winston){
+                if (game_state.side == 'left') { mygame.set_scene('office_left') }
+                if (game_state.side == 'right') { mygame.set_scene('office_right') }
+            }
+            else {
+                mygame.set_scene('golden_winston')
+            }
         }
         
-        // menu
+        
         this.menu_handler = new EventHandler
         this.menu_handler.A = function () {
             music.stopAllSounds()
@@ -118,7 +156,7 @@ class Fnaw {
             switch (menu_pos) {
                 case 0: {
                     night = 1
-                    //changeme (temp for debug stuffis)
+                    
                     if (controller.up.isPressed()) { night = 2 }
                     if (controller.right.isPressed()) { night = 3 }
                     if (controller.left.isPressed()) { night = 4 }
@@ -151,14 +189,19 @@ class Fnaw {
         this.menu_handler.down = function () {
             menu_pos += 1
             if (menu_pos == 1 && !blockSettings.exists('night')) { menu_pos += 1 }
-            if (menu_pos == 2 && blockSettings.readNumber('everything') == 0) { menu_pos += 1 }
-            if (menu_pos == 3 && blockSettings.readNumber('everything') == 0) { menu_pos += 1 }
+            if (menu_pos == 2 && !blockSettings.readNumber('everything')) { menu_pos += 1 }
+            if (menu_pos == 3 && !blockSettings.readNumber('everything')) { menu_pos += 1 }
             if (menu_pos > 3) { menu_pos = 3 }
         }
+        //this.menu_handler.menu = function () {
+        //    mygame.set_scene('paused')
+        //}
         this.customize_night_handler = new EventHandler
         this.customize_night_handler.A = function () {
-            music.buzzer.play(20)
-            music.bigCrash.play(55)
+            if(menu_pos == 8 || menu_pos == 10){
+                music.buzzer.play(20)
+                music.bigCrash.play(55)
+            }
             switch (menu_pos) {
                 case 8: {
                     night = 7
@@ -179,31 +222,132 @@ class Fnaw {
                     mygame.set_scene('setup')
                     break
                 }
+                case 12: {
+                    if (blockSettings.readNumber('everything')) { unlimited_power = !unlimited_power }
+                    break
+                }
+                case 15: {
+                    mygame.set_scene('menu')
+                    break
+                }
             }
         }
         this.customize_night_handler.left = function () {
-            ani_AI[ani_keys[menu_pos]][6] -= 1
-            if (ani_AI[ani_keys[menu_pos]][6] < 0) { ani_AI[ani_keys[menu_pos]][6] = 0}
+            if(menu_pos < 8){
+                if(controller.B.isPressed()) {
+                    ani_AI[ani_keys[menu_pos]][6] -= 5
+                }
+                else {
+                    ani_AI[ani_keys[menu_pos]][6] -= 1
+                }
+                if (ani_AI[ani_keys[menu_pos]][6] < 0) { ani_AI[ani_keys[menu_pos]][6] = 0}
+            }
         }
         this.customize_night_handler.right = function () {
-            ani_AI[ani_keys[menu_pos]][6] += 1
-            if (ani_AI[ani_keys[menu_pos]][6] > 20) { ani_AI[ani_keys[menu_pos]][6] = 20 }
+            if (menu_pos < 8) {
+                if (controller.B.isPressed()) {
+                    ani_AI[ani_keys[menu_pos]][6] += 5
+                }
+                else {
+                    ani_AI[ani_keys[menu_pos]][6] += 1
+                }
+                if (ani_AI[ani_keys[menu_pos]][6] > 20) { ani_AI[ani_keys[menu_pos]][6] = 20 }
+            }
         }
         this.customize_night_handler.up = function () {
             menu_pos -= 1
-            if (menu_pos < 0) { menu_pos = 10 }
+            while (menu_pos == 11 || menu_pos == 13 || menu_pos == 14) {
+                menu_pos--
+                if (!blockSettings.readNumber('everything') && menu_pos == 12) { menu_pos-- }
+            }
+            if (menu_pos < 0) { menu_pos = 15 }
         }
         this.customize_night_handler.down = function () {
             menu_pos += 1
-            if (menu_pos > 10) { menu_pos = 0 }
+            while (menu_pos == 11 || menu_pos == 13 || menu_pos == 14) {
+                menu_pos++
+                if (!blockSettings.readNumber('everything') && menu_pos == 12) { menu_pos++ }
+            }
+            if (menu_pos > 15) { menu_pos = 0 }
         }
 
-        // blank handlers
+        //paused
+        this.paused_handler = new EventHandler
+        this.paused_handler.A = function () {
+            if (menu_pos == 2) {
+                visual_audio = !visual_audio
+                if (visual_audio) {
+                    light.setAll(light.rgb(155, 155, 155))
+                    timer.after(150, function () {
+                        light.setAll(0)
+                    })
+                }
+            }
+        }
+        this.paused_handler.left = function () {
+            if (menu_pos == 0) {
+                if (controller.B.isPressed()) {
+                    music.setVolume(volume - 50)
+                }
+                else {
+                    music.setVolume(volume - 5)
+                }
+                music.knock.play()
+            }
+            else if (menu_pos == 1) {
+                if (controller.B.isPressed()) {
+                    screen.setBrightness(screen.brightness() - 20)
+                }
+                else {
+                    screen.setBrightness(screen.brightness() - 5)
+                }
+            }
+        }
+        this.paused_handler.right = function () {
+            if (menu_pos == 0) {
+                if (controller.B.isPressed()) {
+                    music.setVolume(volume + 50)
+                }
+                else {
+                    music.setVolume(volume + 5)
+                }
+                music.knock.play()
+            }
+            else if (menu_pos == 1) {
+                if (controller.B.isPressed()) {
+                    screen.setBrightness(Math.min(99, screen.brightness() + 20))
+                }
+                else {
+                    screen.setBrightness(Math.min(99, screen.brightness() + 5))
+                }
+            }
+        }
+        this.paused_handler.up = function () {
+            menu_pos -= 1
+            if (menu_pos < 0) { menu_pos = 2 }
+        }
+        this.paused_handler.down = function () {
+            menu_pos += 1
+            if (menu_pos > 2) { menu_pos = 0 }
+        }
+        this.paused_handler.menu = function () {
+            blockSettings.writeNumber('volume', volume)
+            blockSettings.writeNumber('brightness', screen.brightness())
+            if (visual_audio) { blockSettings.writeNumber('visual_audio', 1) } else { blockSettings.writeNumber('visual_audio', 0) }
+            unpause_game()
+            mygame.set_scene(this.old_scene)
+        }
+
         this.newspaper_handler = new EventHandler
+        this.newspaper_handler.menu = function () { console.log('o') }
         this.night_display_handler = new EventHandler
+        this.night_display_handler.menu = function () { console.log('o') }
         this.win_handler = new EventHandler
+        this.win_handler.menu = function () { console.log('o') }
         this.setup_handler = new EventHandler
+        this.setup_handler.menu = function () { console.log('o') }
         this.jumpscare_handler = new EventHandler
+        this.jumpscare_handler.menu = function () { console.log('o') }
     }
 
     set_scene(specified_scene: string) {
@@ -221,6 +365,7 @@ class Fnaw {
                     handle_doors()
                     handle_power()
                     handle_time()
+                    handle_golden_winston()
                 }
                 break
             }
@@ -235,6 +380,7 @@ class Fnaw {
                     handle_doors()
                     handle_power()
                     handle_time()
+                    handle_golden_winston()
                 }
                 break
             }
@@ -264,12 +410,28 @@ class Fnaw {
                     
                     handle_power()
                     handle_time()
+                    handle_golden_winston()
+                }
+                break
+            }
+            case 'power_out': {
+                install_handler(this.power_out_handler)
+                load_scene('power_out')
+                game_state.lights = [false, false]
+                game_state.doors = [false, false]
+                game_state.monitor_on = false
+                music.stopAllSounds()
+                if (game_state.side == 'back') { game_state.side = 'left' }
+                game_state.power_out_mode_timer.reset()
+                the_update_handler = function () {
+                    handle_time()
+                    handle_power_out()
                 }
                 break
             }
             case 'monitor': {
                 install_handler(this.monitor_handler)
-                game_state.fake_squidical_level = ani['squid'].danger
+                //game_state.fake_squidical_level = ani['squid'].danger
                 game_state.lights = [false, false]
                 game_state.monitor_on = true
                 load_scene('monitor')
@@ -317,6 +479,28 @@ class Fnaw {
                     }
                     handle_power()
                     handle_time()
+                    handle_golden_winston()
+                }
+                break
+            }
+            case 'golden_winston': {
+                install_handler(this.golden_winston_handler)
+                load_scene('golden_winston')
+                game_state.lights = [false, false]
+                the_update_handler = function () {
+                    if(game_state.golden_winston_attack){
+                        hide_sprite(time_text)
+                        hide_sprite(night_text)
+                        hide_sprite(power_text)
+                        hide_sprite_array(power_usage_sprites)
+                        scaling.scaleToPercent(golden_winston_sprite, 200)
+                        golden_winston_sprite.setPosition(80, 60)
+                    }
+                    else{
+                        handle_power()
+                        handle_time()
+                        handle_golden_winston()
+                    }
                 }
                 break
             }
@@ -324,15 +508,16 @@ class Fnaw {
                 install_handler(this.win_handler)
                 pause_all()
                 load_scene('win')
-                
-                let animator = make_lerp(six_am_slide.top, six_am_slide.top + six_am_slide.height / 2)
+                //ani = null
+                let animator = make_lerp(six_am_slide_top.top, six_am_slide_top.top + six_am_slide_top.height - 2)
                 let win_seq = new Sequence([
-                    0.5, function (a: number) {
+                    0.7, function (a: number) {
                     },
                     3, function (a: number) {
-                        six_am_slide.top = animator(a)
+                        six_am_slide_top.top = animator(a)
+                        six_am_slide_bottom.top = animator(a) + 22
                     },
-                    0.5, function (a: number) { },
+                    0.7, function (a: number) { },
                     0, function (a: number) {
                         if (night < 5) {
                             night += 1
@@ -352,12 +537,14 @@ class Fnaw {
                 the_update_handler = function () {
                     win_seq.run_once(spf)
                 }
+                light.setAll(0)
                 break
             }
             case 'menu': {
                 install_handler(this.menu_handler)
                 menu_pos = 0
                 load_scene('menu')
+                ani = null
                 if (!blockSettings.exists('everything')) {
                     blockSettings.writeNumber('everything', 0)
                 }            
@@ -410,11 +597,24 @@ class Fnaw {
                 install_handler(this.customize_night_handler)
                 menu_pos = 0
                 load_scene('customize_night')
+                music.stopAllSounds()
                 the_update_handler = function () {
                     menu_selector.top = 22 + (menu_pos % 8) * 12
                     menu_selector.right = menu_pos < 8 ? 13 : 100
+                    if (menu_pos == 15) { menu_selector.right = 112}
                     for (let i = 0; i < ani_keys.length; i++) {
                         customize_night_numbers[i].setText(ani_AI[ani_keys[i]][6].toString())
+                    }
+                    if (blockSettings.readNumber('everything')) {
+                        if (unlimited_power) {
+                            customize_night_numbers[8].setText('Off')
+                        }
+                        else {
+                            customize_night_numbers[8].setText('On')
+                        }
+                    }
+                    else {
+                        customize_night_numbers[8].setText('')
                     }
                 }
                 break
@@ -478,6 +678,9 @@ class Fnaw {
                 pause_all()
                 jumpscare_timer = new Timer
                 jumpscare_timer.reset()
+                if(game_state.ani_in != 'squid' && game_state.ani_in != 'sam') { 
+                    scene.cameraShake(10, 2000)
+                }
                 blockSettings.writeNumber('night', night)
                 for (let i = 0; i < ani_keys.length; i++) {
                     ani[ani_keys[i]].reset()
@@ -493,6 +696,7 @@ class Fnaw {
                 load_scene('static')
                 light.setAll(0)
                 static_sound.play(10)
+                game_state.reset()
                 let static_seq = new Sequence([
                     5, function (a: number) { },
                     0, function (a: number) {
@@ -504,6 +708,30 @@ class Fnaw {
                 the_update_handler = function () {
                     static_seq.run_once(spf)
                 }
+                break
+            }
+            case 'paused': {
+                install_handler(this.paused_handler)
+                menu_pos = 0
+                load_scene('paused')
+                pause_game()
+                music.stopAllSounds()
+                the_update_handler = function () {
+                    menu_selector.top = 22 + (menu_pos % 8) * 12
+                    menu_selector.right = menu_pos < 8 ? 13 : 100
+                    customize_night_numbers[0].setText(volume.toString())
+                    if (screen.brightness() == 94) { screen.setBrightness(95) }
+                    if (screen.brightness() == 79) { screen.setBrightness(80) }
+                    if (screen.brightness() == 99) {
+                        customize_night_numbers[1].setText('MAX')
+                    }
+                    else {
+                        customize_night_numbers[1].setText(screen.brightness().toString())
+                    }
+                    if (visual_audio){customize_night_numbers[2].setText('On')}
+                    else {customize_night_numbers[2].setText('Off')}
+                }
+                light.clear()
                 break
             }
             default: {

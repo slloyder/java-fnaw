@@ -2,7 +2,12 @@ function load_monitor_room_background(room: string) {
     let im: Image = null
     switch (room) {
         case 'Show Stage': {
-            scene.setBackgroundImage(createImage('cornerRoom'))
+            im = image.create(160, 120)
+            im.fill(14)
+            im.fillRect(87, 0, 120, 160, 11)
+            im.fillTriangle(55, 0, 86, 9, 140, 0, 12)
+            im.fillTriangle(49, 120, 87, 97, 152, 120, 10)
+            scene.setBackgroundImage(im)
             break
         }
         case 'Backstage': {
@@ -21,7 +26,8 @@ function load_monitor_room_background(room: string) {
             break
         }
         case 'North Hall': {
-            scene.setBackgroundImage(createImage('cornerHall'))
+            scene.setBackgroundImage(null)
+            scene.setBackgroundColor(0)
             break
         }
         case 'West Hall': {
@@ -56,7 +62,8 @@ function load_monitor_room_background(room: string) {
             break
         }
         case 'Arcade': {
-            scene.setBackgroundImage(createImage('cornerHall'))
+            scene.setBackgroundImage(null)
+            scene.setBackgroundColor(0)
             break
         }
         case 'Spare Room': {
@@ -67,39 +74,44 @@ function load_monitor_room_background(room: string) {
             break
         }
         case 'Bathrooms': {
-            let im2 = createImage('cornerHall')
-            im = createImage('cornerHall')
-            im.fillRect(0, 0, 108, 98, 3)
-            im.fillRect(107, 0, 53, 13, 3)
-            im.fillRect(40, 97, 38, 16, 3)
-            im.blit(78, 13, 152, 107, im2, 108, 13, 152, 107, false, false)
-            im.blit(-12, 13, 152, 107, im2, 108, 13, 152, 107, false, false)
-            scene.setBackgroundImage(im)
-            im2 = null
+            scene.setBackgroundImage(null)
+            scene.setBackgroundColor(0)
             break
         }
         case 'East Hall 1': {
-            scene.setBackgroundImage(createImage('cornerRoomFlipped'))
+            im = image.create(160, 120)
+            im.fill(14)
+            im.fillRect(87, 0, 120, 160, 11)
+            im.fillTriangle(55, 0, 86, 9, 140, 0, 12)
+            im.fillTriangle(49, 120, 87, 97, 152, 120, 10)
+            im.flipX()
+            scene.setBackgroundImage(im)
             break
         }
         case 'East Hall 2': {
-            scene.setBackgroundImage(createImage('eastHall2'))
+            im = image.create(160, 120)
+            im.fill(11)
+            im.fillPolygon4(63, 46, 60, 0, 126, 0, 120, 52, 15)
+            im.fillPolygon4(126, 0, 159, 0, 159, 149, 120, 52, 3)
+            im.fillPolygon4(60, 0, 0, 0, 0, 174, 63, 46, 3)
+            im.flipX()
+            scene.setBackgroundImage(im)
             break
         }
         case 'East Hall 3': {
-            scene.setBackgroundImage(createImage('eastHall3'))
+            im = image.create(160, 120)
+            im.fill(11)
+            im.fillPolygon4(63, 46, 60, 0, 126, 0, 120, 52, 15)
+            im.fillPolygon4(55, 0, 60, 0, 63, 46, 58, 51, 10)
+            im.fillPolygon4(126, 0, 159, 0, 159, 149, 120, 52, 3)
+            im.fillPolygon4(55, 0, 0, 0, 0, 45, 58, 51, 3)
+            scene.setBackgroundImage(im)
             break
         }
         case 'Laser Tag Prep': {
             im = image.create(160, 120)
             im.fill(3)
             im.fillRect(65, 0, 30, 120, 10)
-            scene.setBackgroundImage(im)
-            break
-        }
-        case 'Changing Rooms': {
-            im = createImage('cornerHall')
-            im.fillRect(0, 0, 160, 103, 3)
             scene.setBackgroundImage(im)
             break
         }
