@@ -405,7 +405,7 @@ function draw_office(side: string) {
         return im
     }
     else {
-        console.log('valid side must be passed')
+        console.log('x')
         return null
     }
 }

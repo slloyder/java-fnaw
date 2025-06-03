@@ -1,9 +1,16 @@
 /*  TODO
  - add 3D office
  - add sam glitch
+ - Size optimizations
+    - point to slimmed down device library in github
+    - use byte arrays for setting palette in load_monitor_room and elsewhere
+    - use const MY_KEY = 1234 instead of "myKey" (strings cost 2B per character). Maybe use enum
+    - use palette library instead of color fading
+    - use /?compiler=size#editor to get the size stuff
 */
 // If you expirence a 989 crash on the hardware that you don't expirence on the simulator,
 // it's probably something stupid with light.setAll(0)
+
 
 blockSettings.writeNumber('everything', 1)
 //blockSettings.remove('night')
@@ -74,8 +81,6 @@ let customize_night_numbers: TextSprite[] = null
 let jumpscare_sprite: Sprite = null
 let jumpscare_background_sprite: Sprite = null
 let jumpscare_timer: Timer = null
-let static_anim: Image[] = null
-let static_anim_sprite: Sprite = null
 //other random stuffis
 let hal_sounds: SoundBuffer[]
 const win_sound_a = new music.Melody("@10,0,255,170 ~2 !450,170^365")

@@ -265,7 +265,6 @@ function null_sprites() {
     jumpscare_sprite = null
     jumpscare_background_sprite = null
     jumpscare_timer = null
-    static_anim_sprite = null
     if (ani != null) {
         for (let i = 0; i < ani_keys.length; i++) {
             ani[ani_keys[i]].monitor_sprite = null

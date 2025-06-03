@@ -150,8 +150,6 @@ class Fnaw {
         this.menu_handler.A = function () {
             music.stopAllSounds()
             if(menu_pos != 3){
-                music.buzzer.play(20)
-                music.bigCrash.play(55)
             }
             switch (menu_pos) {
                 case 0: {
@@ -180,6 +178,7 @@ class Fnaw {
             }
         }
         this.menu_handler.up = function () {
+            music.play(music.createSoundEffect(WaveShape.Noise, 455, 455, 90, 20, 120, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
             menu_pos -= 1
             if (menu_pos == 3 && blockSettings.readNumber('everything') == 0) { menu_pos -= 1 }
             if (menu_pos == 2 && blockSettings.readNumber('everything') == 0) { menu_pos -= 1 }
@@ -187,6 +186,7 @@ class Fnaw {
             if (menu_pos < 0) { menu_pos = 0 }
         }
         this.menu_handler.down = function () {
+            music.play(music.createSoundEffect(WaveShape.Noise, 455, 455, 90, 20, 120, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
             menu_pos += 1
             if (menu_pos == 1 && !blockSettings.exists('night')) { menu_pos += 1 }
             if (menu_pos == 2 && !blockSettings.readNumber('everything')) { menu_pos += 1 }
@@ -199,8 +199,7 @@ class Fnaw {
         this.customize_night_handler = new EventHandler
         this.customize_night_handler.A = function () {
             if(menu_pos == 8 || menu_pos == 10){
-                music.buzzer.play(20)
-                music.bigCrash.play(55)
+                music.play(music.createSoundEffect(WaveShape.Noise, 455, 455, 255, 43, 120, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
             }
             switch (menu_pos) {
                 case 8: {
@@ -636,6 +635,7 @@ class Fnaw {
             case 'night_display': {
                 install_handler(this.night_display_handler)
                 load_scene('night_display')
+                music.play(music.createSoundEffect(WaveShape.Noise, 455, 455, 255, 43, 180, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
                 let night_seq = new Sequence([
                     3, function (a: number) { },
                     0, function (a: number) {
@@ -695,12 +695,16 @@ class Fnaw {
                 jumpscare_sprite.destroy()
                 load_scene('static')
                 light.setAll(0)
-                static_sound.play(10)
                 game_state.reset()
                 let static_seq = new Sequence([
-                    5, function (a: number) { },
+                    2.5, function (a: number) {
+                        music.play(music.createSoundEffect(WaveShape.Noise, 700, 700, 200, 200, 20, SoundExpressionEffect.Warble, InterpolationCurve.Logarithmic), music.PlaybackMode.InBackground)
+                    },
                     0, function (a: number) {
-                        static_anim = null
+                        static_sound.play(10)
+                    },
+                    2.5, function (a: number) { },
+                    0, function (a: number) {
                         mygame.set_scene('menu')
                     }
                 ])

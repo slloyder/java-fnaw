@@ -206,52 +206,54 @@ function handle_jumpscare() {
     }
 }
 function handle_power_out() {
-    if (game_state.power_out_mode_timer.paused) { game_state.power_out_mode_timer.play() }
-    if (game_state.power_out_mode_timer.get_time() > game_state.power_out_mode_timer_limit) {
-        game_state.power_out_mode_timer.reset()
-        game_state.power_out_mode++
-        switch (game_state.power_out_mode) {
-            case 1: {
-                game_state.power_out_mode_timer_limit = Math.randomRange(10.0, 40)
-                break
-            }
-            case 2: {
-                game_state.power_out_mode_timer_limit = Math.randomRange(10.0, 30)
-                break
-            }
-            case 3: {
-                mygame.set_scene('jumpscare')
-                return
+    if (time != 6) {
+        if (game_state.power_out_mode_timer.paused) { game_state.power_out_mode_timer.play() }
+        if (game_state.power_out_mode_timer.get_time() > game_state.power_out_mode_timer_limit) {
+            game_state.power_out_mode_timer.reset()
+            game_state.power_out_mode++
+            switch (game_state.power_out_mode) {
+                case 1: {
+                    game_state.power_out_mode_timer_limit = Math.randomRange(10.0, 40)
+                    break
+                }
+                case 2: {
+                    game_state.power_out_mode_timer_limit = Math.randomRange(10.0, 30)
+                    break
+                }
+                case 3: {
+                    mygame.set_scene('jumpscare')
+                    return
+                }
             }
         }
-    }
-    if (game_state.winston_flicker_timer.paused) {
-        game_state.winston_flicker_on = true
-        if (Math.randomRange(0.0, 100) < 5) {
-            game_state.winston_flicker_timer.play()
-            game_state.winston_flicker_timer_limit = Math.randomRange(0.05, 0.2)
+        if (game_state.winston_flicker_timer.paused) {
+            game_state.winston_flicker_on = true
+            if (Math.randomRange(0.0, 100) < 5) {
+                game_state.winston_flicker_timer.play()
+                game_state.winston_flicker_timer_limit = Math.randomRange(0.05, 0.2)
+            }
         }
-    }
-    else {
-        game_state.winston_flicker_on = false
-        if (game_state.winston_flicker_timer.get_time() > game_state.winston_flicker_timer_limit) {
-            game_state.winston_flicker_timer.stop()
+        else {
+            game_state.winston_flicker_on = false
+            if (game_state.winston_flicker_timer.get_time() > game_state.winston_flicker_timer_limit) {
+                game_state.winston_flicker_timer.stop()
+            }
         }
-    }
-    if (game_state.power_out_mode >= 2) {
-        scene.setBackgroundImage(null)
-        scene.setBackgroundColor(0)
-        //light.setAll(0)
-    }
-    if (game_state.power_out_mode == 1) {
-        power_out_winston_music.play(90)
-    }
-    if (game_state.winston_flicker_on && game_state.power_out_mode == 1 && game_state.side == 'left') {
-        power_out_winston_sprite.top = 24
-        power_out_winston_sprite.left = 48
-    }
-    else {
-        hide_sprite(power_out_winston_sprite)
+        if (game_state.power_out_mode >= 2) {
+            scene.setBackgroundImage(null)
+            scene.setBackgroundColor(0)
+            //light.setAll(0)
+        }
+        if (game_state.power_out_mode == 1) {
+            power_out_winston_music.play(90)
+        }
+        if (game_state.winston_flicker_on && game_state.power_out_mode == 1 && game_state.side == 'left') {
+            power_out_winston_sprite.top = 24
+            power_out_winston_sprite.left = 48
+        }
+        else {
+            hide_sprite(power_out_winston_sprite)
+        }
     }
 }
 function handle_golden_winston() {

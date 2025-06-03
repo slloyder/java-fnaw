@@ -111,6 +111,7 @@ class OhNoes extends Animatronic {
                     }
                     case 1: {
                         music.knock.play(200)
+                        break
                     }
                 }
             }
@@ -123,6 +124,7 @@ class OhNoes extends Animatronic {
                     }
                     case 1: {
                         music.knock.play(50)
+                        break
                     }
                 }
             }
