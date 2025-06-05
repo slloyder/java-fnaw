@@ -622,7 +622,7 @@ class Fnaw {
                 install_handler(this.newspaper_handler)
                 load_scene('newspaper')
                 let newspaper_seq = new Sequence([
-                    0.5, function (a: number) { },
+                    5, function (a: number) { },
                     0, function (a: number) {
                         mygame.set_scene('night_display')
                     }

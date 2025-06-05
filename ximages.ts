@@ -51,24 +51,6 @@ cc04bcbb04cacbcc05bcbb050b00cc04bb04aacbcc04bcbb04cbcc05bcbb05ac0b00cc04bb04cbcc
 bcbb04cacbcc05bcbb050b00cc04bb04aacbcc04bcbb04cbcc05bcbb05ac0b00cc04bb04cbcc04bcbb040acbcc05bcbb050b00
 ` // 1411 bytes
             break
-        case 'leftFurnaceRoomDecal':
-            buf = hex`
-3565030009aa13cacccacccacc00babbbabbbabbbabb34babbaa060a000aaa13cacc00cacccaccbabbbabb40babbbabbbabbaa060a03000aaa13cacccacccacc00babbbabbbabbbabb64babbaa060a00
-ff09aa13ca00cccacccaccbabbba80bbbabbbabbbabbaa060c0a00ff09aa13cacccacc00caccbabbbabbbabb90babbbabbaa060a00ff0901aa13cacccacccaccba00bbbabbbabbbabbba32bbaa060a00
-ff09aa13cacc00cacccaccbabbbabb40babbbabbbabbaa060a0600ff09aa13cacccaccca00ccbabbbabbbabbbac8bbbabbaa060a00ff09aa1300cacccacccaccbabb00babbbabbbabbbabb19aa060a00
-ff09aa13caccca00cccaccbabbbabbba20bbbabbbabbaa060a0003ff09aa13cacccacccacc00babbbabbbabbbabb64babbaa060a00ff09aa290a6600ff09aa290a00ff09aa290a6600ff09aa290a00ff
-09aa290a6600ff09aa290a00ff09aa290a6600ff09aa290a00ff09aa290a0600ff09aa13cacccaccca00ccbabbbabbbabbbac8bbbabbaa060a00ff09aa1300cacccacccaccbabb00babbbabbbabbbabb
-19aa060a00ff09aa13caccca00cccaccbabbbabbba20bbbabbbabbaa060a0003ff09aa13cacccacccacc00babbbabbbabbbabb64babbaa060a00ff09aa13ca00cccacccaccbabbba80bbbabbbabbbabb
-aa060c0a00ff09aa13cacccacc00caccbabbbabbbabb90babbbabbaa060a00ff0901aa13cacccacccaccba00bbbabbbabbbabbba32bbaa060a00ff09aa13cacc00cacccaccbabbbabb40babbbabbbabb
-aa060a0600ff09aa13cacccaccca00ccbabbbabbbabbba68bbbabbaa060a000aaa13ca00cccacccaccbabbba80bbbabbbabbbabbaa06060a000aaa13cacccaccca00ccbabbbabbbabbba68bbbabbaa06
-0a000aaa13ca00cccacccaccbabbba80bbbabbbabbbabbaa06060a000aaa13cacccaccca00ccbabbbabbbabbba68bbbabbaa060a000aaa13ca00cccacccaccbabbba80bbbabbbabbbabbaa06060a000a
-aa13cacccaccca00ccbabbbabbbabbba68bbbabbaa060a000aaa13ca00cccacccaccbabbba80bbbabbbabbbabbaa06060a000aaa13cacccaccca00ccbabbbabbbabbba68bbbabbaa060a000aaa13ca00
-cccacccaccbabbba80bbbabbbabbbabbaa06060a000aaa13cacccaccca00ccbabbbabbbabbba68bbbabbaa060a000aaa13ca00cccacccaccbabbba80bbbabbbabbbabbaa06060a000aaa13cacccaccca
-00ccbabbbabbbabbba68bbbabbaa060a000aaa13ca00cccacccaccbabbba80bbbabbbabbbabbaa06060a000aaa13cacccaccca00ccbabbbabbbabbba68bbbabbaa060a000aaa13ca00cccacccaccbabb
-ba80bbbabbbabbbabbaa06060a000aaa13cacccaccca00ccbabbbabbbabbba68bbbabbaa060a000aaa13ca00cccacccaccbabbba80bbbabbbabbbabbaa06060a000aaa13cacccaccca00ccbabbbabbba
-bbba68bbbabbaa060a000aaa290adb000aaa290a000aaa290a000aaa29360a000aaa290a000aaa290a0000
-` // 1083 bytes
-            break
 
         case 'supplyClosetDecal':
             buf = hex`
@@ -691,12 +673,6 @@ function createImage(name:string)
             im.flipX()
             return im
         case 'showStageDecal': return decompressImage(name)
-        case 'leftFurnaceRoomDecal': return decompressImage(name)
-        case 'rightFurnaceRoomDecal':
-            im = decompressImage('leftFurnaceRoomDecal')
-            im.flipX()
-            return im
-        case 'doorDecal': return decompressImage(name)
         case 'supplyClosetDecal': return decompressImage(name)
         case 'arcadeDecal': return decompressImage(name)
         case 'winstonBackstageDecal1': return decompressImage(name)

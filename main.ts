@@ -3,10 +3,11 @@
  - add sam glitch
  - Size optimizations
     - point to slimmed down device library in github
-    - use byte arrays for setting palette in load_monitor_room and elsewhere
     - use const MY_KEY = 1234 instead of "myKey" (strings cost 2B per character). Maybe use enum
     - use palette library instead of color fading
+    - clean up unused extension stuff - maybe add bianaryonly as well
     - use /?compiler=size#editor to get the size stuff
+ - make bad optimized graphics better
 */
 // If you expirence a 989 crash on the hardware that you don't expirence on the simulator,
 // it's probably something stupid with light.setAll(0)

@@ -216,8 +216,88 @@ function load_scene(specified_scene: string) {
         }
         case 'newspaper': {
             init_palette('newspaper')
+            let im = image.create(160, 120)
+            texts = [
+                textsprite.create("HELP", 0, 1),
+                textsprite.create("WANTED", 0, 1),
+                textsprite.create("Winston's Doughnut", 1, 15),
+                textsprite.create("Shop and Fun Place", 1, 15),
+                textsprite.create("We are", 1, 15),
+                textsprite.create("looking", 1, 15),
+                textsprite.create("for a", 1, 15),
+                textsprite.create("security", 1, 15),
+                textsprite.create("guard to", 1, 15),
+                textsprite.create("work the", 1, 15),
+                textsprite.create("nightshift.", 0, 15),
+                textsprite.create("Monitor", 1, 15),
+                textsprite.create("cameras and", 0, 15),
+                textsprite.create("safety of", 0, 15),
+                textsprite.create("animatronic", 0, 15),
+                textsprite.create("characters.", 0, 15),
+            ]
+            texts[0].setMaxFontHeight(10)
+            texts[0].top = 3
+            texts[0].left = 13
+            texts[1].setMaxFontHeight(10)
+            texts[1].top = 3
+            texts[1].left = 68
+            texts[2].top = 18
+            texts[2].left = 18
+            texts[3].top = 28
+            texts[3].left = 18
+            for (let i = 4; i < 11; i++) {
+                texts[i].setMaxFontHeight(5)
+                texts[i].top = (i * 6) + 18
+                texts[i].left = 72
+            }
+            for (let i = 11; i < 16; i++) {
+                texts[i].setMaxFontHeight(5)
+                texts[i].top = (i * 6) + 24
+                texts[i].left = 72
+            }
+
+            im.fill(1)
+            im.fillRect(10, 0, 128, 15, 15) //black top
+
+            im.drawLine(10, 0, 10, 159, 15) //separating lines
+            im.drawLine(9, 0, 9, 159, 15)
+            im.drawLine(138, 0, 138, 159, 15)
+            im.drawLine(137, 0, 137, 159, 15)
+            im.drawLine(0, 31, 9, 31, 15)
+            im.drawLine(0, 32, 9, 32, 15)
+            im.drawLine(138, 80, 159, 80, 15)
+            im.drawLine(138, 81, 159, 81, 15)
+
+            im.fillRect(17, 41, 53, 46, 6) //winston background
+            im.fillRect(17, 87, 53, 33, 8)
+
+            im.fillCircle(43, 87, 23, 5)// winston body
+            im.fillCircle(43, 95, 11, 4)// winston mouth outline
+            im.fillCircle(43, 95, 9, 2)// winston mouth
+            im.fillRect(33, 77, 6, 3, 1)// drawing eyes, and a bit of eyelid
+            im.drawLine(33, 76, 38, 76, 15)
+            im.fillRect(34, 75, 4, 6, 1)
+            im.fillRect(49, 77, 6, 3, 1)
+            im.drawLine(49, 76, 54, 76, 15)
+            im.fillRect(50, 75, 4, 6, 1)
+
+            im.fillRect(35, 77, 2, 2, 15) //pupils
+            im.fillRect(51, 77, 2, 2, 15)
+            im.drawLine(34, 75, 37, 75, 15) //eyelids
+            im.drawLine(50, 75, 53, 75, 15)
+
+            for (let i = 0; i < 23; i++) {
+                if (i == 4 || i == 11 || i == 20) {
+                    im.drawRect(152, i * 5, 13, 2, 15)
+                }
+                else {
+                    im.drawRect(145, i * 5, 17, 2, 15)
+                }
+            }
+            scene.setBackgroundImage(im)
             break
         }
+
         case 'night_display': {
             init_palette('')
             scene.setBackgroundImage(null)

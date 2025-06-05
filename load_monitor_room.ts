@@ -1,11 +1,11 @@
-function checkered_floor () {        
+function checkered_floor() {
     let im: Image = image.create(40, 30)
-    for(let i = 0; i < 5; i++) {
-        im.blit(i*8, 21, 8, 9, createImage('checkeredGround'), 0, 0, 8, 9, false, false)
+    for (let i = 0; i < 5; i++) {
+        im.blit(i * 8, 21, 8, 9, createImage('checkeredGround'), 0, 0, 8, 9, false, false)
     }
     return im
 }
-function create_door () {
+function create_door() {
     let im: Image = image.create(50, 94)
     im.fill(14)
     im.drawRect(0, 0, 50, 94, 12)
@@ -18,14 +18,15 @@ function load_monitor_room(room: string) {
     let im = null//: Image = null
     switch (room) {
         case 'Show Stage': {
-            color.setColor(3, color.rgb(117, 97, 37)) 
-            color.setColor(4, color.rgb(91, 112, 85)) 
-            color.setColor(14, color.rgb(57, 70, 81)) 
-            color.setColor(8, color.rgb(140, 140, 148)) 
-            color.setColor(9, color.rgb(85, 85, 85))
-            color.setColor(10, color.rgb(65, 45, 20))
-            color.setColor(11, color.rgb(38, 46, 52)) 
-            color.setColor(12, color.rgb(29, 35, 40)) 
+            //color.setColor(3, color.rgb(117, 97, 37)) 
+            //color.setColor(4, color.rgb(91, 112, 85)) 
+            //color.setColor(14, color.rgb(57, 70, 81)) 
+            //color.setColor(8, color.rgb(140, 140, 148)) 
+            //color.setColor(9, color.rgb(85, 85, 85))
+            //color.setColor(10, color.rgb(65, 45, 20))
+            //color.setColor(11, color.rgb(38, 46, 52)) 
+            //color.setColor(12, color.rgb(29, 35, 40)) 
+            set_palette(hex`03756125045b70550e394651088c8c94095555550a412d140b262e340c1d2328`)
             show_stage_decal = sprites.create(createImage('showStageDecal'), SpriteKind.inram)
             ani['ohnoes'].load(1)
             ani['hopps'].load(1)
@@ -33,15 +34,16 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Backstage': {
-            color.setColor(3, color.rgb(51, 42, 18)) 
-            color.setColor(9, color.rgb(55, 55, 55)) 
-            color.setColor(4, color.rgb(40, 40, 40)) 
-            color.setColor(6, color.rgb(84, 81, 1)) 
-            color.setColor(8, color.rgb(61, 90, 61)) 
-            color.setColor(10, color.rgb(39, 9, 9)) 
-            color.setColor(11, color.rgb(75, 75, 75))
-            color.setColor(12, color.rgb(86, 51, 16)) 
-            color.setColor(14, color.rgb(75, 62, 27)) 
+            //color.setColor(3, color.rgb(51, 42, 18)) 
+            //color.setColor(9, color.rgb(55, 55, 55)) 
+            //color.setColor(4, color.rgb(40, 40, 40)) 
+            //color.setColor(6, color.rgb(84, 81, 1)) 
+            //color.setColor(8, color.rgb(61, 90, 61)) 
+            //color.setColor(10, color.rgb(39, 9, 9)) 
+            //color.setColor(11, color.rgb(75, 75, 75))
+            //color.setColor(12, color.rgb(86, 51, 16)) 
+            //color.setColor(14, color.rgb(75, 62, 27)) 
+            set_palette(hex`03332a12093737370428282806545101083d5a3d0a2709090b4b4b4b0c5633100e4b3e1b`)
             winston_backstage_decals = [
                 sprites.create(createImage('winstonBackstageDecal1'), SpriteKind.inram),
                 sprites.create(createImage('winstonBackstageDecal2'), SpriteKind.inram),
@@ -57,12 +59,13 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Dining Area': {
-            color.setColor(3, color.rgb(15, 11, 0)) 
-            color.setColor(4, color.rgb(7, 11, 5)) 
-            color.setColor(10, color.rgb(125, 125, 125)) 
-            color.setColor(11, color.rgb(73, 31, 33)) 
-            color.setColor(12, color.rgb(35, 35, 73)) 
-            color.setColor(14, color.rgb(82, 82, 82)) 
+            //color.setColor(3, color.rgb(15, 11, 0)) 
+            //color.setColor(4, color.rgb(7, 11, 5)) 
+            //color.setColor(10, color.rgb(125, 125, 125)) 
+            //color.setColor(11, color.rgb(73, 31, 33)) 
+            //color.setColor(12, color.rgb(35, 35, 73)) 
+            //color.setColor(14, color.rgb(82, 82, 82)) 
+            set_palette(hex`030f0b0004070b050a7d7d7d0b491f210c2323490e525252`)
             im = image.create(134, 24)
             for (let i = 0; i < 6; i++) {
                 if (i >= 3) {
@@ -84,15 +87,16 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Supply Closet': {
-            color.setColor(3, color.rgb(40, 34, 14)) 
-            color.setColor(4, color.rgb(43, 43, 43)) 
-            color.setColor(6, color.rgb(120, 120, 120)) 
-            color.setColor(8, color.rgb(95, 95, 95)) 
-            color.setColor(9, color.rgb(40, 40, 40)) 
-            color.setColor(10, color.rgb(50, 50, 50)) 
-            color.setColor(11, color.rgb(20, 20, 20)) 
-            color.setColor(12, color.rgb(25, 25, 25)) 
-            color.setColor(14, color.rgb(255, 236, 193)) 
+            //color.setColor(3, color.rgb(40, 34, 14)) 
+            //color.setColor(4, color.rgb(43, 43, 43)) 
+            //color.setColor(6, color.rgb(120, 120, 120)) 
+            //color.setColor(8, color.rgb(95, 95, 95)) 
+            //color.setColor(9, color.rgb(40, 40, 40)) 
+            //color.setColor(10, color.rgb(50, 50, 50)) 
+            //color.setColor(11, color.rgb(20, 20, 20)) 
+            //color.setColor(12, color.rgb(25, 25, 25)) 
+            //color.setColor(14, color.rgb(255, 236, 193)) 
+            set_palette(hex`0328220e042b2b2b06787878085f5f5f092828280a3232320b1414140c1919190effecc1`)
             background_sprite = sprites.create(assets.image`supplyClosetBackground`, SpriteKind.inram)
             scaling.scaleToPixels(background_sprite, 161, ScaleDirection.Horizontally, ScaleAnchor.Middle, true)
             ani['hopps'].load(0)
@@ -108,12 +112,13 @@ function load_monitor_room(room: string) {
             break
         }
         case 'North Hall': {
-            color.setColor(3, color.rgb(117, 97, 37)) 
-            color.setColor(4, color.rgb(90, 90, 90)) 
-            color.setColor(8, color.rgb(59, 59, 64)) 
-            color.setColor(11, color.rgb(35, 35, 35)) 
-            color.setColor(12, color.rgb(70, 70, 70)) 
-            color.setColor(14, color.rgb(102, 90, 62))
+            //color.setColor(3, color.rgb(117, 97, 37)) 
+            //color.setColor(4, color.rgb(90, 90, 90)) 
+            //color.setColor(8, color.rgb(59, 59, 64)) 
+            //color.setColor(11, color.rgb(35, 35, 35)) 
+            //color.setColor(12, color.rgb(70, 70, 70)) 
+            //color.setColor(14, color.rgb(102, 90, 62))
+            set_palette(hex`03756125045a5a5a083b3b400b2323230c4646460e665a3e`)
             im = checkered_floor()
             im.fillRect(0, 0, 26, 25, 4)
             background_sprite = sprites.create(im, SpriteKind.inram)
@@ -126,21 +131,24 @@ function load_monitor_room(room: string) {
             break
         }
         case 'West Hall': {
-            color.setColor(3, color.rgb(51, 42, 18)) 
-            color.setColor(6, color.rgb(116, 100, 0)) 
-            color.setColor(9, color.rgb(68, 70, 71)) 
-            color.setColor(8, color.rgb(27, 27, 27)) 
-            color.setColor(12, color.rgb(0, 66, 96)) 
-            color.setColor(10, color.rgb(0, 16, 23)) 
-            color.setColor(13, color.rgb(94, 6, 8)) 
-            color.setColor(14, color.rgb(85, 85, 85)) 
+            //color.setColor(3, color.rgb(51, 42, 18)) 
+            //color.setColor(6, color.rgb(116, 100, 0)) 
+            //color.setColor(9, color.rgb(68, 70, 71)) 
+            //color.setColor(8, color.rgb(27, 27, 27)) 
+            //color.setColor(12, color.rgb(0, 66, 96)) 
+            //color.setColor(10, color.rgb(0, 16, 23)) 
+            //color.setColor(13, color.rgb(94, 6, 8)) 
+            //color.setColor(14, color.rgb(85, 85, 85)) 
+            set_palette(hex`03332a120674640009444647081b1b1b0c0042600a0010170d5e06080e555555`)
             ani['hal'].load(1)
             if (ani['hopps'].room != room && ani['sam'].room != room) {
-                color.setColor(8, color.rgb(46, 40, 40)) 
+                //color.setColor(8, color.rgb(46, 40, 40)) 
+                set_palette(hex`082e2828`)
                 scaling.scaleToPercent(ani['hal'].monitor_sprite, 700)
             }
             else {
-                color.setColor(8, color.rgb(40, 40, 40)) 
+                //color.setColor(8, color.rgb(40, 40, 40)) 
+                set_palette(hex`08282828`)
                 scaling.scaleToPercent(ani['hal'].monitor_sprite, 300)
             }
             ani['hopps'].load(0)
@@ -150,17 +158,18 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Furnace Room': {
-            color.setColor(3, color.rgb(45, 30, 17)) 
-            color.setColor(6, color.rgb(40, 25, 0)) 
-            color.setColor(8, color.rgb(30, 30, 30)) 
-            color.setColor(9, color.rgb(39, 34, 40)) 
-            color.setColor(13, color.rgb(34, 4, 10)) 
-            color.setColor(4, color.rgb(70, 40, 35)) 
-            
-            color.setColor(10, color.rgb(66, 17, 17)) 
-            color.setColor(11, color.rgb(200, 81, 20)) 
-            color.setColor(12, color.rgb(145, 59, 15)) 
-            color.setColor(14, color.rgb(40, 35, 32)) 
+            //color.setColor(3, color.rgb(45, 30, 17)) 
+            //color.setColor(6, color.rgb(40, 25, 0)) 
+            //color.setColor(8, color.rgb(30, 30, 30)) 
+            //color.setColor(9, color.rgb(39, 34, 40)) 
+            //color.setColor(13, color.rgb(34, 4, 10)) 
+            //color.setColor(4, color.rgb(70, 40, 35)) 
+
+            //color.setColor(10, color.rgb(66, 17, 17)) 
+            //color.setColor(11, color.rgb(200, 81, 20)) 
+            //color.setColor(12, color.rgb(145, 59, 15)) 
+            //color.setColor(14, color.rgb(40, 35, 32)) 
+            set_palette(hex`032d1e1106281900081e1e1e092722280d22040a044628230a4211110bc851140c913b0f0e282320`)
             im = image.create(53, 101)
             im.fillRect(0, 18, 53, 101, 10)
             im.fillRect(3, 0, 26, 18, 15)
@@ -179,22 +188,25 @@ function load_monitor_room(room: string) {
             break
         }
         case 'South Hall': {
-            color.setColor(3, color.rgb(112, 33, 19)) 
-            color.setColor(6, color.rgb(126, 108, 0)) 
-            color.setColor(9, color.rgb(89, 95, 99)) 
-            color.setColor(10, color.rgb(60, 60, 60)) 
-            color.setColor(11, color.rgb(255, 255, 255)) 
-            color.setColor(12, color.rgb(105, 86, 0)) 
-            color.setColor(13, color.rgb(114, 6, 8)) 
-            color.setColor(4, color.rgb(64, 79, 60)) 
-            color.setColor(14, color.rgb(85, 85, 85)) 
+            //color.setColor(3, color.rgb(112, 33, 19)) 
+            //color.setColor(6, color.rgb(126, 108, 0)) 
+            //color.setColor(9, color.rgb(89, 95, 99)) 
+            //color.setColor(10, color.rgb(60, 60, 60)) 
+            //color.setColor(11, color.rgb(255, 255, 255)) 
+            //color.setColor(12, color.rgb(105, 86, 0)) 
+            //color.setColor(13, color.rgb(114, 6, 8)) 
+            //color.setColor(4, color.rgb(64, 79, 60)) 
+            //color.setColor(14, color.rgb(85, 85, 85)) 
+            set_palette(hex`03702113067e6c0009595f630a3c3c3c0bffffff0c6956000d72060804404f3c0e555555`)
             ani['hal'].load(1)
             if (ani['win'].room != room && ani['ohnoes'].room != room && ani['fuzz'].room != room) {
-                color.setColor(8, color.rgb(46, 40, 40)) 
+                //color.setColor(8, color.rgb(46, 40, 40)) 
+                set_palette(hex`082e2828`)
                 scaling.scaleToPercent(ani['hal'].monitor_sprite, 700)
             }
             else {
-                color.setColor(8, color.rgb(40, 40, 40)) 
+                //color.setColor(8, color.rgb(40, 40, 40)) 
+                set_palette(hex`08282828`)
                 scaling.scaleToPercent(ani['hal'].monitor_sprite, 300)
             }
             ani['win'].load(1)
@@ -211,39 +223,42 @@ function load_monitor_room(room: string) {
         case 'Kitchen Tools': {
             ani['fuzz'].load(0)
             scaling.scaleToPercent(ani['fuzz'].monitor_sprite, 150)
-            if (ani['fuzz'].room != 'Lab'){
-                color.setColor(8, color.rgb(40, 40, 40)) 
-                color.setColor(4, color.rgb(10, 10, 10)) 
-                color.setColor(6, color.rgb(80, 80, 80)) 
-                color.setColor(3, color.rgb(0, 0, 0)) 
-                color.setColor(10, color.rgb(0, 0, 0)) 
-                color.setColor(11, color.rgb(0, 0, 0)) 
-                color.setColor(13, color.rgb(0, 0, 0)) 
-                color.setColor(12, color.rgb(84, 74, 51)) 
-                color.setColor(14, color.rgb(84, 74, 51)) 
+            if (ani['fuzz'].room != 'Lab') {
+                //color.setColor(8, color.rgb(40, 40, 40)) 
+                //color.setColor(4, color.rgb(10, 10, 10)) 
+                //color.setColor(6, color.rgb(80, 80, 80)) 
+                //color.setColor(3, color.rgb(0, 0, 0)) 
+                //color.setColor(10, color.rgb(0, 0, 0)) 
+                //color.setColor(11, color.rgb(0, 0, 0)) 
+                //color.setColor(13, color.rgb(0, 0, 0)) 
+                //color.setColor(12, color.rgb(84, 74, 51)) 
+                //color.setColor(14, color.rgb(84, 74, 51)) 
+                set_palette(hex`08282828040a0a0a06505050030000000a0000000b0000000d0000000c544a330e544a33`)
                 door_decal1 = sprites.create(create_door(), SpriteKind.inram)
                 scaling.scaleToPixels(door_decal1, 126, ScaleDirection.Vertically)
                 scaling.scaleToPixels(door_decal1, 57, ScaleDirection.Horizontally)
             }
             else {
-                color.setColor(8, color.rgb(15, 15, 15)) 
-                color.setColor(4, color.rgb(90, 90, 90)) 
-                color.setColor(6, color.rgb(0, 0, 0)) 
+                //color.setColor(8, color.rgb(15, 15, 15)) 
+                //color.setColor(4, color.rgb(90, 90, 90)) 
+                //color.setColor(6, color.rgb(0, 0, 0)) 
+                set_palette(hex`080f0f0f045a5a5a06000000`)
             }
             break
         }
         case 'Arcade': {
-            color.setColor(3, color.rgb(70, 70, 70)) 
-            color.setColor(4, color.rgb(90, 90, 90)) 
-            color.setColor(6, color.rgb(136, 120, 0)) 
-            color.setColor(8, color.rgb(52, 52, 61)) 
-            color.setColor(9, color.rgb(89, 95, 99)) 
-            color.setColor(13, color.rgb(125, 6, 25)) 
-            color.setColor(10, color.rgb(105, 105, 105)) 
-            
-            color.setColor(11, color.rgb(35, 35, 35)) 
-            color.setColor(12, color.rgb(70, 70, 70)) 
-            color.setColor(14, color.rgb(41, 56, 158)) 
+            //color.setColor(3, color.rgb(70, 70, 70)) 
+            //color.setColor(4, color.rgb(90, 90, 90)) 
+            //color.setColor(6, color.rgb(136, 120, 0)) 
+            //color.setColor(8, color.rgb(52, 52, 61)) 
+            //color.setColor(9, color.rgb(89, 95, 99)) 
+            //color.setColor(13, color.rgb(125, 6, 25)) 
+            //color.setColor(10, color.rgb(105, 105, 105)) 
+
+            //color.setColor(11, color.rgb(35, 35, 35)) 
+            //color.setColor(12, color.rgb(70, 70, 70)) 
+            //color.setColor(14, color.rgb(41, 56, 158)) 
+            set_palette(hex`03464646045a5a5a068878000834343d09595f630d7d06190a6969690b2323230c4646460e29389e`)
             im = checkered_floor()
             im.fillRect(0, 0, 27, 25, 4)
             background_sprite = sprites.create(im, SpriteKind.inram)
@@ -255,20 +270,22 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Spare Room': {
-            color.setColor(3, color.rgb(140, 117, 47)) 
-            color.setColor(4, color.rgb(91, 112, 85)) 
-            color.setColor(6, color.rgb(83, 83, 83)) 
-            color.setColor(8, color.rgb(102, 74, 33)) 
-            color.setColor(9, color.rgb(100, 100, 100)) 
+            //color.setColor(3, color.rgb(140, 117, 47)) 
+            //color.setColor(4, color.rgb(91, 112, 85)) 
+            //color.setColor(6, color.rgb(83, 83, 83)) 
+            //color.setColor(8, color.rgb(102, 74, 33)) 
+            //color.setColor(9, color.rgb(100, 100, 100)) 
+            set_palette(hex`038c752f045b70550653535308664a2109646464`)
             ani['hopps'].load(0)
             ani['ohnoes'].load(0)
             break
         }
         case 'Bathrooms': {
-            color.setColor(3, color.rgb(90, 90, 90)) 
-            color.setColor(4, color.rgb(64, 79, 60)) 
-            color.setColor(11, color.rgb(35, 35, 35)) 
-            color.setColor(12, color.rgb(70, 70, 70)) 
+            //color.setColor(3, color.rgb(90, 90, 90)) 
+            //color.setColor(4, color.rgb(64, 79, 60)) 
+            //color.setColor(11, color.rgb(35, 35, 35)) 
+            //color.setColor(12, color.rgb(70, 70, 70)) 
+            set_palette(hex`035a5a5a04404f3c0b2323230c464646`)
             im = checkered_floor()
             im.fillRect(0, 0, 40, 3, 3)
             im.fillRect(11, 3, 7, 25, 3)
@@ -279,16 +296,17 @@ function load_monitor_room(room: string) {
             break
         }
         case 'East Hall 1': {
-            color.setColor(3, color.rgb(10, 10, 0)) 
-            color.setColor(6, color.rgb(126, 108, 0)) 
-            color.setColor(8, color.rgb(42, 42, 51)) 
-            color.setColor(9, color.rgb(89, 95, 99)) 
-            color.setColor(13, color.rgb(114, 6, 8)) 
-            color.setColor(4, color.rgb(91, 112, 85)) 
-            color.setColor(14, color.rgb(120, 120, 120)) 
-            color.setColor(10, color.rgb(26, 26, 26)) 
-            color.setColor(11, color.rgb(60, 60, 60)) 
-            color.setColor(12, color.rgb(40, 40, 40)) 
+            //color.setColor(3, color.rgb(10, 10, 0)) 
+            //color.setColor(6, color.rgb(126, 108, 0)) 
+            //color.setColor(8, color.rgb(42, 42, 51)) 
+            //color.setColor(9, color.rgb(89, 95, 99)) 
+            //color.setColor(13, color.rgb(114, 6, 8)) 
+            //color.setColor(4, color.rgb(91, 112, 85)) 
+            //color.setColor(14, color.rgb(120, 120, 120)) 
+            //color.setColor(10, color.rgb(26, 26, 26)) 
+            //color.setColor(11, color.rgb(60, 60, 60)) 
+            //color.setColor(12, color.rgb(40, 40, 40)) 
+            set_palette(hex`030a0a00067e6c00082a2a3309595f630d720608045b70550e7878780a1a1a1a0b3c3c3c0c282828`)
             ani['ohnoes'].load(0)
             ani['hal'].load(0)
             im = ani['hal'].monitor_sprite.image.rotated(180)
@@ -298,16 +316,17 @@ function load_monitor_room(room: string) {
             break
         }
         case 'East Hall 2': {
-            color.setColor(3, color.rgb(35, 35, 35)) 
-            color.setColor(6, color.rgb(106, 89, 0)) 
-            color.setColor(8, color.rgb(42, 42, 48)) 
-            color.setColor(9, color.rgb(79, 89, 89)) 
-            color.setColor(13, color.rgb(114, 6, 8)) 
-            color.setColor(4, color.rgb(43, 53, 41)) 
-            color.setColor(10, color.rgb(35, 35, 35)) 
-            color.setColor(11, color.rgb(60, 60, 60)) 
-            color.setColor(12, color.rgb(35, 35, 35)) 
-            color.setColor(14, color.rgb(35, 35, 35)) 
+            //color.setColor(3, color.rgb(35, 35, 35)) 
+            //color.setColor(6, color.rgb(106, 89, 0)) 
+            //color.setColor(8, color.rgb(42, 42, 48)) 
+            //color.setColor(9, color.rgb(79, 89, 89)) 
+            //color.setColor(13, color.rgb(114, 6, 8)) 
+            //color.setColor(4, color.rgb(43, 53, 41)) 
+            //color.setColor(10, color.rgb(35, 35, 35)) 
+            //color.setColor(11, color.rgb(60, 60, 60)) 
+            //color.setColor(12, color.rgb(35, 35, 35)) 
+            //color.setColor(14, color.rgb(35, 35, 35)) 
+            set_palette(hex`03232323066a5900082a2a30094f59590d720608042b35290a2323230b3c3c3c0c2323230e232323`)
             ani['hal'].load(0)
             ani['ohnoes'].load(0)
             scaling.scaleToPixels(ani['ohnoes'].monitor_sprite, 33, ScaleDirection.Vertically, ScaleAnchor.Middle, true)
@@ -316,16 +335,17 @@ function load_monitor_room(room: string) {
             break
         }
         case 'East Hall 3': {
-            color.setColor(3, color.rgb(35, 35, 35)) 
-            color.setColor(6, color.rgb(106, 89, 0)) 
-            color.setColor(8, color.rgb(42, 42, 48)) 
-            color.setColor(9, color.rgb(70, 80, 80)) 
-            color.setColor(13, color.rgb(104, 3, 5)) 
-            color.setColor(4, color.rgb(91, 112, 85)) 
-            color.setColor(10, color.rgb(25, 25, 25)) 
-            color.setColor(11, color.rgb(60, 60, 60)) 
-            color.setColor(12, color.rgb(0, 0, 0)) 
-            color.setColor(14, color.rgb(60, 60, 60)) 
+            //color.setColor(3, color.rgb(35, 35, 35)) 
+            //color.setColor(6, color.rgb(106, 89, 0)) 
+            //color.setColor(8, color.rgb(42, 42, 48)) 
+            //color.setColor(9, color.rgb(70, 80, 80)) 
+            //color.setColor(13, color.rgb(104, 3, 5)) 
+            //color.setColor(4, color.rgb(91, 112, 85)) 
+            //color.setColor(10, color.rgb(25, 25, 25)) 
+            //color.setColor(11, color.rgb(60, 60, 60)) 
+            //color.setColor(12, color.rgb(0, 0, 0)) 
+            //color.setColor(14, color.rgb(60, 60, 60)) 
+            set_palette(hex`03232323066a5900082a2a30094650500d680305045b70550a1919190b3c3c3c0c0000000e3c3c3c`)
             ani['hal'].load(1)
             ani['ohnoes'].load(3)
             scaling.scaleToPercent(ani['hal'].monitor_sprite, 80)
@@ -333,15 +353,16 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Laser Tag Prep': {
-            color.setColor(3, color.rgb(95, 95, 95)) 
-            color.setColor(6, color.rgb(106, 89, 0)) 
-            color.setColor(8, color.rgb(42, 42, 48)) 
-            color.setColor(9, color.rgb(70, 80, 80)) 
-            color.setColor(13, color.rgb(114, 6, 8)) 
-            color.setColor(4, color.rgb(91, 112, 85)) 
-            color.setColor(10, color.rgb(65, 65, 65)) 
-            color.setColor(12, color.rgb(80, 80, 80)) 
-            color.setColor(14, color.rgb(109, 97, 67)) 
+            //color.setColor(3, color.rgb(95, 95, 95)) 
+            //color.setColor(6, color.rgb(106, 89, 0)) 
+            //color.setColor(8, color.rgb(42, 42, 48)) 
+            //color.setColor(9, color.rgb(70, 80, 80)) 
+            //color.setColor(13, color.rgb(114, 6, 8)) 
+            //color.setColor(4, color.rgb(91, 112, 85)) 
+            //color.setColor(10, color.rgb(65, 65, 65)) 
+            //color.setColor(12, color.rgb(80, 80, 80)) 
+            //color.setColor(14, color.rgb(109, 97, 67)) 
+            set_palette(hex`035f5f5f066a5900082a2a30094650500d720608045b70550a4141410c5050500e6d6143`)
             door_decal1 = sprites.create(create_door(), SpriteKind.inram)
             door_decal2 = sprites.create(create_door(), SpriteKind.inram)
             scaling.scaleToPixels(door_decal1, 126, ScaleDirection.Vertically, ScaleAnchor.Middle, true)
@@ -353,14 +374,15 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Changing Rooms': {
-            color.setColor(3, color.rgb(90, 90, 90)) 
-            color.setColor(4, color.rgb(58, 71, 54)) 
-            color.setColor(6, color.rgb(106, 89, 0)) 
-            color.setColor(8, color.rgb(42, 42, 48)) 
-            color.setColor(9, color.rgb(70, 80, 80)) 
-            color.setColor(13, color.rgb(114, 6, 8)) 
-            color.setColor(12, color.rgb(70, 70, 70)) 
-            color.setColor(14, color.rgb(102, 90, 62)) 
+            //color.setColor(3, color.rgb(90, 90, 90)) 
+            //color.setColor(4, color.rgb(58, 71, 54)) 
+            //color.setColor(6, color.rgb(106, 89, 0)) 
+            //color.setColor(8, color.rgb(42, 42, 48)) 
+            //color.setColor(9, color.rgb(70, 80, 80)) 
+            //color.setColor(13, color.rgb(114, 6, 8)) 
+            //color.setColor(12, color.rgb(70, 70, 70)) 
+            //color.setColor(14, color.rgb(102, 90, 62)) 
+            set_palette(hex`035a5a5a043a4736066a5900082a2a30094650500d7206080c4646460e665a3e`)
             im = checkered_floor()
             im.fillRect(0, 0, 40, 26, 3)
             background_sprite = sprites.create(im, SpriteKind.inram)
@@ -372,15 +394,16 @@ function load_monitor_room(room: string) {
             break
         }
         case 'Squid Reef': {
-            color.setColor(3, color.rgb(97, 93, 84)) 
-            color.setColor(4, color.rgb(87, 65, 11)) 
-            color.setColor(6, color.rgb(112, 67, 15)) 
-            color.setColor(8, color.rgb(89, 45, 16)) 
-            color.setColor(9, color.rgb(70, 70, 70)) 
-            color.setColor(12, color.rgb(20, 20, 20)) 
-            color.setColor(11, color.rgb(81, 78, 78)) 
-            color.setColor(10, color.rgb(54, 54, 54)) 
-            color.setColor(14, color.rgb(35, 35, 45))
+            //color.setColor(3, color.rgb(97, 93, 84)) 
+            //color.setColor(4, color.rgb(87, 65, 11)) 
+            //color.setColor(6, color.rgb(112, 67, 15)) 
+            //color.setColor(8, color.rgb(89, 45, 16)) 
+            //color.setColor(9, color.rgb(70, 70, 70)) 
+            //color.setColor(12, color.rgb(20, 20, 20)) 
+            //color.setColor(11, color.rgb(81, 78, 78)) 
+            //color.setColor(10, color.rgb(54, 54, 54)) 
+            //color.setColor(14, color.rgb(35, 35, 45))
+            set_palette(hex`03615d540457410b0670430f08592d10094646460c1414140b514e4e0a3636360e23232d`)
             if (game_state.fake_squidical_level == 3) {
                 im = image.create(31, 60)
                 im.fill(10)
@@ -394,13 +417,13 @@ function load_monitor_room(room: string) {
                 im.fillPolygon4(0, 0, 31, 4, 0, 60, 31, 57, 10)
             }
             squid_reef_door_frame_decal = sprites.create(createImage('squidReefDoorFrameDecal'), SpriteKind.inram)
-            if(game_state.fake_squidical_level == 3) {
+            if (game_state.fake_squidical_level == 3) {
                 ani['squid'].load(0)
                 squid_reef_door_decal = sprites.create(im, SpriteKind.inram)
             }
             else {
                 squid_reef_door_decal = sprites.create(im, SpriteKind.inram)
-                if (game_state.fake_squidical_level == 0 || game_state.fake_squidical_level == 1){
+                if (game_state.fake_squidical_level == 0 || game_state.fake_squidical_level == 1) {
                     ani['squid'].load(3)
                     scaling.scaleToPercent(ani['squid'].monitor_sprite, 200)
                 }
@@ -411,6 +434,10 @@ function load_monitor_room(room: string) {
                     ani['squid'].load(2)
                 }
             }
+            break
+        }
+        case "3d": {
+            //test3d()
             break
         }
         default: {

@@ -36,7 +36,8 @@
         "fuzzy.ts",
         "load_monitor_room.ts",
         "update_decals.ts",
-        "load_monitor_room_background.ts"
+        "load_monitor_room_background.ts",
+        "3d.ts"
     ],
     "testFiles": [],
     "targetVersions": {
